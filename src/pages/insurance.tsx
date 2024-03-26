@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { Layout } from "../components/layout";
 import { BuyInsuranceBox } from "../components/Insurance/BuyInsuranceBox";
 import { ActiveInsurance } from "../components/Insurance/ActiveInsurance";
@@ -6,12 +6,15 @@ import { ClaimInsurance } from "../components/Insurance/ClaimInsurance";
 import styles from "./insurance.module.css";
 
 const Insurance = () => {
-  useEffect(() => {
-    document.title = "Insurance | Carmine Finance";
-  });
-
   return (
     <Layout>
+      <Helmet>
+        <title>Insurance | Carmine Options AMM</title>
+        <meta
+          name="description"
+          content="Insure the value of your crypto assets"
+        />
+      </Helmet>
       <h3>Insurance</h3>
       <BuyInsuranceBox />
       <div className={styles.container}>
