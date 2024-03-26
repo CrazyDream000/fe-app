@@ -1,6 +1,7 @@
+import { Helmet } from "react-helmet";
+
 import Typography from "@mui/material/Typography";
 import { Box, Link, useTheme } from "@mui/material";
-import { useEffect } from "react";
 import { setCookieWithExpiry } from "../utils/cookies";
 
 const HIDE_TIME_MS = 12 * 60 * 60 * 1000; // 12 hours in ms
@@ -19,10 +20,6 @@ type Props = {
 };
 
 const TermsAndConditions = ({ check, rerender }: Props) => {
-  useEffect(() => {
-    document.title = "Terms & Conditions | Carmine Finance";
-  });
-
   const theme = useTheme();
 
   const style = {
@@ -47,6 +44,9 @@ const TermsAndConditions = ({ check, rerender }: Props) => {
 
   return (
     <Box sx={style}>
+      <Helmet>
+        <title>Terms & Conditions | Carmine Options AMM</title>
+      </Helmet>
       <Typography variant="h4">Terms & Conditions</Typography>
       <Typography variant="body1">
         Please take a moment to review our terms and conditions, which govern

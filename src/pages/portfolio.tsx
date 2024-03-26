@@ -1,3 +1,5 @@
+import { Helmet } from "react-helmet";
+
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -18,7 +20,6 @@ const Portfolio = () => {
   const { target } = useParams();
 
   useEffect(() => {
-    document.title = "Portfolio | Carmine Finance";
     // Check if the URL contains the #history hash
     switch (target) {
       case "history":
@@ -57,6 +58,13 @@ const Portfolio = () => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>Portfolio | Carmine Options AMM</title>
+        <meta
+          name="description"
+          content="Your current positions and history of your activity"
+        />
+      </Helmet>
       <button
         className={`${
           portfolioParam === PortfolioParamType.AirDrop &&

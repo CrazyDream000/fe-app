@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect } from "react";
+import { Helmet } from "react-helmet";
 
 import { Layout } from "../components/layout";
 import { Proposals } from "../components/Proposal";
@@ -34,12 +34,16 @@ const Governance = () => {
       </Box>
     </Box>
   );
-  useEffect(() => {
-    document.title = "Governance | Carmine Finance";
-  });
 
   return (
     <Layout>
+      <Helmet>
+        <title>Governance | Carmine Options AMM</title>
+        <meta
+          name="description"
+          content="Vote on proposals and take part in governing Carmine Options AMM"
+        />
+      </Helmet>
       {isMainnet ? (
         <Proposals />
       ) : (

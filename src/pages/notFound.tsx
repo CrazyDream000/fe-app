@@ -1,13 +1,13 @@
 import { Typography } from "@mui/material";
-import { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { Layout } from "../components/layout";
 
 const NotFound = () => {
-  useEffect(() => {
-    document.title = "404 | Carmine Finance";
-  });
   return (
     <Layout>
+      <Helmet>
+        <title>Page not found | Carmine Options AMM</title>
+      </Helmet>
       <Typography sx={{ mb: 2 }} variant="h4">
         404
       </Typography>

@@ -1,6 +1,7 @@
+import { Helmet } from "react-helmet";
+
 import { Info } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
-import { useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 import { Layout } from "../components/layout";
@@ -8,12 +9,15 @@ import StakeCapital from "../components/StakeCapital";
 import WithdrawCapital from "../components/WithdrawCapital";
 
 const StakePage = () => {
-  useEffect(() => {
-    document.title = "Stake Capital | Carmine Finance";
-  });
-
   return (
     <Layout>
+      <Helmet>
+        <title>Staking | Carmine Options AMM</title>
+        <meta
+          name="description"
+          content="Provide liquidity to liquidity pools and earn share of the fees"
+        />
+      </Helmet>
       <Tooltip title="Click to learn more">
         <RouterLink
           style={{ textDecoration: "none", color: "inherit" }}

@@ -1,14 +1,10 @@
-import { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { Box, List, ListItem, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { ArrowBack } from "@mui/icons-material";
 import { Layout } from "../components/layout";
 
 const APYInfoPage = () => {
-  useEffect(() => {
-    document.title = "Staking Explained | Carmine Finance";
-  });
-
   const containerStyle = { maxWidth: "66ch", fontSize: "18px" };
 
   const linkStyle = {
@@ -21,6 +17,13 @@ const APYInfoPage = () => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>Staking Explained | Carmine Options AMM</title>
+        <meta
+          name="description"
+          content="Find out how staking on Carmine Options AMM works"
+        />
+      </Helmet>
       <Box sx={containerStyle}>
         <RouterLink style={linkStyle} to="/staking">
           <ArrowBack />{" "}

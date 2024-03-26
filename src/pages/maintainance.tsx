@@ -1,12 +1,7 @@
-import { useEffect } from "react";
 import { Layout } from "../components/layout";
 import styles from "./maintainance.module.css";
 
 const Maintainance = () => {
-  useEffect(() => {
-    document.title = "Maintainance | Carmine Finance";
-  });
-
   return (
     <Layout>
       <div className={styles.container}>
