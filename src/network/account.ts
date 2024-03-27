@@ -40,6 +40,9 @@ export const getWallet = (): ConnectedStarknetWindowObject | undefined => {
     case SupportedWalletIds.OKXWallet:
       wallet = window.starknet_okxwallet;
       break;
+    case SupportedWalletIds.BitGet:
+      wallet = window.starknet_bitkeep;
+      break;
     default:
       return undefined;
   }
@@ -77,6 +80,7 @@ export const connect = (
     debug("Connecting wallet", {
       walletNetworkName: wallet.chainId,
       walletChainId: wallet.account.chainId,
+      walletId: wallet.id,
       appChainId: network.chainId,
       appNetworkName: network.name,
       accountChainId,

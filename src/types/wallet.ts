@@ -5,7 +5,8 @@ import { TokenKey } from "../classes/Token";
 export enum SupportedWalletIds {
   ArgentX = "argentX",
   Braavos = "braavos",
-  OKXWallet = "okxwallet"
+  OKXWallet = "okxwallet",
+  BitGet = "bitkeep",
 }
 
 export type UserBalance = {
