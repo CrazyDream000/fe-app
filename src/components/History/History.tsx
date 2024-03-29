@@ -5,7 +5,8 @@ import { useAccount } from "../../hooks/useAccount";
 import { QueryKeys } from "../../queries/keys";
 import { LoadingAnimation } from "../Loading/Loading";
 import { fetchHistoricalData } from "./fetchHistoricalData";
-import { TransactionTable } from "./TransactionDisplay";
+import { TransactionsTable } from "./TransactionDisplay";
+import { IStake, ITrade } from "../../types/history";
 
 type PropsAddress = {
   address: string;
@@ -33,7 +34,17 @@ const TradeHistoryWithAddress = ({ address }: PropsAddress) => {
 
   const sorted = data.sort((a, b) => b.timestamp - a.timestamp);
 
-  return <TransactionTable transactions={sorted} />;
+  const trades = sorted
+    .filter((tx) => tx.option)
+    .map(({ liquidity_pool, ...rest }) => rest as ITrade); // remove "liquidity_pool" in trades
+  const stakes = sorted
+    .filter((tx) => tx.liquidity_pool)
+    .map(({ option, ...rest }) => rest as IStake); // remove "option" in stakes
+
+  console.log("TRADES", trades);
+  console.log("STAKES", stakes);
+
+  return <TransactionsTable trades={trades} stakes={stakes} />;
 };
 
 export const TradeHistory = () => {

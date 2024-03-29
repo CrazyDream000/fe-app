@@ -1,4 +1,4 @@
-import { RawOptionHistory } from "./../../types/history";
+import { RawOptionHistory } from "../../types/history";
 import { QueryFunctionContext } from "react-query";
 import { ITradeHistory, RawTradeHistory } from "../../types/history";
 import { debug, LogTypes } from "../../utils/debugger";
@@ -20,7 +20,7 @@ const getOptionFromHistory = (option: RawOptionHistory | null) => {
   );
 };
 
-const parseHostoricDataResponse = (data: RawTradeHistory[]): ITradeHistory[] =>
+const parseHistoricDataResponse = (data: RawTradeHistory[]): ITradeHistory[] =>
   data.map((v) => {
     const option = getOptionFromHistory(v.option);
     const { timestamp, action, caller, capital_transfered, tokens_minted } = v;
@@ -61,7 +61,7 @@ export const fetchHistoricalData = async ({
     });
 
   if (data?.length) {
-    return parseHostoricDataResponse(data);
+    return parseHistoricDataResponse(data);
   }
   return [];
 };

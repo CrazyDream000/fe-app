@@ -31,3 +31,11 @@ export interface ITradeHistory extends ITradeData {
   option: Option | null;
   liquidity_pool: string | null;
 }
+
+export interface ITrade extends ITradeData {
+  option: Option;
+}
+
+export interface IStake extends ITradeData {
+  liquidity_pool: string;
+}
