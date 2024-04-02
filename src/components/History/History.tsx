@@ -28,23 +28,28 @@ const TradeHistoryWithAddress = ({ address }: PropsAddress) => {
     );
   }
 
-  if (!data?.length) {
+  if (!data) {
     return <Typography>We do not have any data on your past trades</Typography>;
   }
 
-  const sorted = data.sort((a, b) => b.timestamp - a.timestamp);
+  const { tradeData, votes } = data;
 
-  const trades = sorted
+  console.log(data);
+
+  const sortedTrades = tradeData.sort((a, b) => b.timestamp - a.timestamp);
+
+  const sortedVotes = votes.sort((a, b) => b.timestamp - a.timestamp);
+
+  const trades = sortedTrades
     .filter((tx) => tx.option)
     .map(({ liquidity_pool, ...rest }) => rest as ITrade); // remove "liquidity_pool" in trades
-  const stakes = sorted
+  const stakes = sortedTrades
     .filter((tx) => tx.liquidity_pool)
     .map(({ option, ...rest }) => rest as IStake); // remove "option" in stakes
 
-  console.log("TRADES", trades);
-  console.log("STAKES", stakes);
-
-  return <TransactionsTable trades={trades} stakes={stakes} />;
+  return (
+    <TransactionsTable trades={trades} stakes={stakes} votes={sortedVotes} />
+  );
 };
 
 export const TradeHistory = () => {

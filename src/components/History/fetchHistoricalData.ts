@@ -1,4 +1,4 @@
-import { RawOptionHistory } from "../../types/history";
+import { IVote, RawOptionHistory } from "../../types/history";
 import { QueryFunctionContext } from "react-query";
 import { ITradeHistory, RawTradeHistory } from "../../types/history";
 import { debug, LogTypes } from "../../utils/debugger";
@@ -35,11 +35,16 @@ const parseHistoricDataResponse = (data: RawTradeHistory[]): ITradeHistory[] =>
     };
   });
 
+type HistoricResponse = {
+  tradeData: ITradeHistory[];
+  votes: IVote[];
+};
+
 export const fetchHistoricalData = async ({
   queryKey,
-}: QueryFunctionContext<[string, string | undefined]>): Promise<
-  ITradeHistory[]
-> => {
+}: QueryFunctionContext<
+  [string, string | undefined]
+>): Promise<HistoricResponse> => {
   const walletAddress = queryKey[1];
 
   if (!walletAddress) {
@@ -48,7 +53,24 @@ export const fetchHistoricalData = async ({
     );
   }
 
-  const data = await fetch(apiUrl(`transactions?address=${walletAddress}`))
+  const votesPromise = fetch(apiUrl(`votes?address=${walletAddress}`))
+    .then((res) => res.json())
+    .then((v) => {
+      if (v?.status === "success") {
+        if (v?.data == null) {
+          // TODO: fix API endpoint so it returns []
+          return [];
+        }
+        return v.data;
+      }
+      return [];
+    })
+    .catch((e) => {
+      debug(LogTypes.WARN, "Failed fetching trade history\n", e);
+      return [];
+    });
+
+  const tradesPromise = fetch(apiUrl(`transactions?address=${walletAddress}`))
     .then((res) => res.json())
     .then((v) => {
       if (v?.status === "success") {
@@ -58,10 +80,13 @@ export const fetchHistoricalData = async ({
     })
     .catch((e) => {
       debug(LogTypes.WARN, "Failed fetching trade history\n", e);
+      return [];
     });
 
-  if (data?.length) {
-    return parseHistoricDataResponse(data);
-  }
-  return [];
+  const [votes, trades] = await Promise.all([votesPromise, tradesPromise]);
+
+  return {
+    tradeData: parseHistoricDataResponse(trades),
+    votes,
+  };
 };

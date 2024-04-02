@@ -1,5 +1,5 @@
 import { ETH_DIGITS } from "../../constants/amm";
-import { IStake, ITrade } from "../../types/history";
+import { IStake, ITrade, IVote } from "../../types/history";
 import { shortInteger } from "../../utils/computations";
 import { timestampToDateAndTime } from "../../utils/utils";
 import {
@@ -18,6 +18,7 @@ import { borderValue } from "../../style/sx";
 type TransactionsTableProps = {
   trades: ITrade[];
   stakes: IStake[];
+  votes: IVote[];
 };
 
 type TradesTableProps = {
@@ -28,6 +29,10 @@ type StakesTableProps = {
   stakes: IStake[];
 };
 
+type VotesTableProps = {
+  votes: IVote[];
+};
+
 type SingleTradeProp = {
   trade: ITrade;
 };
@@ -36,12 +41,17 @@ type SingleStakeProp = {
   stake: IStake;
 };
 
+type SingleVoteProp = {
+  vote: IVote;
+};
+
 const SingleTrade = ({ trade }: SingleTradeProp) => {
   const { option, timestamp, action, tokens_minted } = trade;
 
-  console.log({ tokens_minted: BigInt(tokens_minted), digits: option.digits });
-
-  const size = shortInteger(BigInt(tokens_minted).toString(10), ETH_DIGITS);
+  const size = shortInteger(
+    BigInt(tokens_minted).toString(10),
+    option.baseToken.decimals
+  );
 
   const [date, time] = timestampToDateAndTime(timestamp * 1000);
 
@@ -170,9 +180,66 @@ export const StakesTable = ({ stakes }: StakesTableProps) => {
   );
 };
 
+const SingleVote = ({ vote }: SingleVoteProp) => {
+  const { timestamp, opinion, prop_id } = vote;
+
+  const [date, time] = timestampToDateAndTime(timestamp * 1000);
+
+  const displayOpinion = opinion ? "Yay" : "Nay";
+
+  return (
+    <TableRow>
+      <TableCell>{date}</TableCell>
+      <TableCell sx={{ borderRight: borderValue }}>{time}</TableCell>
+      <TableCell align="left">{prop_id}</TableCell>
+      <TableCell align="left">{displayOpinion}</TableCell>
+    </TableRow>
+  );
+};
+
+export const VotesTable = ({ votes }: VotesTableProps) => {
+  const [expanded, setExpanded] = useState(false);
+
+  const COLLAPSED_LENGTH = 5;
+
+  const size = expanded ? votes.length : COLLAPSED_LENGTH;
+
+  return (
+    <TableContainer>
+      <Table className={tableStyles.table} aria-label="collapsible table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Date</TableCell>
+            <TableCell sx={{ borderRight: borderValue }}>Time</TableCell>
+            <TableCell align="left">Proposal Id</TableCell>
+            <TableCell align="left">Vote</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {votes.slice(0, size).map((vote, i) => (
+            <SingleVote vote={vote} key={i} />
+          ))}
+          {votes.length > COLLAPSED_LENGTH && (
+            <TableRow>
+              <td
+                onClick={() => setExpanded(!expanded)}
+                colSpan={7}
+                style={{ textAlign: "center", cursor: "pointer" }}
+              >
+                {expanded ? "Show less" : "Show more"}
+              </td>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
+
 export const TransactionsTable = ({
   trades,
   stakes,
+  votes,
 }: TransactionsTableProps) => {
   return (
     <div>
@@ -180,6 +247,8 @@ export const TransactionsTable = ({
       <TradesTable trades={trades} />
       <h3 style={{ marginTop: "40px" }}>Liquidity History</h3>
       <StakesTable stakes={stakes} />
+      <h3 style={{ marginTop: "40px" }}>Vote History</h3>
+      <VotesTable votes={votes} />
     </div>
   );
 };
