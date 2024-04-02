@@ -1,7 +1,12 @@
 import { BigNumberish, Call } from "starknet";
-
 import { sendGtagEvent } from "../analytics";
-import { AMM_ADDRESS, AMM_METHODS, BASE_MATH_64 } from "../constants/amm";
+import {
+  AMM_ADDRESS,
+  AMM_METHODS,
+  AMM_SWITCH_TIMESTAMP,
+  BASE_MATH_64,
+  BASE_MATH_64_61,
+} from "../constants/amm";
 import { FinancialData, OptionSide, OptionStruct } from "../types/options";
 import { Cubit } from "../types/units";
 import { longInteger, shortInteger } from "../utils/computations";
@@ -34,9 +39,11 @@ export class Option extends Pool {
 
     this.maturityHex = toHex(maturity);
     this.maturity = Number(BigInt(maturity));
+    const mathBase =
+      this.maturity > AMM_SWITCH_TIMESTAMP ? BASE_MATH_64 : BASE_MATH_64_61;
     this.strikeHex =
       typeof strike === "string" ? strike : "0x" + strike.toString(16);
-    this.strike = Number((BigInt(strike) * 100n) / BASE_MATH_64) / 100;
+    this.strike = Number((BigInt(strike) * 100n) / mathBase) / 100;
     this.side = bnToOptionSide(side);
     this.optionId = this.generateId();
   }

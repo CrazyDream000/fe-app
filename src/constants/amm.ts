@@ -27,6 +27,8 @@ export const LEGACY_CALL_LP =
 export const LEGACY_PUT_LP =
   "0x18a6abca394bd5f822cfa5f88783c01b13e593d1603e7b41b00d31d2ea4827a";
 
+export const AMM_SWITCH_TIMESTAMP = 1704841200;
+
 export const isTestnet = NETWORK === "testnet";
 export const isMainnet = NETWORK === "mainnet";
 export const enum AMM_METHODS {

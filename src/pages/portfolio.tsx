@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Airdrop } from "../components/Airdrop/Airdrop";
 import { Layout } from "../components/layout";
 import { Positions } from "../components/PositionTable";
-import { TradeHistory } from "../components/TradeHistory/TradeHistory";
+import { TradeHistory } from "../components/History/History";
 import { usePortfolioParam } from "../hooks/usePortfolio";
 import { setPortfolioParam } from "../redux/actions";
 import { PortfolioParamType } from "../redux/reducers/ui";
@@ -123,11 +123,6 @@ const Portfolio = () => {
       )}
       {portfolioParam === PortfolioParamType.History && (
         <div>
-          <h3 id="history">History</h3>
-          <p>
-            Please be advised that it takes 5-20 minutes for a transaction to
-            appear.
-          </p>
           <TradeHistory />
         </div>
       )}
