@@ -80,8 +80,10 @@ export const TradesTable = ({ trades }: TradesTableProps) => {
       <Table className={tableStyles.table} aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell sx={{ borderRight: borderValue }}>Time</TableCell>
+            <TableCell sx={{ width: "90px" }}>Date</TableCell>
+            <TableCell sx={{ borderRight: borderValue, width: "90px" }}>
+              Time
+            </TableCell>
             <TableCell align="left">Maturity</TableCell>
             <TableCell align="left">Action</TableCell>
             <TableCell align="left">Option</TableCell>
@@ -147,8 +149,10 @@ export const StakesTable = ({ stakes }: StakesTableProps) => {
       <Table className={tableStyles.table} aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell sx={{ borderRight: borderValue }}>Time</TableCell>
+            <TableCell sx={{ width: "90px" }}>Date</TableCell>
+            <TableCell sx={{ borderRight: borderValue, width: "90px" }}>
+              Time
+            </TableCell>
             <TableCell align="left">Action</TableCell>
             <TableCell align="left">Pool</TableCell>
             <Tooltip
@@ -191,8 +195,8 @@ const SingleVote = ({ vote }: SingleVoteProp) => {
     <TableRow>
       <TableCell>{date}</TableCell>
       <TableCell sx={{ borderRight: borderValue }}>{time}</TableCell>
-      <TableCell align="left">{prop_id}</TableCell>
-      <TableCell align="left">{displayOpinion}</TableCell>
+      <TableCell align="center">{prop_id}</TableCell>
+      <TableCell align="center">{displayOpinion}</TableCell>
     </TableRow>
   );
 };
@@ -209,10 +213,12 @@ export const VotesTable = ({ votes }: VotesTableProps) => {
       <Table className={tableStyles.table} aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell sx={{ borderRight: borderValue }}>Time</TableCell>
-            <TableCell align="left">Proposal Id</TableCell>
-            <TableCell align="left">Vote</TableCell>
+            <TableCell sx={{ width: "90px" }}>Date</TableCell>
+            <TableCell sx={{ borderRight: borderValue, width: "90px" }}>
+              Time
+            </TableCell>
+            <TableCell align="center">Proposal Id</TableCell>
+            <TableCell align="center">Vote</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
