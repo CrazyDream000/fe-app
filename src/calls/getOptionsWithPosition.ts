@@ -21,8 +21,6 @@ export const getOptionsWithPositionOfUser = async (
     throw Error(e.message);
   });
 
-  console.log("POSITIONS", { address, res });
-
   const parsed = (res as Response[]).map(
     ({ option, position_size, value_of_position }) => {
       const opt = new Option(

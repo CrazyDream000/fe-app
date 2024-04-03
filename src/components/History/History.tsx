@@ -34,8 +34,6 @@ const TradeHistoryWithAddress = ({ address }: PropsAddress) => {
 
   const { tradeData, votes } = data;
 
-  console.log(data);
-
   const sortedTrades = tradeData.sort((a, b) => b.timestamp - a.timestamp);
 
   const sortedVotes = votes.sort((a, b) => b.timestamp - a.timestamp);

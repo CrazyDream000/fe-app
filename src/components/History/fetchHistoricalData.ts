@@ -57,16 +57,12 @@ export const fetchHistoricalData = async ({
     .then((res) => res.json())
     .then((v) => {
       if (v?.status === "success") {
-        if (v?.data == null) {
-          // TODO: fix API endpoint so it returns []
-          return [];
-        }
         return v.data;
       }
       return [];
     })
     .catch((e) => {
-      debug(LogTypes.WARN, "Failed fetching trade history\n", e);
+      debug(LogTypes.WARN, "Failed fetching vote history\n", e);
       return [];
     });
 

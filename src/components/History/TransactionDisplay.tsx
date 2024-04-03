@@ -71,6 +71,10 @@ const SingleTrade = ({ trade }: SingleTradeProp) => {
 export const TradesTable = ({ trades }: TradesTableProps) => {
   const [expanded, setExpanded] = useState(false);
 
+  if (trades.length === 0) {
+    return <p>There are no trade events associated with this wallet.</p>
+  }
+
   const COLLAPSED_LENGTH = 5;
 
   const size = expanded ? trades.length : COLLAPSED_LENGTH;
@@ -140,6 +144,10 @@ const SingleStake = ({ stake }: SingleStakeProp) => {
 export const StakesTable = ({ stakes }: StakesTableProps) => {
   const [expanded, setExpanded] = useState(false);
 
+  if (stakes.length === 0) {
+    return <p>There are no liquidity events associated with this wallet.</p>
+  }
+
   const COLLAPSED_LENGTH = 5;
 
   const size = expanded ? stakes.length : COLLAPSED_LENGTH;
@@ -203,6 +211,10 @@ const SingleVote = ({ vote }: SingleVoteProp) => {
 
 export const VotesTable = ({ votes }: VotesTableProps) => {
   const [expanded, setExpanded] = useState(false);
+
+  if (votes.length === 0) {
+    return <p>There are no vote events associated with this wallet.</p>
+  }
 
   const COLLAPSED_LENGTH = 5;
 
