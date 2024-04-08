@@ -10,6 +10,8 @@ const LeaderboardPage = () => {
 
   return (
     <Layout>
+      <h3>Carmine Points Program</h3>
+      <p>Elevate Your Status, Enhance Your Rewards</p>
       <h3>Leaderboard</h3>
       <Leaderboard />
     </Layout>
