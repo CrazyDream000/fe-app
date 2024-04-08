@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet";
-import { Layout } from "../components/layout";
+import { Layout } from "../components/Layout";
 import { BuyInsuranceBox } from "../components/Insurance/BuyInsuranceBox";
 import { ActiveInsurance } from "../components/Insurance/ActiveInsurance";
 import { ClaimInsurance } from "../components/Insurance/ClaimInsurance";

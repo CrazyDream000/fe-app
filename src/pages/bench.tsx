@@ -3,7 +3,7 @@ import { AMMContract } from "../utils/blockchain";
 import { getOptionsWithPositionOfUser } from "../calls/getOptionsWithPosition";
 import { RPCNode, rpcNodeCall } from "../calls/rpcNodeCall";
 import { Box, Typography } from "@mui/material";
-import { Layout } from "../components/layout";
+import { Layout } from "../components/Layout";
 
 const selector =
   "0x2b20b26ede4304b68503c401a342731579b75844e5696ee13e6286cd51a9621";

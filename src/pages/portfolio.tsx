@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { Airdrop } from "../components/Airdrop/Airdrop";
-import { Layout } from "../components/layout";
+import { Layout } from "../components/Layout";
 import { Positions } from "../components/PositionTable";
 import { TradeHistory } from "../components/History/History";
 import { usePortfolioParam } from "../hooks/usePortfolio";

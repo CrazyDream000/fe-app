@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet";
 import { Box, List, ListItem, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { ArrowBack } from "@mui/icons-material";
-import { Layout } from "../components/layout";
+import { Layout } from "../components/Layout";
 
 const APYInfoPage = () => {
   const containerStyle = { maxWidth: "66ch", fontSize: "18px" };

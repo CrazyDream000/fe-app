@@ -1,3 +1,9 @@
+/* global CSS variables */
+:root {
+  --CONTENT-WIDTH: 1440px;
+  --CONTENT-PADDING: 1em;
+}
+
 * {
   color: white;
   font-family: "Neue Haas Grotesk", sans-serif;

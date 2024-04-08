@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet";
 
 import { AlternativeTradingView } from "../components/CryptoGraph/AlternativeTradingView";
-import { Layout } from "../components/layout";
+import { Layout } from "../components/Layout";
 import TradeTable from "../components/TradeTable";
 
 const TradePage = () => (

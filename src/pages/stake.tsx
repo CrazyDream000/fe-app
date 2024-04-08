@@ -4,7 +4,7 @@ import { Info } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
-import { Layout } from "../components/layout";
+import { Layout } from "../components/Layout";
 import StakeCapital from "../components/StakeCapital";
 import WithdrawCapital from "../components/WithdrawCapital";
 
