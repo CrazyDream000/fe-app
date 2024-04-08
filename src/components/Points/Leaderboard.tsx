@@ -14,6 +14,7 @@ import {
 import { addressElision } from "../../utils/utils";
 import { useAccount } from "../../hooks/useAccount";
 import { AccountInterface } from "starknet";
+import { ReactNode } from "react";
 
 export const ClickableUser = ({ address }: { address: string }) => (
   <a
@@ -25,12 +26,16 @@ export const ClickableUser = ({ address }: { address: string }) => (
   </a>
 );
 
+const formatBigNumber = (n: number): string =>
+  new Intl.NumberFormat("fr-FR").format(n); // French local uses space as separator
+
 const Item = ({ data, sx }: { data: UserPoints; sx?: any }) => {
   const {
     address,
     trading_points: tradePoints,
     liquidity_points: liqPoints,
     referral_points: refPoints,
+    vote_points: votePoints,
     total_points: totalPoints,
     position,
   } = data;
@@ -50,10 +55,11 @@ const Item = ({ data, sx }: { data: UserPoints; sx?: any }) => {
       <TableCell>
         <ClickableUser address={address} />
       </TableCell>
-      <TableCell>{liqPoints}</TableCell>
-      <TableCell>{tradePoints}</TableCell>
-      <TableCell>{refPoints}</TableCell>
-      <TableCell>{totalPoints}</TableCell>
+      <TableCell>{formatBigNumber(liqPoints)}</TableCell>
+      <TableCell>{formatBigNumber(tradePoints)}</TableCell>
+      <TableCell>{formatBigNumber(refPoints)}</TableCell>
+      <TableCell>{formatBigNumber(votePoints)}</TableCell>
+      <TableCell>{formatBigNumber(totalPoints)}</TableCell>
     </TableRow>
   );
 };
@@ -80,6 +86,10 @@ const UserItem = () => {
   return <UserItemWithAccount account={account} />;
 };
 
+const Bold = ({ children }: { children: ReactNode }) => (
+  <span style={{ fontWeight: "700" }}>{children}</span>
+);
+
 export const Leaderboard = () => {
   const { isLoading, isError, data } = useQuery(
     QueryKeys.topUserPoints,
@@ -99,12 +109,27 @@ export const Leaderboard = () => {
       <Table className={tableStyles.table} aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell>#</TableCell>
-            <TableCell>User</TableCell>
-            <TableCell align="left">Liquidity</TableCell>
-            <TableCell align="left">Trading</TableCell>
-            <TableCell align="left">Referral</TableCell>
-            <TableCell align="left">Total</TableCell>
+            <TableCell>
+              <Bold>#</Bold>
+            </TableCell>
+            <TableCell>
+              <Bold>User</Bold>
+            </TableCell>
+            <TableCell>
+              <Bold>Liquidity</Bold>
+            </TableCell>
+            <TableCell>
+              <Bold>Trading</Bold>
+            </TableCell>
+            <TableCell>
+              <Bold>Referral</Bold>
+            </TableCell>
+            <TableCell>
+              <Bold>Vote</Bold>
+            </TableCell>
+            <TableCell>
+              <Bold>Total</Bold>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

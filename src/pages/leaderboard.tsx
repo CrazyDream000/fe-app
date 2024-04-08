@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { Layout } from "../components/layout";
+import { Layout } from "../components/Layout";
 import { Leaderboard } from "../components/Points/Leaderboard";
 
 const LeaderboardPage = () => {

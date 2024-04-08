@@ -5,6 +5,7 @@ export type UserPoints = {
   trading_points: number;
   liquidity_points: number;
   referral_points: number;
+  vote_points: number;
   total_points: number;
   position: number;
 };
