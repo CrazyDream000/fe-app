@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { Helmet } from "react-helmet";
-import { Layout } from "../components/layout";
+import { Layout } from "../components/Layout";
 
 const NotFound = () => {
   return (

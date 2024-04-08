@@ -16,6 +16,7 @@ import { handleNumericChangeFactory } from "../../utils/inputHandling";
 import { handleStake } from "./handleStake";
 import { CapitalItem } from "./CapitalItem";
 import { apiUrl } from "../../api";
+import { debug } from "../../utils/debugger";
 
 type Props = {
   account: AccountInterface | undefined;
@@ -33,7 +34,8 @@ const getApy = async (
         const { week_annualized, launch_annualized } = result.data;
         setApy([week_annualized, launch_annualized]);
       }
-    });
+    })
+    .catch((e) => debug(e));
 };
 
 const ShowApy = ({ apy }: { apy?: number }) => {

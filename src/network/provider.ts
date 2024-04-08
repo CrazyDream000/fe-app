@@ -1,18 +1,20 @@
-import { RpcProvider, RpcProviderOptions } from "starknet";
+import { RpcProvider, RpcProviderOptions, constants } from "starknet";
 import { Network, NetworkName } from "../types/network";
-import { constants } from "starknet";
 import { NETWORK } from "../constants/amm";
+import { apiUrl } from "../api";
 
-// export const devnetOptions: RpcProviderOptions = {};
+// TODO: should be constants.StarknetChainId.SN_SEPOLIA - upgrade starknetjs
+const SN_SEPOLIA_CHAINID =
+  "0x534e5f5345504f4c4941" as constants.StarknetChainId;
 
 export const testnetOptions: RpcProviderOptions = {
-  nodeUrl: "https://api.carmine.finance/api/v1/testnet/call",
-  chainId: constants.StarknetChainId.SN_GOERLI,
+  nodeUrl: apiUrl("call", { network: "testnet" }),
+  chainId: SN_SEPOLIA_CHAINID,
 };
 
 export const mainnetOptions: RpcProviderOptions = {
-  nodeUrl: "https://api.carmine.finance/api/v1/mainnet/call",
-  chainId: constants.StarknetChainId.SN_GOERLI,
+  nodeUrl: apiUrl("call", { network: "mainnet" }),
+  chainId: constants.StarknetChainId.SN_MAIN,
 };
 
 export const providerOptions = (): RpcProviderOptions => {
@@ -38,12 +40,12 @@ export const getNetworkObject = (): Network => {
   } else if (NETWORK === "testnet") {
     return {
       name: NetworkName.Testnet,
-      chainId: constants.StarknetChainId.SN_GOERLI,
+      chainId: SN_SEPOLIA_CHAINID,
     };
   } else if (NETWORK === "devnet") {
     return {
       name: NetworkName.Testnet,
-      chainId: constants.StarknetChainId.SN_GOERLI,
+      chainId: SN_SEPOLIA_CHAINID,
     };
   } else {
     throw new Error(`Invalid network provided! ${NETWORK}`);

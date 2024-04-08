@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { Helmet } from "react-helmet";
 
-import { Layout } from "../components/layout";
+import { Layout } from "../components/Layout";
 import { Proposals } from "../components/Proposal";
 import { isMainnet } from "../constants/amm";
 

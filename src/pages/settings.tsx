@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { CheckBox } from "../components/Settings/CheckBox";
-import { Layout } from "../components/layout";
+import { Layout } from "../components/Layout";
 
 const Settings = () => {
   return (

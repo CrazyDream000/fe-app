@@ -8,6 +8,7 @@ import { ReactComponent as Github } from "./icons/github.svg";
 import { ReactComponent as Home } from "./icons/home.svg";
 import { ReactComponent as Settings } from "./icons/settings.svg";
 import { ReactComponent as Twitter } from "./icons/twitter.svg";
+
 import styles from "./linksmenu.module.css";
 
 type Props = {

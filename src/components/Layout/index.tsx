@@ -1,6 +1,6 @@
-import { Header } from "./Header/Header";
+import { Header } from "../Header/Header";
 import { ReactNode } from "react";
-import Container from "@mui/material/Container";
+import styles from "./layout.module.css";
 
 type Props = {
   children: ReactNode;
@@ -9,8 +9,8 @@ type Props = {
 export const Layout = ({ children }: Props) => (
   <>
     <Header />
-    <Container sx={{ paddingTop: "20px", marginBottom: "150px" }}>
+    <div className={styles.container}>
       <main>{children}</main>
-    </Container>
+    </div>
   </>
 );
