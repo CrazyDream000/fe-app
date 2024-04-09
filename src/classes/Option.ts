@@ -18,6 +18,7 @@ import {
 } from "../utils/utils";
 import { Pool } from "./Pool";
 import { TokenKey } from "./Token";
+import { math64toDecimal } from "../utils/units";
 
 export class Option extends Pool {
   public maturity: number;
@@ -43,7 +44,7 @@ export class Option extends Pool {
       this.maturity > AMM_SWITCH_TIMESTAMP ? BASE_MATH_64 : BASE_MATH_64_61;
     this.strikeHex =
       typeof strike === "string" ? strike : "0x" + strike.toString(16);
-    this.strike = Number((BigInt(strike) * 100n) / mathBase) / 100;
+    this.strike = math64toDecimal(strike, mathBase);
     this.side = bnToOptionSide(side);
     this.optionId = this.generateId();
   }

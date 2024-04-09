@@ -3,13 +3,13 @@ import { BigNumberish } from "starknet";
 export type Uint256LeadingNumber = string;
 export type Uint256TailZero = string;
 export type Int = string;
-export type Math64x61 = string;
+export type Math64 = string;
 export type Address = string;
 export type Hex = string;
 export type Decimal = number;
 
 export type IntBN = bigint;
-export type Math64x61BN = bigint;
+export type Math64BN = bigint;
 export type Uint256BN = bigint;
 export type OptionSideBN = bigint;
 export type OptionTypeBN = bigint;

@@ -1,4 +1,4 @@
-import { Decimal, Int, Math64x61 } from "../types/units";
+import { Decimal, Int, Math64 } from "../types/units";
 import { longInteger, shortInteger } from "./computations";
 import { BASE_MATH_64 } from "../constants/amm";
 import { BigNumberish, uint256 } from "starknet";
@@ -12,12 +12,18 @@ export const decimalToInt = (n: Decimal, digits: number): Int =>
 export const intToDecimal = (n: Int, digits: number): Decimal =>
   shortInteger(n, digits);
 
-export const math64x61toDecimal = (n: BigNumberish): Decimal => {
-  const long = (BigInt(n) * PRECISSION_BASE_VALUE) / BASE_MATH_64;
-  return shortInteger(long.toString(10), PRECISSION_DIGITS);
+export const math64toDecimal = (
+  n: BigNumberish,
+  base = BASE_MATH_64
+): number => {
+  const num = BigInt(n);
+  const integerPart = num / base;
+  const remainder = num % base;
+  const fractionalPart = Number(remainder) / Number(base);
+  return Number(integerPart) + fractionalPart;
 };
 
-export const decimalToMath64x61 = (n: Decimal): Math64x61 => {
+export const decimalToMath64 = (n: Decimal): Math64 => {
   const longInt = longInteger(n, PRECISSION_DIGITS);
   const mul = longInt * BASE_MATH_64;
 
@@ -25,10 +31,10 @@ export const decimalToMath64x61 = (n: Decimal): Math64x61 => {
   return div.toString(10);
 };
 
-export const math64x61ToInt = (n: BigNumberish, digits: number): Int =>
+export const math64ToInt = (n: BigNumberish, digits: number): Int =>
   ((BigInt(n) * 10n ** BigInt(digits)) / BASE_MATH_64).toString(10);
 
-export const intToMath64x61 = (n: BigNumberish, digits: number): Math64x61 =>
+export const intToMath64 = (n: BigNumberish, digits: number): Math64 =>
   ((BigInt(n) * BASE_MATH_64) / 10n ** BigInt(digits)).toString(10);
 
 export const decimalToUint256 = (n: Decimal, digits: number): uint256.Uint256 =>

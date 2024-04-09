@@ -1,22 +1,22 @@
-import { math64x61toDecimal, decimalToMath64x61 } from "./units";
+import { math64toDecimal, decimalToMath64 } from "./units";
 
-const math64x61toDecimalTestCases = [
+const math64toDecimalTestCases = [
   { test: "283902308823417640452", correct: 123.123 },
 ];
-const decimalToMath64x61TestCases = [
+const decimalToMath64TestCases = [
   { test: 123.123, correct: "283902308823417640452" },
 ];
 
 describe("unit conversion", () => {
-  test("math64x61 -> decimal", () => {
-    math64x61toDecimalTestCases.forEach(({ test, correct }) =>
-      expect(math64x61toDecimal(test)).toBe(correct)
+  test("math64 -> decimal", () => {
+    math64toDecimalTestCases.forEach(({ test, correct }) =>
+      expect(math64toDecimal(test)).toBe(correct)
     );
   });
 
-  test("decimal -> math64x61", () => {
-    decimalToMath64x61TestCases.forEach(({ test, correct }) =>
-      expect(decimalToMath64x61(test)).toBe(correct)
+  test("decimal -> math64", () => {
+    decimalToMath64TestCases.forEach(({ test, correct }) =>
+      expect(decimalToMath64(test)).toBe(correct)
     );
   });
 });

@@ -1,7 +1,7 @@
 import {
   Decimal,
   IntBN,
-  Math64x61BN,
+  Math64BN,
   OptionSideBN,
   Uint256BN,
   cubit,
@@ -39,7 +39,7 @@ export interface RawOption extends RawOptionBase {
 export interface RawOptionBase extends RawPool {
   option_side: OptionSideBN;
   maturity: IntBN;
-  strike_price: Math64x61BN;
+  strike_price: Math64BN;
 }
 
 export interface ParsedOptionBase extends ParsedPool {
@@ -50,7 +50,7 @@ export interface ParsedOptionBase extends ParsedPool {
 
 export interface RawOptionWithPosition extends RawOptionBase {
   position_size: Uint256BN;
-  value_of_position: Math64x61BN;
+  value_of_position: Math64BN;
 }
 
 export interface ParsedOptionWithPosition extends ParsedOptionBase {
@@ -59,7 +59,7 @@ export interface ParsedOptionWithPosition extends ParsedOptionBase {
 }
 
 export interface RawOptionWithPremia extends RawOptionBase {
-  premia: Math64x61BN;
+  premia: Math64BN;
 }
 
 export interface ParsedOptionWithPremia extends ParsedOptionBase {

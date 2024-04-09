@@ -15,7 +15,7 @@ import { afterTransaction } from "../utils/blockchain";
 import { invalidatePositions } from "../queries/client";
 import { TransactionAction } from "../redux/reducers/transactions";
 import { ToastType } from "../redux/reducers/ui";
-import { math64x61ToInt } from "../utils/units";
+import { math64ToInt } from "../utils/units";
 import { apiUrl } from "../api";
 import { isMainnet } from "../constants/amm";
 
@@ -33,9 +33,9 @@ export const approveAndTradeOpen = async (
     failed: boolean;
     processing: boolean;
   }) => void,
-  isInsurance = false,
+  isInsurance = false
 ): Promise<boolean> => {
-  const premiaTokenCount = math64x61ToInt(premiaMath64, option.digits);
+  const premiaTokenCount = math64ToInt(premiaMath64, option.digits);
   const toApprove = getToApprove(option, size, BigInt(premiaTokenCount));
   const toApproveNumber = shortInteger(toApprove, option.digits);
 
@@ -58,9 +58,9 @@ export const approveAndTradeOpen = async (
     });
     showToast(
       `To open this position you need ${option.symbol}\u00A0${Number(
-        needs,
+        needs
       ).toFixed(4)}, but you only have ${option.symbol}\u00A0${has.toFixed(4)}`,
-      ToastType.Warn,
+      ToastType.Warn
     );
     throw Error("Not enough funds");
   }
@@ -120,7 +120,7 @@ export const approveAndTradeOpen = async (
           processing: false,
         });
         showToast("Failed to open position", ToastType.Error);
-      },
+      }
     );
   } else {
     throw Error("Trade open failed unexpectedly");

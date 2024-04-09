@@ -1,12 +1,5 @@
 import { OptionType } from "./options";
-import {
-  Address,
-  AddressBN,
-  Decimal,
-  Int,
-  Math64x61,
-  Math64x61BN,
-} from "./units";
+import { Address, AddressBN, Decimal, Int, Math64, Math64BN } from "./units";
 import { uint256 } from "starknet";
 
 export interface ParsedPool {
@@ -25,14 +18,14 @@ export interface RawPoolInfo extends RawPool {
   lptoken_address: AddressBN;
   staked_capital: uint256.Uint256; // lpool_balance
   unlocked_capital: uint256.Uint256;
-  value_of_pool_position: Math64x61BN;
+  value_of_pool_position: Math64BN;
 }
 
 export interface ParsedPoolInfo extends ParsedPool {
   lptokenAddress: Address;
   stakedCapital: Int; // lpool_balance
   unlockedCapital: Int;
-  valueOfPoolPosition: Math64x61;
+  valueOfPoolPosition: Math64;
 }
 
 export interface PoolInfo {
@@ -62,7 +55,7 @@ export interface ResponsePoolInfo {
   lptoken_address: AddressBN;
   staked_capital: bigint; // lpool_balance
   unlocked_capital: bigint;
-  value_of_pool_position: Math64x61BN;
+  value_of_pool_position: Math64BN;
 }
 
 export interface ResponseUserPoolInfo {

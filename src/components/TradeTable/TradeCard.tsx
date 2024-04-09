@@ -18,7 +18,7 @@ import { UserBalance } from "../../types/wallet";
 import { OptionWithPremia } from "../../classes/Option";
 import style from "./card.module.css";
 import buttonStyles from "../../style/button.module.css";
-import { math64x61toDecimal } from "../../utils/units";
+import { math64toDecimal } from "../../utils/units";
 import { PairKey } from "../../classes/Pair";
 
 type TemplateProps = {
@@ -183,7 +183,7 @@ export const TradeCard = ({ option }: TradeCardProps) => {
       account,
       option,
       amount,
-      math64x61toDecimal(premiaMath64),
+      math64toDecimal(premiaMath64),
       premiaWithSlippage,
       balance,
       updateTradeState

@@ -3,7 +3,7 @@ import { UserBalance } from "./../../types/wallet";
 import { FinancialData } from "../../types/options";
 import { getPremia } from "../../calls/getPremia";
 import { LogTypes, debug } from "../../utils/debugger";
-import { math64x61toDecimal } from "../../utils/units";
+import { math64toDecimal } from "../../utils/units";
 import { getUserBalance } from "../../calls/balanceOf";
 import { OptionWithPremia } from "../../classes/Option";
 
@@ -62,7 +62,7 @@ export const fetchModalData = async (
     return;
   }
 
-  const convertedPremia = math64x61toDecimal(premiaMath64);
+  const convertedPremia = math64toDecimal(premiaMath64);
 
   return {
     prices: option.financialData(size, convertedPremia, base, quote),

@@ -1,7 +1,7 @@
 import { Box, Tooltip, Typography } from "@mui/material";
 import { usePremiaQuery } from "../../hooks/usePremiaQuery";
 import { CustomDialogTitle } from "../MultiDialog/MultiDialog";
-import { math64x61toDecimal } from "../../utils/units";
+import { math64toDecimal } from "../../utils/units";
 import { getPremiaWithSlippage } from "../../utils/computations";
 import { useAccount } from "../../hooks/useAccount";
 import { store } from "../../redux/store";
@@ -55,13 +55,13 @@ const WithOption = ({ option, size, updateTradeState }: Props) => {
     );
   }
 
-  const premiaNumber = math64x61toDecimal(premiaMath64);
+  const premiaNumber = math64toDecimal(premiaMath64);
   const premiaWithSlippage = getPremiaWithSlippage(
     premiaMath64,
     option.side,
     false
   );
-  const displayPremiaWithSlippage = math64x61toDecimal(premiaWithSlippage);
+  const displayPremiaWithSlippage = math64toDecimal(premiaWithSlippage);
   const slippage = store.getState().settings.slippage;
 
   const handleClick = () =>

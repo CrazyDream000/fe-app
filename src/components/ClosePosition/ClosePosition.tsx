@@ -6,7 +6,7 @@ import { debug } from "../../utils/debugger";
 import { CustomDialogTitle } from "../MultiDialog/MultiDialog";
 import { handleNumericChangeFactory } from "../../utils/inputHandling";
 import { useDebounce } from "../../hooks/useDebounce";
-import { math64x61toDecimal, math64x61ToInt } from "../../utils/units";
+import { math64toDecimal, math64ToInt } from "../../utils/units";
 import { getPremiaWithSlippage, shortInteger } from "../../utils/computations";
 import { tradeClose } from "../../calls/tradeClose";
 import { useAccount } from "../../hooks/useAccount";
@@ -202,13 +202,13 @@ const WithOption = ({ option }: Props) => {
     );
   }
 
-  const premiaNumber = math64x61toDecimal(premiaMath64);
+  const premiaNumber = math64toDecimal(premiaMath64);
 
   debug({ premiaMath64, premiaNumber });
 
   const premiaWithSlippage = shortInteger(
     getPremiaWithSlippage(
-      BigInt(math64x61ToInt(premiaMath64, option.digits)),
+      BigInt(math64ToInt(premiaMath64, option.digits)),
       side,
       true
     ).toString(10),
