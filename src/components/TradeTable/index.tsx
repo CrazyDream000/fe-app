@@ -87,9 +87,10 @@ const TradeTable = () => {
         style={{
           visibility: data ? undefined : "hidden",
           display: "flex",
-          flexFlow: "column",
+          flexFlow: "row",
           gap: "20px",
           marginTop: "20px",
+          justifyContent: "space-between",
         }}
       >
         <div className={styles.container}>
@@ -103,10 +104,7 @@ const TradeTable = () => {
             </button>
           ))}
         </div>
-        <div
-          className={`${styles.container} ${styles.twos}`}
-          style={{ marginLeft: "auto" }}
-        >
+        <div className={styles.container}>
           <button
             className={isLong(side) ? styles.active : "non-active"}
             onClick={() => setLongShort(OptionSide.Long)}
