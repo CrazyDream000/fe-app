@@ -1,7 +1,7 @@
 /* global CSS variables */
 :root {
   --CONTENT-WIDTH: 1440px;
-  --CONTENT-PADDING: 1em;
+  --CONTENT-PADDING: 3em;
 }
 
 * {

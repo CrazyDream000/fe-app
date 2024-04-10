@@ -10,7 +10,8 @@ import { useQuery } from "react-query";
 import { QueryKeys } from "../../queries/keys";
 import { OptionWithPremia } from "../../classes/Option";
 import { PairKey } from "../../classes/Pair";
-import styles from "../../style/button.module.css";
+import buttonStyles from "../../style/button.module.css";
+import styles from "./index.module.css";
 
 const getText = (type: OptionType, side: OptionSide) =>
   `We currently do not have any ${isLong(side) ? "long" : "short"} ${
@@ -84,47 +85,45 @@ const TradeTable = () => {
   return (
     <>
       <div
+        className={styles.container}
         style={{
           visibility: data ? undefined : "hidden",
-          display: "flex",
-          flexFlow: "row",
-          gap: "20px",
-          marginTop: "20px",
-          justifyContent: "space-between",
         }}
       >
-        <div className={styles.container}>
+        <div className={buttonStyles.container}>
           {shownPairs.map((currentPair, i) => (
             <button
               key={i}
-              className={pair === currentPair ? styles.active : "non-active"}
+              className={
+                pair === currentPair ? buttonStyles.active : "non-active"
+              }
               onClick={() => setPair(currentPair)}
             >
               {currentPair}
             </button>
           ))}
         </div>
-        <div className={styles.container}>
+        <div className={buttonStyles.container}>
           <button
-            className={isLong(side) ? styles.active : "non-active"}
+            className={isLong(side) ? buttonStyles.active : "non-active"}
             onClick={() => setLongShort(OptionSide.Long)}
           >
             Long
           </button>
           <button
-            className={isLong(side) ? "non-active" : styles.active}
+            className={isLong(side) ? "non-active" : buttonStyles.active}
             onClick={() => setLongShort(OptionSide.Short)}
           >
             Short
           </button>
           <button
-            className={isCall(type) ? styles.active : "non-active"}
+            className={isCall(type) ? buttonStyles.active : "non-active"}
             onClick={() => setCallPut(OptionType.Call)}
           >
             Call
           </button>
           <button
-            className={isCall(type) ? "non-active" : styles.active}
+            className={isCall(type) ? "non-active" : buttonStyles.active}
             onClick={() => setCallPut(OptionType.Put)}
           >
             Put
