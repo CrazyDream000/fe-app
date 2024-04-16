@@ -27,3 +27,9 @@
   flex-wrap: wrap;
   width: 100%;
 }
+
+.logo {
+  display: flex;
+  margin-right: auto;
+  padding-right: 4rem;
+}
