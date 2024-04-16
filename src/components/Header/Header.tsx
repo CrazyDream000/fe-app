@@ -57,7 +57,7 @@ const navLink = ({ title, link }: NavLinkProps, i: number): ReactNode => (
 export const Header = () => (
   <header className={styles.header}>
     <div className={styles.navlinkcontainer}>
-      <NavLink to="/" style={{ marginRight: "auto", display: "flex" }}>
+      <NavLink to="/" className={styles.logo}>
         <img height="52px" src="/logo.png" alt="Carmine logo" />
       </NavLink>
       <NetworkSwitch />
