@@ -3,10 +3,7 @@
   justify-content: center;
   align-items: center;
   max-width: var(--CONTENT-WIDTH);
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 50px;
-  margin-bottom: 70px;
+  margin: 50px auto;
 }
 
 .navlink {
@@ -32,4 +29,14 @@
   display: flex;
   margin-right: auto;
   padding-right: 4rem;
+}
+
+@media (max-width: 720px) {
+  .navlink {
+    margin: .5em;
+  }
+
+  .header {
+    margin: 30px auto;
+  }
 }
