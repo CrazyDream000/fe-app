@@ -62,9 +62,10 @@ export const SlippageContent = () => {
             type="text"
             value={inputText}
             onChange={handleChange}
+            id="manual-slippage"
           />
+          <label style={{ marginLeft: "20px" }} htmlFor="manual-slippage">Choose your own slippage</label>
           <ButtonGroup
-            sx={{ ml: 2 }}
             variant="contained"
             aria-label="outlined primary button group"
           >
