@@ -19,6 +19,8 @@ import { apiUrl } from "../../api";
 import { debug } from "../../utils/debugger";
 import { TokenKey } from "../../classes/Token";
 
+import defiSpringStyles from "./defispring.module.css";
+
 type Props = {
   account: AccountInterface | undefined;
   pool: Pool;
@@ -38,6 +40,29 @@ const getApy = async (
       }
     })
     .catch((e) => debug(e));
+};
+
+const DefispringTooltipMessage = ({
+  apy,
+  defispringApy,
+}: {
+  apy: number;
+  defispringApy: number;
+}) => {
+  return (
+    <div>
+      <div className={defiSpringStyles.heading}>
+        <h4>DefiSpring Incentive</h4>
+        <img src="/starknet.webp" alt="Starknet Logo" />
+      </div>
+
+      <p>
+        This pool's APY is <b>{apy.toFixed(2)}%</b>, but another{" "}
+        <b>{defispringApy.toFixed(2)}%</b> is added by Starknet DefiSpring
+        incentive.
+      </p>
+    </div>
+  );
 };
 
 const ShowApy = ({
@@ -81,14 +106,15 @@ const ShowApy = ({
     sx.color = theme.palette.success.main;
   }
 
-  const title = `Pool APY is ${apy.toFixed(
-    2
-  )}% and another ${defispringApy.toFixed(
-    2
-  )}% is added by Starknet DefiSpring incentive. Starknet DefiSpring incentive is calculated from yesterday numbers.`;
-
   return (
-    <Tooltip title={title}>
+    <Tooltip
+      title={
+        <DefispringTooltipMessage apy={apy} defispringApy={defispringApy} />
+      }
+      classes={{
+        tooltip: defiSpringStyles.tooltip,
+      }}
+    >
       <Typography sx={sx}>{apyWithDefispring.toFixed(2)}%</Typography>
     </Tooltip>
   );

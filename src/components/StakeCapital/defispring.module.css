@@ -1,0 +1,16 @@
+.tooltip {
+  border: solid 2px magenta;
+  padding: 10px;
+}
+
+.heading {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.heading>img {
+  width: 40px;
+  height: 40px;
+}
