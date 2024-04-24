@@ -21,6 +21,7 @@ import { TokenKey } from "../../classes/Token";
 
 import defiSpringStyles from "./defispring.module.css";
 import stakeItemStyles from "./stakeitem.module.css";
+import { StarknetIcon } from "../Icons";
 
 type Props = {
   account: AccountInterface | undefined;
@@ -54,17 +55,17 @@ const DefispringTooltipMessage = ({
     <div>
       <div className={defiSpringStyles.heading}>
         <h4>DefiSpring Incentive</h4>
-        <img src="/starknet.webp" alt="Starknet Logo" />
+        <StarknetIcon />
       </div>
       <div>
         <div className={defiSpringStyles.apart}>
-          <p>Supply APY</p>{" "}
+          <p>Supply APY</p>
           <p>
             <b>{apy.toFixed(2)}%</b>
           </p>
         </div>
         <div className={defiSpringStyles.apart}>
-          <p>STRK DeFi Spring rewards</p>{" "}
+          <p>STRK DeFi Spring rewards</p>
           <p>
             <b>{defispringApy.toFixed(2)}%</b>
           </p>
@@ -138,7 +139,7 @@ const ShowApy = ({
     >
       <div className={stakeItemStyles.defiapycontainer}>
         <Typography sx={sx}>{apyWithDefispring.toFixed(2)}%</Typography>
-        <img src="/starknet.webp" alt="Starknet Logo" />
+        <StarknetIcon />
       </div>
     </Tooltip>
   );
