@@ -1,14 +1,33 @@
-import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import { useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import { useEffect, useState } from "react";
 
 import { OptionWithPremia } from "../../classes/Option";
 import tableStyles from "../../style/table.module.css";
 import { SlippageButton } from "../Slippage/SlippageButton";
 import { OptionModal } from "./OptionModal";
 import OptionsTableItem from "./OptionTableItem";
+import { apiUrl } from "../../api";
+import { debug } from "../../utils/debugger";
 
 type Props = {
   options: OptionWithPremia[];
+};
+
+const getDefispringApy = async (setDefispringApy: (n: number) => void) => {
+  fetch(apiUrl("defispring", { version: 1, network: "mainnet" }))
+    .then((response) => response.json())
+    .then((result) => {
+      if (result && result.status === "success" && result?.data?.apy) {
+        setDefispringApy(result.data.apy);
+      }
+    })
+    .catch((e) => debug(e));
 };
 
 const OptionsTable = ({ options }: Props) => {
@@ -17,6 +36,11 @@ const OptionsTable = ({ options }: Props) => {
   const [priceSort, setPriceSort] = useState(false);
   const [maturitySort, setMaturitySort] = useState(false);
   const [filterOption, setFilterOption] = useState(1);
+  const [defispringApy, setDefispringApy] = useState<number | undefined>();
+
+  useEffect(() => {
+    getDefispringApy(setDefispringApy);
+  }, []);
 
   const handleOptionClick = (o: OptionWithPremia) => {
     setModalOption(o);
@@ -28,7 +52,7 @@ const OptionsTable = ({ options }: Props) => {
     <>
       <Table className={tableStyles.table} aria-label="simple table">
         <TableHead>
-          <TableRow sx={{ border: "1px solid white ", cursor:'pointer' }}>
+          <TableRow sx={{ border: "1px solid white ", cursor: "pointer" }}>
             <TableCell
               onClick={() => {
                 setFilterOption(1);
@@ -61,6 +85,7 @@ const OptionsTable = ({ options }: Props) => {
                 <OptionsTableItem
                   option={o}
                   handleClick={() => handleOptionClick(o)}
+                  defispringApy={defispringApy}
                   key={i}
                 />
               ))}
@@ -73,6 +98,7 @@ const OptionsTable = ({ options }: Props) => {
                 <OptionsTableItem
                   option={o}
                   handleClick={() => handleOptionClick(o)}
+                  defispringApy={defispringApy}
                   key={i}
                 />
               ))}
