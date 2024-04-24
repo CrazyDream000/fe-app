@@ -3,9 +3,7 @@ import {
   TableRow,
   Tooltip,
   Typography,
-  styled,
   useTheme,
-  withStyles,
 } from "@mui/material";
 import { CSSProperties, useEffect, useState } from "react";
 import { AccountInterface } from "starknet";
@@ -22,6 +20,7 @@ import { debug } from "../../utils/debugger";
 import { TokenKey } from "../../classes/Token";
 
 import defiSpringStyles from "./defispring.module.css";
+import stakeItemStyles from "./stakeitem.module.css";
 
 type Props = {
   account: AccountInterface | undefined;
@@ -57,11 +56,24 @@ const DefispringTooltipMessage = ({
         <h4>DefiSpring Incentive</h4>
         <img src="/starknet.webp" alt="Starknet Logo" />
       </div>
-
+      <div>
+        <div className={defiSpringStyles.apart}>
+          <p>Supply APY</p>{" "}
+          <p>
+            <b>{apy.toFixed(2)}%</b>
+          </p>
+        </div>
+        <div className={defiSpringStyles.apart}>
+          <p>STRK DeFi Spring rewards</p>{" "}
+          <p>
+            <b>{defispringApy.toFixed(2)}%</b>
+          </p>
+        </div>
+      </div>
       <p>
-        This pool's APY is <b>{apy.toFixed(2)}%</b>, but another{" "}
-        <b>{defispringApy.toFixed(2)}%</b> is added by Starknet DefiSpring
-        incentive.
+        The estimate of the DeFi Spring rewards is based on yesterday's
+        allocation. In case there is big increase of capital, this number will
+        be skewed.
       </p>
     </div>
   );
@@ -119,12 +131,15 @@ const ShowApy = ({
       componentsProps={{
         tooltip: {
           sx: {
-            bgcolor: "#0C0C4F",
+            bgcolor: "rgba(12, 12, 79, .8)",
           },
         },
       }}
     >
-      <Typography sx={sx}>{apyWithDefispring.toFixed(2)}%</Typography>
+      <div className={stakeItemStyles.defiapycontainer}>
+        <Typography sx={sx}>{apyWithDefispring.toFixed(2)}%</Typography>
+        <img src="/starknet.webp" alt="Starknet Logo" />
+      </div>
     </Tooltip>
   );
 };
