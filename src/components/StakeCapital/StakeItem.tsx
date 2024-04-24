@@ -18,10 +18,10 @@ import { CapitalItem } from "./CapitalItem";
 import { apiUrl } from "../../api";
 import { debug } from "../../utils/debugger";
 import { TokenKey } from "../../classes/Token";
-
-import defiSpringStyles from "./defispring.module.css";
-import stakeItemStyles from "./stakeitem.module.css";
 import { StarknetIcon } from "../Icons";
+import { DefiSpringStakingMessage, DefiSpringTooltip } from "../DefiSpring";
+
+import stakeItemStyles from "./stakeitem.module.css";
 
 type Props = {
   account: AccountInterface | undefined;
@@ -42,42 +42,6 @@ const getApy = async (
       }
     })
     .catch((e) => debug(e));
-};
-
-const DefispringTooltipMessage = ({
-  apy,
-  defispringApy,
-}: {
-  apy: number;
-  defispringApy: number;
-}) => {
-  return (
-    <div>
-      <div className={defiSpringStyles.heading}>
-        <h4>DefiSpring Incentive</h4>
-        <StarknetIcon />
-      </div>
-      <div>
-        <div className={defiSpringStyles.apart}>
-          <p>Supply APY</p>
-          <p>
-            <b>{apy.toFixed(2)}%</b>
-          </p>
-        </div>
-        <div className={defiSpringStyles.apart}>
-          <p>STRK DeFi Spring rewards</p>
-          <p>
-            <b>{defispringApy.toFixed(2)}%</b>
-          </p>
-        </div>
-      </div>
-      <p>
-        The estimate of the DeFi Spring rewards is based on yesterday's
-        allocation. In case there is big increase of capital, this number will
-        be skewed.
-      </p>
-    </div>
-  );
 };
 
 const ShowApy = ({
@@ -122,26 +86,16 @@ const ShowApy = ({
   }
 
   return (
-    <Tooltip
+    <DefiSpringTooltip
       title={
-        <DefispringTooltipMessage apy={apy} defispringApy={defispringApy} />
+        <DefiSpringStakingMessage apy={apy} defispringApy={defispringApy} />
       }
-      classes={{
-        tooltip: defiSpringStyles.tooltip,
-      }}
-      componentsProps={{
-        tooltip: {
-          sx: {
-            bgcolor: "rgba(12, 12, 79, .8)",
-          },
-        },
-      }}
     >
       <div className={stakeItemStyles.defiapycontainer}>
         <Typography sx={sx}>{apyWithDefispring.toFixed(2)}%</Typography>
         <StarknetIcon />
       </div>
-    </Tooltip>
+    </DefiSpringTooltip>
   );
 };
 
