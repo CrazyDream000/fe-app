@@ -3,7 +3,9 @@ import {
   TableRow,
   Tooltip,
   Typography,
+  styled,
   useTheme,
+  withStyles,
 } from "@mui/material";
 import { CSSProperties, useEffect, useState } from "react";
 import { AccountInterface } from "starknet";
@@ -113,6 +115,13 @@ const ShowApy = ({
       }
       classes={{
         tooltip: defiSpringStyles.tooltip,
+      }}
+      componentsProps={{
+        tooltip: {
+          sx: {
+            bgcolor: "#0C0C4F",
+          },
+        },
       }}
     >
       <Typography sx={sx}>{apyWithDefispring.toFixed(2)}%</Typography>
