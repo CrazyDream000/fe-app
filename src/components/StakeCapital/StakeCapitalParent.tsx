@@ -42,7 +42,7 @@ const getDefispringApy = async (setDefispringApy: (n: number) => void) => {
     .then((response) => response.json())
     .then((result) => {
       if (result && result.status === "success" && result?.data?.apy) {
-        setDefispringApy(result.data.apy);
+        setDefispringApy(result.data.apy * 100);
       }
     })
     .catch((e) => debug(e));
