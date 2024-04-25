@@ -12,6 +12,7 @@ import { OptionWithPremia } from "../../classes/Option";
 import { PairKey } from "../../classes/Pair";
 import buttonStyles from "../../style/button.module.css";
 import styles from "./index.module.css";
+import { StarknetIcon } from "../Icons";
 
 const getText = (type: OptionType, side: OptionSide) =>
   `We currently do not have any ${isLong(side) ? "long" : "short"} ${
@@ -114,7 +115,10 @@ const TradeTable = () => {
             className={isLong(side) ? "non-active" : buttonStyles.active}
             onClick={() => setLongShort(OptionSide.Short)}
           >
-            Short
+            Short{" "}
+            <StarknetIcon
+              style={{ width: "22px", height: "22px", marginLeft: "5px" }}
+            />
           </button>
           <button
             className={isCall(type) ? buttonStyles.active : "non-active"}

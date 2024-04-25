@@ -17,10 +17,16 @@ import { handleStake } from "./handleStake";
 import { CapitalItem } from "./CapitalItem";
 import { apiUrl } from "../../api";
 import { debug } from "../../utils/debugger";
+import { TokenKey } from "../../classes/Token";
+import { StarknetIcon } from "../Icons";
+import { DefiSpringStakingMessage, DefiSpringTooltip } from "../DefiSpring";
+
+import stakeItemStyles from "./stakeitem.module.css";
 
 type Props = {
   account: AccountInterface | undefined;
   pool: Pool;
+  defispringApy?: number;
 };
 
 const getApy = async (
@@ -38,7 +44,15 @@ const getApy = async (
     .catch((e) => debug(e));
 };
 
-const ShowApy = ({ apy }: { apy?: number }) => {
+const ShowApy = ({
+  apy,
+  defispringApy,
+  isDefispringPool,
+}: {
+  apy?: number;
+  defispringApy?: number;
+  isDefispringPool: boolean;
+}) => {
   const theme = useTheme();
   const MIN = -60;
   const MAX = 250;
@@ -48,13 +62,41 @@ const ShowApy = ({ apy }: { apy?: number }) => {
     return <Typography sx={sx}>--</Typography>;
   }
 
-  if (apy < 0) {
+  // ignore defispring APY
+  if (!isDefispringPool) {
+    if (apy < 0) {
+      sx.color = theme.palette.error.main;
+    } else {
+      sx.color = theme.palette.success.main;
+    }
+
+    return <Typography sx={sx}>{apy.toFixed(2)}%</Typography>;
+  }
+
+  if (defispringApy === undefined) {
+    return <Typography sx={sx}>--</Typography>;
+  }
+
+  const apyWithDefispring = apy + defispringApy;
+
+  if (apyWithDefispring < 0) {
     sx.color = theme.palette.error.main;
   } else {
     sx.color = theme.palette.success.main;
   }
 
-  return <Typography sx={sx}>{apy.toFixed(2)}%</Typography>;
+  return (
+    <DefiSpringTooltip
+      title={
+        <DefiSpringStakingMessage apy={apy} defispringApy={defispringApy} />
+      }
+    >
+      <div className={stakeItemStyles.defiapycontainer}>
+        <Typography sx={sx}>{apyWithDefispring.toFixed(2)}%</Typography>
+        <StarknetIcon />
+      </div>
+    </DefiSpringTooltip>
+  );
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -68,7 +110,7 @@ const ApyNotAvailable = () => {
   );
 };
 
-export const StakeCapitalItem = ({ account, pool }: Props) => {
+export const StakeCapitalItem = ({ account, pool, defispringApy }: Props) => {
   const txPending = useTxPending(pool.poolId, TransactionAction.Stake);
   const [amount, setAmount] = useState<number>(0);
   const [showLockInfo, setLockInfo] = useState<boolean>(false);
@@ -88,6 +130,10 @@ export const StakeCapitalItem = ({ account, pool }: Props) => {
 
   const [weekly, sinceLaunch] = apy || [undefined, undefined];
 
+  // not BTC pools
+  const isDefispringPool =
+    pool.baseToken.id !== TokenKey.BTC && pool.quoteToken.id !== TokenKey.BTC;
+
   return (
     <>
       <TableRow>
@@ -95,10 +141,18 @@ export const StakeCapitalItem = ({ account, pool }: Props) => {
           <Typography>{pool.name}</Typography>
         </TableCell>
         <TableCell onClick={handleLockedInfo}>
-          <ShowApy apy={sinceLaunch} />
+          <ShowApy
+            apy={sinceLaunch}
+            defispringApy={defispringApy}
+            isDefispringPool={isDefispringPool}
+          />
         </TableCell>
         <TableCell onClick={handleLockedInfo}>
-          <ShowApy apy={weekly} />
+          <ShowApy
+            apy={weekly}
+            defispringApy={defispringApy}
+            isDefispringPool={isDefispringPool}
+          />
         </TableCell>
         <TableCell sx={{ minWidth: "100px" }} align="center">
           <input

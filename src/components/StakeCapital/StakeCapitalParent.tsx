@@ -22,6 +22,9 @@ import tableStyles from "../../style/table.module.css";
 import { OptionType } from "../../types/options";
 import { timestampToReadableDate } from "../../utils/utils";
 import { StakeCapitalItem } from "./StakeItem";
+import { useEffect, useState } from "react";
+import { apiUrl } from "../../api";
+import { debug } from "../../utils/debugger";
 
 const POOLS = [
   new Pool(STRK_ADDRESS, USDC_ADDRESS, OptionType.Call),
@@ -34,8 +37,24 @@ const POOLS = [
   new Pool(BTC_ADDRESS, USDC_ADDRESS, OptionType.Put),
 ];
 
+const getDefispringApy = async (setDefispringApy: (n: number) => void) => {
+  fetch(apiUrl("defispring", { version: 1, network: "mainnet" }))
+    .then((response) => response.json())
+    .then((result) => {
+      if (result && result.status === "success" && result?.data?.apy) {
+        setDefispringApy(result.data.apy);
+      }
+    })
+    .catch((e) => debug(e));
+};
+
 export const StakeCapitalParent = () => {
   const account = useAccount();
+  const [defispringApy, setDefispringApy] = useState<number | undefined>();
+
+  useEffect(() => {
+    getDefispringApy(setDefispringApy);
+  }, []);
 
   const MAINNET_LAUNCH_TIMESTAMP = 1705078858000; // new AMM launch
   const yslTooltipText = `Annual Percentage Yield calculated from the launch to Mainnet on ${timestampToReadableDate(
@@ -78,7 +97,12 @@ export const StakeCapitalParent = () => {
       </TableHead>
       <TableBody>
         {POOLS.map((pool, i) => (
-          <StakeCapitalItem key={i} account={account} pool={pool} />
+          <StakeCapitalItem
+            key={i}
+            account={account}
+            pool={pool}
+            defispringApy={defispringApy}
+          />
         ))}
       </TableBody>
     </Table>
