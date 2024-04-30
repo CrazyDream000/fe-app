@@ -92,29 +92,29 @@ const addCustomWallet = (wallet: CustomWallet) => {
   });
 };
 
+export const openWalletConnectDialog = async () => {
+  connect({
+    modalMode: "alwaysAsk",
+    dappName: "Carmine Options AMM",
+    // app currently has only dark theme
+    modalTheme: "dark",
+  }).then((modalResult) => {
+    const { wallet } = modalResult;
+    if (wallet && wallet.isConnected) {
+      accountConnect(wallet);
+    }
+  });
+
+  // OKX Wallet currently supports only Mainnet
+  if (isMainnet) {
+    // call inside timeout to make sure modal is present in the DOM
+    setTimeout(() => addCustomWallet(okxWallet), 1);
+    setTimeout(() => addCustomWallet(bitgetWallet), 1);
+  }
+};
+
 export const WalletButton = () => {
   const account = useAccount();
-
-  const handleConnect = async () => {
-    connect({
-      modalMode: "alwaysAsk",
-      dappName: "Carmine Options AMM",
-      // app currently has only dark theme
-      modalTheme: "dark",
-    }).then((modalResult) => {
-      const { wallet } = modalResult;
-      if (wallet && wallet.isConnected) {
-        accountConnect(wallet);
-      }
-    });
-
-    // OKX Wallet currently supports only Mainnet
-    if (isMainnet) {
-      // call inside timeout to make sure modal is present in the DOM
-      setTimeout(() => addCustomWallet(okxWallet), 1);
-      setTimeout(() => addCustomWallet(bitgetWallet), 1);
-    }
-  };
 
   if (account) {
     onConnect(account);
@@ -124,7 +124,7 @@ export const WalletButton = () => {
   }
 
   return (
-    <button className={styles.secondary} onClick={handleConnect}>
+    <button className={styles.secondary} onClick={openWalletConnectDialog}>
       Connect
     </button>
   );

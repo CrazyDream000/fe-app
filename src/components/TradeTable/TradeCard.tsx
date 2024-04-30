@@ -20,6 +20,7 @@ import style from "./card.module.css";
 import buttonStyles from "../../style/button.module.css";
 import { math64toDecimal } from "../../utils/units";
 import { PairKey } from "../../classes/Pair";
+import { openWalletConnectDialog } from "../ConnectWallet/Button";
 
 type TemplateProps = {
   option: OptionWithPremia;
@@ -190,15 +191,32 @@ export const TradeCard = ({ option }: TradeCardProps) => {
     ).catch(() => updateTradeState({ failed: true, processing: false }));
   };
 
-  const BuyButton = () => (
-    <button
-      className={buttonStyles.green}
-      disabled={tradeState.processing || !account || loading}
-      onClick={handleBuy}
-    >
-      {tradeState.processing ? "Processing..." : option.isLong ? "Buy" : "Sell"}
-    </button>
-  );
+  const BuyButton = () => {
+    if (!account) {
+      return (
+        <button
+          className={buttonStyles.green}
+          onClick={openWalletConnectDialog}
+        >
+          Connect Wallet
+        </button>
+      );
+    }
+
+    return (
+      <button
+        className={buttonStyles.green}
+        disabled={tradeState.processing || !account || loading}
+        onClick={handleBuy}
+      >
+        {tradeState.processing
+          ? "Processing..."
+          : option.isLong
+          ? "Buy"
+          : "Sell"}
+      </button>
+    );
+  };
 
   return (
     <TradeCardTemplate
