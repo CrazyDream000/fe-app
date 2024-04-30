@@ -20,6 +20,7 @@ import { debug } from "../../utils/debugger";
 import { TokenKey } from "../../classes/Token";
 import { StarknetIcon } from "../Icons";
 import { DefiSpringStakingMessage, DefiSpringTooltip } from "../DefiSpring";
+import { openWalletConnectDialog } from "../ConnectWallet/Button";
 
 import stakeItemStyles from "./stakeitem.module.css";
 
@@ -163,17 +164,22 @@ export const StakeCapitalItem = ({ account, pool, defispringApy }: Props) => {
           />
         </TableCell>
         <TableCell sx={{ display: "flex", alignItems: "center" }} align="right">
-          <button
-            className={buttonStyles.secondary}
-            disabled={loading || !account || txPending}
-            onClick={handleStakeClick}
-          >
-            {loading || txPending
-              ? "Processing..."
-              : account
-              ? "Stake"
-              : "Connect wallet"}
-          </button>
+          {account ? (
+            <button
+              className={buttonStyles.secondary}
+              disabled={loading || txPending}
+              onClick={handleStakeClick}
+            >
+              {loading || txPending ? "Processing..." : "Stake"}
+            </button>
+          ) : (
+            <button
+              className={buttonStyles.secondary}
+              onClick={openWalletConnectDialog}
+            >
+              Connect wallet
+            </button>
+          )}
         </TableCell>
       </TableRow>
       {showLockInfo && <CapitalItem pool={pool} />}

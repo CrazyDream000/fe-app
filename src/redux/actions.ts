@@ -52,7 +52,8 @@ const openDialogWithContent = (content: DialogContentElem) =>
 export const openNetworkMismatchDialog = () =>
   openDialogWithContent(DialogContentElem.NetworkMismatch);
 
-export const openWalletConnectDialog = () =>
+// deprecated
+export const _openWalletConnectDialog = () =>
   openDialogWithContent(DialogContentElem.Wallet);
 
 export const openSlippageDialog = () =>
