@@ -1,0 +1,17 @@
+.deficontainer {
+  display: inline-flex;
+  flex-flow: column;
+  gap: 15px;
+  padding: 15px 20px;
+  border: 3px solid var(--GOLD);
+  border-radius: 25px;
+}
+
+.deficontainer>p {
+  margin: 0;
+}
+
+.deficontainer>button {
+  width: 205px;
+  margin: auto;
+}

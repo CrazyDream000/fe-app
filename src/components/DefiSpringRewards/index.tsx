@@ -1,132 +1,88 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAccount } from "../../hooks/useAccount";
-import {
-  defiSpringClaim,
-  getDefiSpringClaimed,
-} from "../../calls/getDefiSpringClaim";
-import { QueryKeys } from "../../queries/keys";
-import { useQuery } from "react-query";
+import { defiSpringClaim } from "../../calls/getDefiSpringClaim";
 import { AccountInterface } from "starknet";
-import { fetchUserAllocation } from "./fetch";
+import { DefiSpringData, DefiSpringStatus, getDefiSpringData } from "./fetch";
 import { shortInteger } from "../../utils/computations";
+import { openWalletConnectDialog } from "../ConnectWallet/Button";
 
 import buttonStyles from "../../style/button.module.css";
+import styles from "./defi.module.css";
+import { Skeleton } from "@mui/material";
 
 export const RewardsWithAccount = ({
   account,
 }: {
   account: AccountInterface;
 }) => {
-  const BASE_BACKEND_URL =
-    "https://defi-spring-distribution-h5cslfrcca-ew.a.run.app/";
   const address = account.address;
 
-  // Data to be utilized for claiming tokens
-  interface ClaimCalldata {
-    // How much to claim. Should always claim the maximum amount
-    amount: string;
-    // Merkle proof for the claim
-    proof: string[];
+  const [status, setStatus] = useState<DefiSpringStatus>(
+    DefiSpringStatus.Initial
+  );
+  const [data, setData] = useState<DefiSpringData | undefined>();
+
+  useEffect(() => {
+    getDefiSpringData(address, setStatus, setData);
+  }, [address]);
+
+  console.log({ status, data });
+
+  if (
+    status === DefiSpringStatus.Initial ||
+    status === DefiSpringStatus.Fetching
+  ) {
+    return (
+      <div className={styles.deficontainer}>
+        <Skeleton
+          animation="wave"
+          variant="text"
+          sx={{ fontSize: "1.29rem", width: "340px" }}
+        />
+        <Skeleton
+          animation="wave"
+          variant="text"
+          sx={{ fontSize: "1.29rem" }}
+        />
+        <Skeleton
+          variant="rectangular"
+          width={205}
+          height={50}
+          sx={{ margin: "auto" }}
+        />
+      </div>
+    );
   }
 
-  const [allocationAmount, setAllocationAmount] = useState<BigInt>(BigInt(0));
-  const [receivedcalldata, setReceivedCalldata] = useState<ClaimCalldata>();
-  const [isClaimReady, setIsClaimReady] = useState<boolean>(false);
-  const [errors, setErrors] = useState<String>("");
+  if (status === DefiSpringStatus.Error || data === undefined) {
+    return <p>Something went wrong, please try again later</p>;
+  }
 
-  const { data: alreadyClaimed } = useQuery(
-    [QueryKeys.defiSpringClaimed, address],
-    getDefiSpringClaimed
-  );
+  const call = [data.amount, data.proof.length, ...data.proof];
 
-  useEffect(() => {
-    if (account) {
-      prepareClaim(account.address);
-    }
-  }, [account]);
+  const claim = async () => await defiSpringClaim(account, call);
 
-  useEffect(() => {
-    if (account) {
-      fetchUserAllocation(account).then((res) => setAllocationAmount(res));
-    }
-  }, [account]);
+  const { allocation, claimed } = data;
 
-  const calls = useMemo(() => {
-    if (!receivedcalldata) return [];
+  const claimedHumenReadable = shortInteger(claimed, 18);
+  const allocationHumenReadable = shortInteger(allocation, 18);
 
-    if (!receivedcalldata.amount) {
-      setErrors(receivedcalldata.toString());
-      return;
-    }
-
-    return [
-      receivedcalldata.amount,
-      receivedcalldata.proof.length,
-      ...receivedcalldata.proof,
-    ];
-  }, [receivedcalldata, account]);
-
-  // Retrieves calldata for the claim
-  const prepareClaim = async (usedAddress: String) => {
-    if (!usedAddress) {
-      console.error("No wallet connected");
-      return;
-    }
-
-    const response = await fetch(
-      BASE_BACKEND_URL + "get_calldata?address=" + usedAddress
-    );
-    const calldata: ClaimCalldata = await response.json();
-
-    setReceivedCalldata(calldata);
-
-    setIsClaimReady(true);
-  };
-
-  const claim = async () => {
-    if (!isClaimReady || !calls) {
-      console.error("Prepare the claim first");
-      return;
-    }
-    await defiSpringClaim(account, calls);
-  };
-
-  const claimed =
-    alreadyClaimed !== undefined && shortInteger(alreadyClaimed, 18);
-  const totalAllocation = shortInteger(allocationAmount.toString(), 18);
+  const isAllClaimed = allocation === claimed;
 
   return (
-    <div>
-      <div>
-        {typeof claimed === "number" && (
-          <div>Already claimed: STRK {claimed.toFixed(4)}</div>
-        )}
-        <div>
-          <p>Total allocated amount: STRK {totalAllocation.toFixed(4)}</p>
-        </div>
-        {errors && (
-          <div>
-            <p style={{ color: "red" }}>Errors: {errors}</p>
-          </div>
-        )}
-      </div>
-      {isClaimReady && claimed !== false && (
-        <div>
-          <div>
-            <p>Claimable: STRK {totalAllocation - claimed}</p>
-            <button
-              disabled={totalAllocation === claimed}
-              className={
-                totalAllocation === claimed
-                  ? buttonStyles.disabled
-                  : buttonStyles.secondary
-              }
-              onClick={claim}
-            >
-              Claim allocation
-            </button>
-          </div>
-        </div>
+    <div className={styles.deficontainer}>
+      <p>Total allocated amount: STRK {allocationHumenReadable.toFixed(4)}</p>
+      <p>Already claimed: STRK {claimedHumenReadable.toFixed(4)}</p>
+      {isAllClaimed ? (
+        allocation === 0n ? (
+          <p>Nothing to claim</p>
+        ) : (
+          <p>All claimed</p>
+        )
+      ) : (
+        <button className={buttonStyles.secondary} onClick={claim}>
+          Claim STRK {shortInteger(allocation - claimed, 18).toFixed(4)}
+        </button>
       )}
     </div>
   );
@@ -139,6 +95,12 @@ export const Rewards = () => {
     return (
       <div>
         <p>Connect wallet to access Starknet Rewards</p>
+        <button
+          className={buttonStyles.secondary}
+          onClick={openWalletConnectDialog}
+        >
+          Connect Wallet
+        </button>
       </div>
     );
   }
