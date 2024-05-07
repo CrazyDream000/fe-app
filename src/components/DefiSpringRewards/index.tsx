@@ -9,6 +9,7 @@ import { openWalletConnectDialog } from "../ConnectWallet/Button";
 import buttonStyles from "../../style/button.module.css";
 import styles from "./defi.module.css";
 import { Skeleton } from "@mui/material";
+import { addressElision } from "../../utils/utils";
 
 export const RewardsWithAccount = ({
   account,
@@ -26,30 +27,55 @@ export const RewardsWithAccount = ({
     getDefiSpringData(address, setStatus, setData);
   }, [address]);
 
-  console.log({ status, data });
-
   if (
     status === DefiSpringStatus.Initial ||
     status === DefiSpringStatus.Fetching
   ) {
     return (
-      <div className={styles.deficontainer}>
-        <Skeleton
-          animation="wave"
-          variant="text"
-          sx={{ fontSize: "1.29rem", width: "340px" }}
-        />
-        <Skeleton
-          animation="wave"
-          variant="text"
-          sx={{ fontSize: "1.29rem" }}
-        />
-        <Skeleton
-          variant="rectangular"
-          width={205}
-          height={50}
-          sx={{ margin: "auto" }}
-        />
+      <div className={styles.outer}>
+        <p>
+          <Skeleton
+            animation="wave"
+            variant="text"
+            sx={{ fontSize: "1.29rem", width: "140px" }}
+          />
+        </p>
+        <div className={styles.box}>
+          <div className={styles.deficontainer}>
+            <div>
+              <p>
+                <Skeleton
+                  animation="wave"
+                  variant="text"
+                  sx={{ fontSize: "1.29rem", width: "160px" }}
+                />
+              </p>
+              <p>
+                <Skeleton
+                  animation="wave"
+                  variant="text"
+                  sx={{ fontSize: "1.29rem", width: "50px" }}
+                />
+              </p>
+            </div>
+            <div>
+              <p>
+                <Skeleton
+                  animation="wave"
+                  variant="text"
+                  sx={{ fontSize: "1.29rem", width: "160px" }}
+                />
+              </p>
+              <p>
+                <Skeleton
+                  animation="wave"
+                  variant="text"
+                  sx={{ fontSize: "1.29rem", width: "50px" }}
+                />
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -64,26 +90,33 @@ export const RewardsWithAccount = ({
 
   const { allocation, claimed } = data;
 
-  const claimedHumenReadable = shortInteger(claimed, 18);
-  const allocationHumenReadable = shortInteger(allocation, 18);
+  const claimedHumanReadable = shortInteger(claimed, 18);
+  const claimableHumanReadable = shortInteger(allocation - claimed, 18);
 
   const isAllClaimed = allocation === claimed;
 
   return (
-    <div className={styles.deficontainer}>
-      <p>Total allocated amount: STRK {allocationHumenReadable.toFixed(4)}</p>
-      <p>Already claimed: STRK {claimedHumenReadable.toFixed(4)}</p>
-      {isAllClaimed ? (
-        allocation === 0n ? (
-          <p>Nothing to claim</p>
-        ) : (
-          <p>All claimed</p>
-        )
-      ) : (
-        <button className={buttonStyles.secondary} onClick={claim}>
-          Claim STRK {shortInteger(allocation - claimed, 18).toFixed(4)}
-        </button>
-      )}
+    <div className={styles.outer}>
+      <p>Ready to claim for {addressElision(account.address)}</p>
+      <div className={styles.box}>
+        <div className={styles.deficontainer}>
+          <div>
+            <p>Available to claim</p>
+            <p>{claimableHumanReadable.toFixed(4)}</p>
+          </div>
+          <div>
+            <p>Claimed</p>
+            <p>{claimedHumanReadable.toFixed(4)}</p>
+          </div>
+        </div>
+        {!isAllClaimed && (
+          <div className={styles.buttoncontainer}>
+            <button className={buttonStyles.secondary} onClick={claim}>
+              Claim {shortInteger(allocation - claimed, 18).toFixed(4)} STRK
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
