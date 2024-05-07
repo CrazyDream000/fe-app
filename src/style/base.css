@@ -2,6 +2,7 @@
 :root {
   --CONTENT-WIDTH: 1440px;
   --CONTENT-PADDING: 3em;
+  --GOLD: #fab000;
 }
 
 * {

@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { QueryKeys } from "../../queries/keys";
-import { UserPoints, fetchTopUserPoints, fetchUserPoints } from "./fetch";
+import { UserPoints, fetchTopUserPoints, fetchUserPointsQuery } from "./fetch";
 import { LoadingAnimation } from "../Loading/Loading";
 import tableStyles from "../../style/table.module.css";
 import {
@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import { addressElision } from "../../utils/utils";
 import { useAccount } from "../../hooks/useAccount";
-import { AccountInterface } from "starknet";
 import { ReactNode } from "react";
 
 export const ClickableUser = ({ address }: { address: string }) => (
@@ -64,9 +63,10 @@ const Item = ({ data, sx }: { data: UserPoints; sx?: any }) => {
   );
 };
 
-const UserItemWithAccount = ({ account }: { account: AccountInterface }) => {
-  const { isLoading, isError, data } = useQuery(QueryKeys.userPoints, () =>
-    fetchUserPoints(account.address)
+const UserItemWithAccount = ({ address }: { address: string }) => {
+  const { isLoading, isError, data } = useQuery(
+    [QueryKeys.userPoints, address],
+    fetchUserPointsQuery
   );
 
   if (isLoading || isError || !data) {
@@ -83,7 +83,7 @@ const UserItem = () => {
     return null;
   }
 
-  return <UserItemWithAccount account={account} />;
+  return <UserItemWithAccount address={account.address} />;
 };
 
 const Bold = ({ children }: { children: ReactNode }) => (
