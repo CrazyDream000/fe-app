@@ -44,7 +44,7 @@ const WithdrawParentWithAccount = ({ address, account }: Props) => {
       <TableHead>
         <TableRow>
           <TableCell>Pool</TableCell>
-          <TableCell>Amount staked</TableCell>
+          <TableCell>Value of stake</TableCell>
           <TableCell>Amount to unstake</TableCell>
           <TableCell align="right">
             {isFetching && <LoadingAnimation size={30} />}
