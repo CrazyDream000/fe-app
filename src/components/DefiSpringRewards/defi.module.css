@@ -20,7 +20,7 @@
 
 .buttoncontainer>button {
   width: 100%;
-  border: none;
+  border-top: none;
 }
 
 .box {
