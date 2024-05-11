@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 
 import { WalletButton } from "../ConnectWallet/Button";
 import { LinksMenu } from "../LinksMenu/LinksMenu";
-import { NetworkSwitch } from "../NetworkSwitch/NetworkSwitch";
 import { StarknetIcon } from "../Icons";
 
 import styles from "./header.module.css";
@@ -72,7 +71,6 @@ export const Header = () => (
       <NavLink to="/" className={styles.logo}>
         <img height="52px" src="/logo.png" alt="Carmine logo" />
       </NavLink>
-      <NetworkSwitch />
       {navLinks.map((navData, i) => navLink(navData, i))}
       <LinksMenu />
       <WalletButton />
