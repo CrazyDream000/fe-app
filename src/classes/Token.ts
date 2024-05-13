@@ -10,13 +10,10 @@ import {
 } from "../constants/amm";
 
 export enum TokenKey {
-  // coingecko API is used for fetching the prices
-  // the string value must always be "id" taken from
-  // https://api.coingecko.com/api/v3/coins/list
-  ETH = "ethereum",
-  USDC = "usd-coin",
-  BTC = "bridged-wrapped-bitcoin-stargate",
-  STRK = "starknet",
+  ETH = "eth",
+  USDC = "usdc",
+  BTC = "btc",
+  STRK = "strk",
 }
 
 const TOKENS: [TokenKey, string, number, string][] = [
