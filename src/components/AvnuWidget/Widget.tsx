@@ -1,10 +1,13 @@
-import { ChangeEvent, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { executeSwap, fetchQuotes, Quote } from "@avnu/avnu-sdk";
 import { formatUnits, parseUnits } from "ethers";
 import { useAccount } from "../../hooks/useAccount";
 import { openWalletConnectDialog } from "../ConnectWallet/Button";
 
 import styles from "./widget.module.css";
+import inputStyles from "../../style/input.module.css";
+
+const AVNU_BASE_URL = "https://starknet.api.avnu.fi";
 
 const AVNU_OPTIONS = { baseUrl: "https://starknet.api.avnu.fi" };
 const ethAddress =
@@ -14,32 +17,80 @@ const usdcAddress =
 
 export const Widget = () => {
   const account = useAccount();
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const [inputValue, setInputValue] = useState("");
+  const [debouncedValue, setDebouncedValue] = useState(inputValue);
   const [sellAmount, setSellAmount] = useState<string>();
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
 
-  const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
-    if (!account) return;
-    setErrorMessage("");
-    setQuotes([]);
-    setSellAmount(event.target.value);
-    setLoading(true);
-    const params = {
-      sellTokenAddress: ethAddress,
-      buyTokenAddress: usdcAddress,
-      sellAmount: parseUnits(event.target.value, 18),
-      takerAddress: account.address,
-      size: 1,
-    };
-    fetchQuotes(params, AVNU_OPTIONS)
-      .then((quotes) => {
-        setLoading(false);
-        setQuotes(quotes);
-      })
-      .catch(() => setLoading(false));
+  const handleInputChange = (value: string) => {
+    // Allow empty string, valid number, or a single decimal point followed by numbers
+    const numericValue =
+      value === "" || /^\d*\.?\d*$/.test(value) ? value : inputValue;
+    setInputValue(numericValue);
   };
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(inputValue);
+    }, 300);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [inputValue]);
+
+  useEffect(() => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    const fetchData = async () => {
+      if (!account) {
+        return;
+      }
+
+      const num = parseFloat(debouncedValue);
+
+      if (num === 0 || isNaN(num)) {
+        return;
+      }
+
+      abortControllerRef.current = new AbortController();
+      const abortSignal = abortControllerRef.current.signal;
+
+      setErrorMessage("");
+      setQuotes([]);
+      setSellAmount(debouncedValue);
+      setLoading(true);
+      const params = {
+        sellTokenAddress: ethAddress,
+        buyTokenAddress: usdcAddress,
+        sellAmount: parseUnits(debouncedValue, 18),
+        takerAddress: account.address,
+        size: 1,
+      };
+      fetchQuotes(params, { baseUrl: AVNU_BASE_URL, abortSignal })
+        .then((quotes) => {
+          setLoading(false);
+          setQuotes(quotes);
+        })
+        .catch(() => setLoading(false));
+    };
+
+    if (debouncedValue) {
+      fetchData();
+    }
+
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, [debouncedValue]);
 
   const handleSwap = async () => {
     if (!account || !sellAmount || !quotes || !quotes[0]) return;
@@ -68,9 +119,10 @@ export const Widget = () => {
         <h3>Sell Token</h3>
         <h4>ETH</h4>
         <input
-          style={{ background: "black" }}
-          onChange={handleChangeInput}
-          disabled={loading}
+          className={inputStyles.input}
+          type="text"
+          value={inputValue}
+          onChange={(e) => handleInputChange(e.target.value)}
         />
       </div>
       <div>&darr;</div>
@@ -78,7 +130,7 @@ export const Widget = () => {
         <h3>Buy Token</h3>
         <h4>USDC</h4>
         <input
-          style={{ background: "black" }}
+          className={inputStyles.input}
           readOnly
           type="text"
           id="buy-amount"
