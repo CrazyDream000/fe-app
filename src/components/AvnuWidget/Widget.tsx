@@ -3,11 +3,13 @@ import { executeSwap, fetchQuotes, Quote } from "@avnu/avnu-sdk";
 import { formatUnits, parseUnits } from "ethers";
 import { useAccount } from "../../hooks/useAccount";
 import { openWalletConnectDialog } from "../ConnectWallet/Button";
+import { TokenDisplay, TokenSelect } from "./TokenSelect";
+import { EthToken, Token, UsdcToken } from "../../classes/Token";
+import { LoadingAnimation } from "../Loading/Loading";
 
 import styles from "./widget.module.css";
 import inputStyles from "../../style/input.module.css";
-import { TokenDisplay, TokenSelect } from "./TokenSelect";
-import { EthToken, Token, UsdcToken } from "../../classes/Token";
+import buttonStyles from "../../style/button.module.css";
 
 const AVNU_BASE_URL = "https://starknet.api.avnu.fi";
 
@@ -70,6 +72,7 @@ export const Widget = () => {
       const num = parseFloat(debouncedValue);
 
       if (num === 0 || isNaN(num)) {
+        setQuotes([]);
         return;
       }
 
@@ -137,9 +140,7 @@ export const Widget = () => {
         />
       )}
       <div className={styles.tokeninput}>
-        <div
-          style={{ display: "flex", flexFlow: "column", alignItems: "center" }}
-        >
+        <div className={styles.moneywrapper}>
           <input
             className={inputStyles.input}
             placeholder="0"
@@ -148,7 +149,9 @@ export const Widget = () => {
             onChange={(e) => handleInputChange(e.target.value)}
           />
           <span>
-            {quotes && quotes[0] && `$${quotes[0].buyAmountInUsd.toFixed(2)}`}
+            {quotes && quotes[0]
+              ? `~$${quotes[0].buyAmountInUsd.toFixed(2)}`
+              : "~$ --"}
           </span>
         </div>
 
@@ -161,21 +164,23 @@ export const Widget = () => {
           <DownAngled />
         </div>
       </div>
-      <div
-        style={{ cursor: "pointer", textAlign: "center", padding: "20px" }}
-        onClick={handleArrowClick}
-      >
-        &darr;
+      <div>
+        <div
+          style={{
+            cursor: "pointer",
+            textAlign: "center",
+            padding: "20px",
+            width: "50px",
+            margin: "auto",
+          }}
+          onClick={handleArrowClick}
+        >
+          &darr;
+        </div>
       </div>
       <div>
         <div className={styles.tokeninput}>
-          <div
-            style={{
-              display: "flex",
-              flexFlow: "column",
-              alignItems: "center",
-            }}
-          >
+          <div className={styles.moneywrapper}>
             <input
               className={inputStyles.input}
               placeholder="0"
@@ -202,22 +207,22 @@ export const Widget = () => {
           </div>
         </div>
       </div>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        quotes &&
-        quotes[0] && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              padding: "20px",
-            }}
-          >
-            <button onClick={handleSwap}>Swap</button>
-          </div>
-        )
-      )}
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "20px",
+        }}
+      >
+        {loading ? (
+          <button disabled className={buttonStyles.disabled}>
+            <LoadingAnimation />
+          </button>
+        ) : (
+          quotes && quotes[0] && <button onClick={handleSwap}>Swap</button>
+        )}
+      </div>
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       {successMessage && <p style={{ color: "green" }}>Success</p>}
     </div>
