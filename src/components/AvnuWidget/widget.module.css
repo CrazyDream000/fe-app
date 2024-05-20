@@ -40,6 +40,10 @@
   height: auto;
   border: none;
   outline: none;
+  text-align: left;
+  padding: 0;
+  width: auto;
+  max-width: max-content;
 }
 
 .tokeninput input:focus {
@@ -55,4 +59,12 @@
 .tokeninput span {
   font-size: .9rem;
   color: #ccc;
+}
+
+.moneywrapper {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+  flex-grow: 1;
+  padding-left: 10px;
 }
