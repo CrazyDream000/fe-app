@@ -9,6 +9,10 @@
   gap: 30px;
 }
 
+.graphwidgetwrapper>div {
+  min-width: 40%;
+}
+
 @media (max-width: 1100px) {
   .graphwidgetwrapper {
     flex-flow: column;

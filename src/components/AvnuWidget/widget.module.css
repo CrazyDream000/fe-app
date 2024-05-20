@@ -1,4 +1,59 @@
 .container {
-  width: 500px;
   height: 500px;
+  position: relative;
+}
+
+.modalcontainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: black;
+  border: solid 2px white;
+  border-radius: 20px;
+  z-index: 1;
+  padding: 0 40px 20px;
+  margin: 5px;
+}
+
+.row {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.tokendisplay {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 20px;
+}
+
+.tokeninput {
+  padding-left: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: solid 2px white;
+  border-radius: 20px;
+}
+
+.tokeninput input {
+  height: auto;
+  border: none;
+  outline: none;
+}
+
+.tokeninput input:focus {
+  border: none;
+  outline: none;
+}
+
+.tokeninput input:focus-visible {
+  border: none;
+  outline: none;
+}
+
+.tokeninput span {
+  font-size: .9rem;
+  color: #ccc;
 }
