@@ -194,7 +194,9 @@ export const Widget = () => {
               }
             />
             <span>
-              {quotes && quotes[0] && `$${quotes[0].buyAmountInUsd.toFixed(2)}`}
+              {quotes && quotes[0]
+                ? `~$${quotes[0].buyAmountInUsd.toFixed(2)}`
+                : "~$ --"}
             </span>
           </div>
           <div
