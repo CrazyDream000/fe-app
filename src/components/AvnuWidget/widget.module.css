@@ -42,8 +42,8 @@
   outline: none;
   text-align: left;
   padding: 0;
-  width: auto;
-  max-width: max-content;
+  width: 100%;
+  max-width: 100%;
 }
 
 .tokeninput input:focus {
@@ -66,5 +66,5 @@
   flex-flow: column;
   align-items: flex-start;
   flex-grow: 1;
-  padding-left: 10px;
+  padding: 0 10px;
 }

@@ -10,6 +10,15 @@ import { LoadingAnimation } from "../Loading/Loading";
 import styles from "./widget.module.css";
 import inputStyles from "../../style/input.module.css";
 import buttonStyles from "../../style/button.module.css";
+import {
+  addTx,
+  markTxAsDone,
+  markTxAsFailed,
+  showToast,
+} from "../../redux/actions";
+import { TransactionAction } from "../../redux/reducers/transactions";
+import { afterTransaction } from "../../utils/blockchain";
+import { ToastType } from "../../redux/reducers/ui";
 
 const AVNU_BASE_URL = "https://starknet.api.avnu.fi";
 
@@ -116,10 +125,23 @@ export const Widget = () => {
     setSuccessMessage("");
     setLoading(true);
     executeSwap(account, quotes[0], {}, AVNU_OPTIONS)
-      .then(() => {
+      .then((resp) => {
         setSuccessMessage("success");
         setLoading(false);
         setQuotes([]);
+        const hash = resp.transactionHash;
+        addTx(hash, `swap-${hash}`, TransactionAction.Swap);
+        afterTransaction(
+          hash,
+          () => {
+            markTxAsDone(hash);
+            showToast("Swap successfull", ToastType.Success);
+          },
+          () => {
+            markTxAsFailed(hash);
+            showToast("Swap failed", ToastType.Error);
+          }
+        );
       })
       .catch((error: Error) => {
         setLoading(false);
