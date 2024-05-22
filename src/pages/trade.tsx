@@ -49,7 +49,7 @@ const TradePage = () => {
           </div>
         )}
       </div>
-      <TradeTable />
+      {variant === Variant.Options && <TradeTable />}
     </Layout>
   );
 };
