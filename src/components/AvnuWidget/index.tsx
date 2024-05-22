@@ -1,9 +1,3 @@
 import { Widget } from "./Widget";
 
-export const AvnuWidget = () => {
-  return (
-    <div>
-      <Widget />
-    </div>
-  );
-};
+export const AvnuWidget = () => <Widget />;

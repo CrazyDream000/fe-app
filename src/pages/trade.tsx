@@ -43,11 +43,7 @@ const TradePage = () => {
         <div className={style.graphcontainer}>
           <AlternativeTradingView />
         </div>
-        {variant === Variant.Swap && (
-          <div>
-            <AvnuWidget />
-          </div>
-        )}
+        {variant === Variant.Swap && <AvnuWidget />}
       </div>
       {variant === Variant.Options && <TradeTable />}
     </Layout>

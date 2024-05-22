@@ -2,6 +2,10 @@
   position: relative;
 }
 
+.container button {
+  width: 100%;
+}
+
 .modalcontainer {
   position: absolute;
   top: 0;
@@ -67,4 +71,30 @@
   align-items: flex-start;
   flex-grow: 1;
   padding: 0 10px;
+}
+
+.quotebox {
+  display: flex;
+  flex-flow: column;
+  border: solid 2px var(--LIGHT-GREY);
+  padding: 10px;
+  margin-top: 25px;
+  margin-bottom: 15px;
+}
+
+.quotebox div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.quotebox span {
+  color: var(--LIGHT-GREY);
+  font-size: 1rem;
+}
+
+
+@media (max-width: 400px) {
+  .quotebox span {
+    font-size: .85rem;
+  }
 }
