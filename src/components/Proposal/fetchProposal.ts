@@ -11,4 +11,9 @@ export const activeProposal: Proposal[] = [
     discordLink:
       "https://discord.com/channels/969228248552706078/1240320625176739963/1240320626774773810",
   },
+  {
+    id: 66,
+    discordLink:
+      "https://discord.com/channels/969228248552706078/1242752208345366598/1242752209788211252",
+  }
 ];
