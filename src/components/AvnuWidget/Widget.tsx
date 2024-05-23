@@ -23,8 +23,16 @@ import buttonStyles from "../../style/button.module.css";
 import { Skeleton } from "@mui/material";
 
 const AVNU_BASE_URL = "https://starknet.api.avnu.fi";
+const CARMINE_BENEFICIARY_ADDRESS =
+  "0x075ba47add11bab612a0e7f4e6780e11b37b21721705e06274a97a5d91ca904a";
 
 const AVNU_OPTIONS = { baseUrl: AVNU_BASE_URL };
+const AVNU_BASE_PARAMS = {
+  size: 1,
+  integratorFees: 0n,
+  integratorFeeRecipient: CARMINE_BENEFICIARY_ADDRESS,
+  integratorName: "Carmine Options AMM",
+};
 
 const DownAngled = () => (
   <div style={{ transform: "rotate(90deg)", paddingLeft: "12px" }}>&rang;</div>
@@ -153,12 +161,13 @@ export const Widget = () => {
       setSellAmount(debouncedValue);
       setLoading(true);
       const params = {
+        ...AVNU_BASE_PARAMS,
         sellTokenAddress: sellToken.address,
         buyTokenAddress: buyToken.address,
         sellAmount: parseUnits(debouncedValue, sellToken.decimals),
         takerAddress: account.address,
-        size: 1,
       };
+      console.log(params);
       fetchQuotes(params, { baseUrl: AVNU_BASE_URL, abortSignal })
         .then((quotes) => {
           setLoading(false);
@@ -204,6 +213,7 @@ export const Widget = () => {
         );
       })
       .catch((error: Error) => {
+        console.log(error);
         setLoading(false);
         setErrorMessage(error.message);
       });

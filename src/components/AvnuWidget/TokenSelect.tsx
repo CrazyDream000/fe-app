@@ -1,4 +1,6 @@
 import { Token, TokenKey } from "../../classes/Token";
+import { Close } from "@mui/icons-material";
+
 import styles from "./widget.module.css";
 
 export type SelectableToken = {
@@ -30,7 +32,12 @@ export const TokenSelect = ({ close, setSelection }: Props) => {
   const tokenKeys = [TokenKey.ETH, TokenKey.STRK, TokenKey.USDC, TokenKey.BTC];
   return (
     <div className={styles.modalcontainer}>
-      <h3>Select a token</h3>
+      <div className={styles.modalheader}>
+        <h3>Select a token</h3>
+        <div onClick={close}>
+          <Close />
+        </div>
+      </div>
       {tokenKeys.map((tokenKey) => {
         const token = Token.byKey(tokenKey);
         return (
