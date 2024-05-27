@@ -250,7 +250,7 @@ export const Widget = () => {
         />
       )}
       <div className={styles.modalheader}>
-        <h3>Swap</h3>
+        <h3 style={{ marginTop: 0 }}>Swap</h3>
         <div onClick={() => setslippageOpen(true)}>
           <Settings />
         </div>
