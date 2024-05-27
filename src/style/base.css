@@ -54,6 +54,12 @@ button {
   touch-action: manipulation;
 }
 
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 @media (max-width: 720px) {
   :root {
     --CONTENT-PADDING: 1em;

@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { executeSwap, fetchQuotes, Quote } from "@avnu/avnu-sdk";
 import { formatUnits, parseUnits } from "ethers";
+import { Skeleton } from "@mui/material";
+import { Settings } from "@mui/icons-material";
+
 import { useAccount } from "../../hooks/useAccount";
 import { openWalletConnectDialog } from "../ConnectWallet/Button";
 import { TokenDisplay, TokenSelect } from "./TokenSelect";
@@ -16,11 +19,11 @@ import { TransactionAction } from "../../redux/reducers/transactions";
 import { afterTransaction } from "../../utils/blockchain";
 import { ToastType } from "../../redux/reducers/ui";
 import { maxDecimals } from "../../utils/utils";
+import { SlippageChange } from "./Slippage";
 
 import styles from "./widget.module.css";
 import inputStyles from "../../style/input.module.css";
 import buttonStyles from "../../style/button.module.css";
-import { Skeleton } from "@mui/material";
 
 const AVNU_BASE_URL = "https://starknet.api.avnu.fi";
 const CARMINE_BENEFICIARY_ADDRESS =
@@ -42,11 +45,13 @@ const QuoteBox = ({
   quote,
   buyToken,
   sellToken,
+  slippage,
   refresh,
 }: {
   quote: Quote;
   buyToken: Token;
   sellToken: Token;
+  slippage: number;
   refresh: () => void;
 }) => (
   <div className={styles.quotebox}>
@@ -90,6 +95,10 @@ const QuoteBox = ({
         ${maxDecimals(quote.avnuFeesInUsd + quote.integratorFeesInUsd, 2)}
       </span>
     </div>
+    <div>
+      <span>Slippage</span>
+      <span>{slippage * 100}%</span>
+    </div>
   </div>
 );
 
@@ -108,6 +117,8 @@ export const Widget = () => {
   >(undefined);
   const [sellToken, setSellToken] = useState<Token>(EthToken);
   const [buyToken, setBuyToken] = useState<Token>(UsdcToken);
+  const [slippage, setSlippage] = useState<number>(0.005); // default slippage .5%
+  const [slippageOpen, setslippageOpen] = useState<boolean>(false);
   const [refreshCounter, setRefresh] = useState(0);
 
   const refresh = () => setRefresh(refreshCounter + 1);
@@ -193,7 +204,7 @@ export const Widget = () => {
     setErrorMessage("");
     setSuccessMessage("");
     setLoading(true);
-    executeSwap(account, quotes[0], {}, AVNU_OPTIONS)
+    executeSwap(account, quotes[0], { slippage }, AVNU_OPTIONS)
       .then((resp) => {
         setSuccessMessage("success");
         setLoading(false);
@@ -231,6 +242,19 @@ export const Widget = () => {
           setSelection={tokenSelectOpen === "sell" ? setSellToken : setBuyToken}
         />
       )}
+      {slippageOpen && (
+        <SlippageChange
+          close={() => setslippageOpen(false)}
+          setSlippage={setSlippage}
+          currentSlippage={slippage}
+        />
+      )}
+      <div className={styles.modalheader}>
+        <h3>Swap</h3>
+        <div onClick={() => setslippageOpen(true)}>
+          <Settings />
+        </div>
+      </div>
       <div className={styles.tokeninput}>
         <div className={styles.moneywrapper}>
           <input
@@ -306,6 +330,7 @@ export const Widget = () => {
           quote={quotes[0]}
           buyToken={buyToken}
           sellToken={sellToken}
+          slippage={slippage}
           refresh={refresh}
         />
       ) : (

@@ -105,6 +105,35 @@
   font-size: 1rem;
 }
 
+.slippagecontainer {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.slippageinput {
+  border: 1px solid white;
+  display: inline-block;
+}
+
+.slippageinput>span {
+  margin-right: 1rem;
+}
+
+.slippagelist {
+  display: flex;
+  flex-flow: row;
+}
+
+.slippagelist>div {
+  cursor: pointer;
+  padding: 0 10px;
+}
+
+.active {
+  color: var(--GOLD);
+}
 
 @media (max-width: 400px) {
   .quotebox span {
