@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { executeSwap, fetchQuotes, Quote } from "@avnu/avnu-sdk";
 import { formatUnits, parseUnits } from "ethers";
-import { Skeleton } from "@mui/material";
+import { Skeleton, Tooltip } from "@mui/material";
 import { Settings, WarningAmber } from "@mui/icons-material";
 
 import { useAccount } from "../../hooks/useAccount";
@@ -127,10 +127,12 @@ const QuoteBox = ({
       </div>
       {priceImpact > 1 && (
         <div>
-          <div className={styles.priceimpact}>
-            <WarningAmber style={{ width: "24px", fill: "#E23D28" }} />
-            <span>Price impact is very high!</span>
-          </div>
+          <Tooltip title="Executing this trade will significantly affect the token price, leading to higher costs and fewer tokens received. Consider reducing the trade size.">
+            <div className={styles.priceimpact}>
+              <WarningAmber style={{ width: "24px", fill: "#E23D28" }} />
+              <span>Price impact is very high!</span>
+            </div>
+          </Tooltip>
         </div>
       )}
     </div>
