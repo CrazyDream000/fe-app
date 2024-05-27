@@ -46,12 +46,14 @@ const QuoteBox = ({
   buyToken,
   sellToken,
   slippage,
+  setSlippageOpen,
   refresh,
 }: {
   quote: Quote;
   buyToken: Token;
   sellToken: Token;
   slippage: number;
+  setSlippageOpen: () => void;
   refresh: () => void;
 }) => (
   <div className={styles.quotebox}>
@@ -97,7 +99,23 @@ const QuoteBox = ({
     </div>
     <div>
       <span>Slippage</span>
-      <span>{slippage * 100}%</span>
+      <span>
+        <span style={{ cursor: "pointer" }} onClick={setSlippageOpen}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="13"
+            height="13"
+            viewBox="0 0 14 12"
+            fill="none"
+          >
+            <path
+              d="M10.4328 0.914551L11.2797 1.76104C11.817 2.29814 11.817 3.16826 11.2797 3.70537L10.2394 4.74521L7.4453 1.95439L8.48556 0.914551C9.02289 0.377441 9.89336 0.377441 10.4307 0.914551H10.4328ZM1.94952 7.4501L6.95956 2.43994L9.75365 5.23291L4.74147 10.2409C4.51794 10.4644 4.24068 10.6276 3.93763 10.7179L1.35202 11.4784C1.17147 11.5321 0.975888 11.4827 0.842631 11.3474C0.709374 11.212 0.65779 11.0208 0.711523 10.8382L1.47238 8.25361C1.56265 7.95068 1.726 7.67354 1.94952 7.4501ZM6.02031 10.4687H12.5542C12.8401 10.4687 13.07 10.6985 13.07 10.9843C13.07 11.27 12.8401 11.4999 12.5542 11.4999H6.02031C5.73445 11.4999 5.50447 11.27 5.50447 10.9843C5.50447 10.6985 5.73445 10.4687 6.02031 10.4687Z"
+              fill="#888"
+            ></path>
+          </svg>
+        </span>{" "}
+        {slippage * 100}%
+      </span>
     </div>
   </div>
 );
@@ -331,6 +349,7 @@ export const Widget = () => {
           buyToken={buyToken}
           sellToken={sellToken}
           slippage={slippage}
+          setSlippageOpen={() => setslippageOpen(true)}
           refresh={refresh}
         />
       ) : (
