@@ -60,13 +60,14 @@ export const SlippageChange = ({
           <span>%</span>
         </div>
         <div className={styles.slippagelist}>
-          {slippages.map((slip) => (
+          {slippages.map((slip, i) => (
             <div
               onClick={() => {
                 setSlippage(slip);
                 setSlippageText(slipToText(slip));
               }}
               className={slip === currentSlippage ? styles.active : ""}
+              key={i}
             >
               {slip * 100}%
             </div>

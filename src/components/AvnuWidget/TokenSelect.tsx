@@ -38,7 +38,7 @@ export const TokenSelect = ({ close, setSelection }: Props) => {
           <Close />
         </div>
       </div>
-      {tokenKeys.map((tokenKey) => {
+      {tokenKeys.map((tokenKey, i) => {
         const token = Token.byKey(tokenKey);
         return (
           <div
@@ -47,6 +47,7 @@ export const TokenSelect = ({ close, setSelection }: Props) => {
               setSelection(token);
               close();
             }}
+            key={i}
           >
             <TokenDisplay token={token} />
           </div>
