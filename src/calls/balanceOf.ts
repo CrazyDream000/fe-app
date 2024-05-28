@@ -12,7 +12,7 @@ import { TokenKey } from "../classes/Token";
 const CARM_TOKEN_ADDRESS =
   "0x3c0286e9e428a130ae7fbbe911b794e8a829c367dd788e7cfe3efb0367548fa";
 
-const balanceFromTokenAddress = async (
+export const balanceFromTokenAddress = async (
   account: AccountInterface,
   tokenAddress: string
 ): Promise<bigint> => {

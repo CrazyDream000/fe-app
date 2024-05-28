@@ -24,6 +24,8 @@ import { SlippageChange } from "./Slippage";
 import styles from "./widget.module.css";
 import inputStyles from "../../style/input.module.css";
 import buttonStyles from "../../style/button.module.css";
+import { balanceFromTokenAddress } from "../../calls/balanceOf";
+import { shortInteger } from "../../utils/computations";
 
 const AVNU_BASE_URL = "https://starknet.api.avnu.fi";
 const CARMINE_BENEFICIARY_ADDRESS =
@@ -157,6 +159,13 @@ export const Widget = () => {
   const [slippage, setSlippage] = useState<number>(0.005); // default slippage .5%
   const [slippageOpen, setslippageOpen] = useState<boolean>(false);
   const [refreshCounter, setRefresh] = useState(0);
+  const [sellTokenBalance, setSellTokenBalance] = useState<bigint | undefined>(
+    undefined
+  );
+  const [buyTokenBalance, setBuyTokenBalance] = useState<bigint | undefined>(
+    undefined
+  );
+  const [notEnough, setNotEnough] = useState(false);
 
   const refresh = () => setRefresh(refreshCounter + 1);
 
@@ -176,12 +185,41 @@ export const Widget = () => {
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedValue(inputValue);
+      const floatInput = parseFloat(inputValue);
+      if (floatInput && sellTokenBalance !== undefined) {
+        const floatSellBalance = shortInteger(
+          sellTokenBalance,
+          sellToken.decimals
+        );
+
+        const isNotEnough = floatSellBalance < floatInput;
+
+        setNotEnough(isNotEnough);
+      }
     }, 300);
 
     return () => {
       clearTimeout(handler);
     };
-  }, [inputValue]);
+  }, [inputValue, sellToken, sellTokenBalance]);
+
+  useEffect(() => {
+    setBuyTokenBalance(undefined);
+    if (account) {
+      balanceFromTokenAddress(account, buyToken.address).then(
+        setBuyTokenBalance
+      );
+    }
+  }, [buyToken, account]);
+
+  useEffect(() => {
+    setSellTokenBalance(undefined);
+    if (account) {
+      balanceFromTokenAddress(account, sellToken.address).then(
+        setSellTokenBalance
+      );
+    }
+  }, [sellToken, account]);
 
   useEffect(() => {
     if (abortControllerRef.current) {
@@ -295,30 +333,62 @@ export const Widget = () => {
           <Settings />
         </div>
       </div>
-      <div className={styles.tokeninput}>
-        <div className={styles.moneywrapper}>
-          <input
-            className={inputStyles.input}
-            placeholder="0"
-            type="text"
-            value={inputValue}
-            onChange={(e) => handleInputChange(e.target.value)}
-          />
-          <span>
-            {quotes && quotes[0]
-              ? `~$${quotes[0].sellAmountInUsd.toFixed(2)}`
-              : "~$ --"}
-          </span>
+      <div>
+        {sellTokenBalance === undefined ? (
+          <div className={styles.balancecontainer}>
+            <Skeleton />
+          </div>
+        ) : (
+          <div className={styles.balancecontainer}>
+            <span>
+              Max available to swap{" "}
+              {shortInteger(sellTokenBalance, sellToken.decimals).toFixed(4)}{" "}
+              {sellToken.symbol}
+            </span>
+            <span
+              onClick={() =>
+                setInputValue(
+                  shortInteger(
+                    sellTokenBalance - sellTokenBalance / 100000000n, // for STRK tx fails with not enough balance, make it tiny smaller than actual balance
+                    sellToken.decimals
+                  ).toString()
+                )
+              }
+              className={styles.maxbalance}
+            >
+              Max
+            </span>
+          </div>
+        )}
+        <div className={styles.tokeninput}>
+          <div className={styles.moneywrapper}>
+            <input
+              className={inputStyles.input}
+              placeholder="0"
+              type="text"
+              value={inputValue}
+              onChange={(e) => handleInputChange(e.target.value)}
+            />
+            <span>
+              {quotes && quotes[0]
+                ? `~$${quotes[0].sellAmountInUsd.toFixed(2)}`
+                : "~$ --"}
+            </span>
+          </div>
+          <div
+            style={{ display: "flex" }}
+            className={styles.row}
+            onClick={() => setTokenSelectOpen("sell")}
+          >
+            <TokenDisplay token={sellToken} />
+            <DownAngled />
+          </div>
         </div>
-
-        <div
-          style={{ display: "flex" }}
-          className={styles.row}
-          onClick={() => setTokenSelectOpen("sell")}
-        >
-          <TokenDisplay token={sellToken} />
-          <DownAngled />
-        </div>
+        {notEnough && (
+          <div className={styles.insufficient}>
+            <span>Insufficient balance!</span>
+          </div>
+        )}
       </div>
       <div>
         <div
@@ -335,6 +405,19 @@ export const Widget = () => {
         </div>
       </div>
       <div>
+        {buyTokenBalance === undefined ? (
+          <div className={styles.balancecontainer}>
+            <Skeleton />
+          </div>
+        ) : (
+          <div className={styles.balancecontainer}>
+            <span>
+              Balance{" "}
+              {shortInteger(buyTokenBalance, buyToken.decimals).toFixed(4)}{" "}
+              {buyToken.symbol}
+            </span>{" "}
+          </div>
+        )}
         <div className={styles.tokeninput}>
           <div className={styles.moneywrapper}>
             <input
@@ -386,7 +469,16 @@ export const Widget = () => {
           <LoadingAnimation />
         </button>
       ) : (
-        quotes && quotes[0] && <button onClick={handleSwap}>Swap</button>
+        quotes &&
+        quotes[0] && (
+          <button
+            disabled={notEnough}
+            className={notEnough ? buttonStyles.disabled : ""}
+            onClick={handleSwap}
+          >
+            Swap
+          </button>
+        )
       )}
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       {successMessage && <p style={{ color: "green" }}>Success</p>}
