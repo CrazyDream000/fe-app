@@ -360,7 +360,13 @@ export const Widget = () => {
             </span>
           </div>
         )}
-        <div className={styles.tokeninput}>
+        <div
+          className={
+            notEnough
+              ? `${styles.tokeninput} ${styles.redborder}`
+              : styles.tokeninput
+          }
+        >
           <div className={styles.moneywrapper}>
             <input
               className={inputStyles.input}

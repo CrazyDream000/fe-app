@@ -82,6 +82,10 @@
   font-size: .9rem;
 }
 
+.redborder {
+  border-color: #E23D28 !important;
+}
+
 .tokeninput {
   padding-left: 10px;
   display: flex;
