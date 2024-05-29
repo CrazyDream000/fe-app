@@ -2,18 +2,8 @@ import { Proposal } from "../../types/proposal";
 
 export const activeProposal: Proposal[] = [
   {
-    id: 64,
+    id: 67,
     discordLink:
-      "https://discord.com/channels/969228248552706078/1240218807973183598/1240218809709760532",
+      "https://discord.com/channels/969228248552706078/1245285012312428554/1245285013541486613",
   },
-  {
-    id: 65,
-    discordLink:
-      "https://discord.com/channels/969228248552706078/1240320625176739963/1240320626774773810",
-  },
-  {
-    id: 66,
-    discordLink:
-      "https://discord.com/channels/969228248552706078/1242752208345366598/1242752209788211252",
-  }
 ];
