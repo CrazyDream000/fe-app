@@ -29,7 +29,6 @@ export const TokenDisplay = ({ token }: { token: Token }) => {
 };
 
 export const TokenSelect = ({ close, setSelection }: Props) => {
-  const tokenKeys = [TokenKey.ETH, TokenKey.STRK, TokenKey.USDC, TokenKey.BTC];
   return (
     <div className={styles.modalcontainer}>
       <div className={styles.modalheader}>
@@ -38,7 +37,7 @@ export const TokenSelect = ({ close, setSelection }: Props) => {
           <Close />
         </div>
       </div>
-      {tokenKeys.map((tokenKey, i) => {
+      {Object.values(TokenKey).map((tokenKey, i) => {
         const token = Token.byKey(tokenKey);
         return (
           <div

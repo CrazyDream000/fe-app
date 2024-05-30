@@ -7,7 +7,7 @@ import {
   STRK_ADDRESS,
   USDC_ADDRESS,
 } from "../constants/amm";
-import { TokenKey } from "../classes/Token";
+import { Token, TokenKey } from "../classes/Token";
 
 const CARM_TOKEN_ADDRESS =
   "0x3c0286e9e428a130ae7fbbe911b794e8a829c367dd788e7cfe3efb0367548fa";
@@ -17,6 +17,16 @@ export const balanceFromTokenAddress = async (
   tokenAddress: string
 ): Promise<bigint> => {
   const contract = new Contract(ABI, tokenAddress, account);
+  const balance = await contract.balanceOf(account.address);
+  return balance;
+};
+
+export const balanceFromKey = async (
+  account: AccountInterface,
+  token: TokenKey
+): Promise<bigint> => {
+  const address = Token.byKey(token).address;
+  const contract = new Contract(ABI, address, account);
   const balance = await contract.balanceOf(account.address);
   return balance;
 };
@@ -52,17 +62,12 @@ export const balanceOfCarmineToken = async (
 export const getUserBalance = async (
   account: AccountInterface
 ): Promise<UserBalance | undefined> => {
-  const promises = [
-    balanceOfEth(account),
-    balanceOfUsdc(account),
-    balanceOfBtc(account),
-    balanceOfStrk(account),
-  ];
+  const promises = Object.values(TokenKey).map((tokenKey) =>
+    balanceFromKey(account, tokenKey)
+  );
   const values = await Promise.all(promises);
-  return {
-    [TokenKey.ETH]: values[0],
-    [TokenKey.USDC]: values[1],
-    [TokenKey.BTC]: values[2],
-    [TokenKey.STRK]: values[3],
-  };
+  return Object.values(TokenKey).reduce((acc, tokenKey, index) => {
+    acc[tokenKey as TokenKey] = values[index];
+    return acc;
+  }, {} as UserBalance);
 };
