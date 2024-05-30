@@ -7,7 +7,7 @@ import { Settings, WarningAmber } from "@mui/icons-material";
 import { useAccount } from "../../hooks/useAccount";
 import { openWalletConnectDialog } from "../ConnectWallet/Button";
 import { TokenDisplay, TokenSelect } from "./TokenSelect";
-import { EthToken, Token, UsdcToken } from "../../classes/Token";
+import { StrkToken, Token, UsdcToken } from "../../classes/Token";
 import { LoadingAnimation } from "../Loading/Loading";
 import {
   addTx,
@@ -154,8 +154,8 @@ export const Widget = () => {
   const [tokenSelectOpen, setTokenSelectOpen] = useState<
     undefined | "buy" | "sell"
   >(undefined);
-  const [sellToken, setSellToken] = useState<Token>(EthToken);
-  const [buyToken, setBuyToken] = useState<Token>(UsdcToken);
+  const [sellToken, setSellToken] = useState<Token>(UsdcToken);
+  const [buyToken, setBuyToken] = useState<Token>(StrkToken);
   const [slippage, setSlippage] = useState<number>(0.005); // default slippage .5%
   const [slippageOpen, setslippageOpen] = useState<boolean>(false);
   const [refreshCounter, setRefresh] = useState(0);
