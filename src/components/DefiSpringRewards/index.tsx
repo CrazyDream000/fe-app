@@ -5,11 +5,21 @@ import { AccountInterface } from "starknet";
 import { DefiSpringData, DefiSpringStatus, getDefiSpringData } from "./fetch";
 import { shortInteger } from "../../utils/computations";
 import { openWalletConnectDialog } from "../ConnectWallet/Button";
+import { Skeleton } from "@mui/material";
+import { addressElision } from "../../utils/utils";
+import {
+  addTx,
+  markTxAsDone,
+  markTxAsFailed,
+  showToast,
+} from "../../redux/actions";
+import { TransactionAction } from "../../redux/reducers/transactions";
+import { afterTransaction } from "../../utils/blockchain";
+import { ToastType } from "../../redux/reducers/ui";
+import { LoadingAnimation } from "../Loading/Loading";
 
 import buttonStyles from "../../style/button.module.css";
 import styles from "./defi.module.css";
-import { Skeleton } from "@mui/material";
-import { addressElision } from "../../utils/utils";
 
 export const RewardsWithAccount = ({
   account,
@@ -22,6 +32,7 @@ export const RewardsWithAccount = ({
     DefiSpringStatus.Initial
   );
   const [data, setData] = useState<DefiSpringData | undefined>();
+  const [claiming, setClaiming] = useState<boolean>(false);
 
   useEffect(() => {
     getDefiSpringData(address, setStatus, setData);
@@ -86,7 +97,27 @@ export const RewardsWithAccount = ({
 
   const call = [data.amount, data.proof.length, ...data.proof];
 
-  const claim = async () => await defiSpringClaim(account, call);
+  const claim = async () => {
+    setClaiming(true);
+    try {
+      const { transaction_hash: hash } = await defiSpringClaim(account, call);
+      setClaiming(false);
+      addTx(hash, `reward-claim-${hash}`, TransactionAction.ClaimReward);
+      afterTransaction(
+        hash,
+        () => {
+          markTxAsDone(hash);
+          showToast("Claim successfull", ToastType.Success);
+        },
+        () => {
+          markTxAsFailed(hash);
+          showToast("Claim failed", ToastType.Error);
+        }
+      );
+    } catch (_) {
+      setClaiming(false);
+    }
+  };
 
   const { allocation, claimed } = data;
 
@@ -112,7 +143,13 @@ export const RewardsWithAccount = ({
         {!isAllClaimed && (
           <div className={styles.buttoncontainer}>
             <button className={buttonStyles.secondary} onClick={claim}>
-              Claim {shortInteger(allocation - claimed, 18).toFixed(4)} STRK
+              {claiming ? (
+                <LoadingAnimation />
+              ) : (
+                `Claim ${shortInteger(allocation - claimed, 18).toFixed(
+                  4
+                )} STRK`
+              )}
             </button>
           </div>
         )}

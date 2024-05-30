@@ -6,11 +6,17 @@ import { hideToast } from "../../redux/actions";
 import MuiAlert, { AlertColor, AlertProps } from "@mui/material/Alert";
 import { ToastType } from "../../redux/reducers/ui";
 
+import styles from "./toast.module.css";
+
 const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
   ref
 ) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  return (
+    <div className={styles.wrapper}>
+      <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
+    </div>
+  );
 });
 
 const toastTypeToSeverity = (t: ToastType): AlertColor => {

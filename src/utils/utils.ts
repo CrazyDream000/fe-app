@@ -1,6 +1,11 @@
 import { BigNumberish } from "starknet";
 
-import { ETH_ADDRESS, ETH_DIGITS, USDC_ADDRESS, USDC_DIGITS } from "../constants/amm";
+import {
+  ETH_ADDRESS,
+  ETH_DIGITS,
+  USDC_ADDRESS,
+  USDC_DIGITS,
+} from "../constants/amm";
 import { TESTNET_CHAINID } from "../constants/starknet";
 import { OptionSide, OptionType } from "../types/options";
 
@@ -185,4 +190,12 @@ export const isPromiseFulfilled = <T>(
   result: PromiseSettledResult<T>
 ): result is PromiseFulfilledResult<T> => {
   return result.status === "fulfilled";
+};
+
+export const maxDecimals = (num: number, maxDecimalPlaces: number): string => {
+  if (Math.floor(num) !== num) {
+    return num.toFixed(maxDecimalPlaces).replace(/\.?0+$/, "");
+  }
+
+  return num.toString();
 };

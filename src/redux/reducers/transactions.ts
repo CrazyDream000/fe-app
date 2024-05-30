@@ -9,6 +9,8 @@ export enum TransactionAction {
   Settle = "Settle",
   ClaimAirdrop = "ClaimAirdrop",
   Vote = "Vote",
+  Swap = "Swap",
+  ClaimReward = "ClaimReward",
 }
 
 export enum TransactionStatus {
