@@ -172,7 +172,7 @@ export const Widget = () => {
   const handleInputChange = (value: string) => {
     // Allow empty string, valid number, or a single decimal point followed by numbers
     const numericValue =
-      value === "" || /^\d*\.?\d*$/.test(value) ? value : inputValue;
+      value === "" || /^\d*\.?\d{0,6}$/.test(value) ? value : inputValue;
     setInputValue(numericValue);
   };
 
@@ -253,7 +253,6 @@ export const Widget = () => {
         sellAmount: parseUnits(debouncedValue, sellToken.decimals),
         takerAddress: account.address,
       };
-      console.log(params);
       fetchQuotes(params, { baseUrl: AVNU_BASE_URL, abortSignal })
         .then((quotes) => {
           setLoading(false);
@@ -318,6 +317,7 @@ export const Widget = () => {
         <TokenSelect
           close={() => setTokenSelectOpen(undefined)}
           setSelection={tokenSelectOpen === "sell" ? setSellToken : setBuyToken}
+          other={tokenSelectOpen === "sell" ? buyToken : sellToken}
         />
       )}
       {slippageOpen && (
@@ -348,10 +348,13 @@ export const Widget = () => {
             <span
               onClick={() =>
                 setInputValue(
-                  shortInteger(
-                    sellTokenBalance - sellTokenBalance / 100000000n, // for STRK tx fails with not enough balance, make it tiny smaller than actual balance
-                    sellToken.decimals
-                  ).toString()
+                  maxDecimals(
+                    shortInteger(
+                      sellTokenBalance - sellTokenBalance / 100000000n, // for STRK tx fails with not enough balance, make it tiny smaller than actual balance
+                      sellToken.decimals
+                    ),
+                    6
+                  )
                 )
               }
               className={styles.maxbalance}
@@ -397,17 +400,8 @@ export const Widget = () => {
         )}
       </div>
       <div>
-        <div
-          style={{
-            cursor: "pointer",
-            textAlign: "center",
-            padding: "20px",
-            width: "50px",
-            margin: "auto",
-          }}
-          onClick={handleArrowClick}
-        >
-          &darr;
+        <div className={styles.switcharr} onClick={handleArrowClick}>
+          <span>&darr;&uarr;</span>
         </div>
       </div>
       <div>
@@ -479,7 +473,9 @@ export const Widget = () => {
         quotes[0] && (
           <button
             disabled={notEnough}
-            className={notEnough ? buttonStyles.disabled : ""}
+            className={
+              notEnough ? buttonStyles.disabled : buttonStyles.secondary
+            }
             onClick={handleSwap}
           >
             Swap
