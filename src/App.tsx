@@ -55,7 +55,7 @@ const App = () => {
                     element={<Navigate to={newPath} replace />}
                   />
                 ))}
-                <Route path="/" element={<StakePage />} />
+                <Route path="/" element={<TradePage />} />
                 <Route path="/trade" element={<TradePage />} />
                 <Route path="/insurance" element={<Insurance />} />
                 <Route path="/portfolio/:target?" element={<Portfolio />} />
