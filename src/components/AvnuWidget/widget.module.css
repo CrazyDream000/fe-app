@@ -177,6 +177,14 @@
   color: var(--GOLD);
 }
 
+.switcharr {
+  cursor: pointer;
+  text-align: center;
+  padding: 20px 20px 0 20px;
+  width: 70px;
+  margin: auto;
+}
+
 @media (max-width: 400px) {
   .quotebox span {
     font-size: .85rem;

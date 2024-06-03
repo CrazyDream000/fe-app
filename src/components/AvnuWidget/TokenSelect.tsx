@@ -12,6 +12,7 @@ export type SelectableToken = {
 type Props = {
   setSelection: (t: Token) => void;
   close: () => void;
+  other: Token;
 };
 
 export const TokenDisplay = ({ token }: { token: Token }) => {
@@ -28,7 +29,7 @@ export const TokenDisplay = ({ token }: { token: Token }) => {
   );
 };
 
-export const TokenSelect = ({ close, setSelection }: Props) => {
+export const TokenSelect = ({ close, setSelection, other }: Props) => {
   return (
     <div className={styles.modalcontainer}>
       <div className={styles.modalheader}>
@@ -39,6 +40,10 @@ export const TokenSelect = ({ close, setSelection }: Props) => {
       </div>
       {Object.values(TokenKey).map((tokenKey, i) => {
         const token = Token.byKey(tokenKey);
+        if (token.address === other.address) {
+          // do not show the other part of the pair
+          return null;
+        }
         return (
           <div
             className={styles.row}
