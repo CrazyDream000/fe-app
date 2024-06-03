@@ -51,8 +51,8 @@ const navLink = ({ title, link }: NavLinkProps, i: number): ReactNode => (
       const active = `${styles.navlink} ${styles.active}`;
       const nonActive = styles.navlink;
 
-      // "/" is "/staking"
-      if (window.location.pathname === "/" && link === "/staking") {
+      // "/" is "/trade"
+      if (window.location.pathname === "/" && link === "/trade") {
         return active;
       }
 
