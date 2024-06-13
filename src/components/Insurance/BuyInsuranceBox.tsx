@@ -205,7 +205,7 @@ export const BuyInsuranceBox = () => {
                 onChange={handleCurrencyChange}
               >
                 <MenuItem value={TokenKey.ETH}>ETH</MenuItem>
-                <MenuItem value={TokenKey.BTC}>BTC</MenuItem>
+                {/* <MenuItem value={TokenKey.BTC}>BTC</MenuItem> */}
               </Select>
             </TableCell>
             <TableCell sx={{ whiteSpace: "nowrap" }}>
