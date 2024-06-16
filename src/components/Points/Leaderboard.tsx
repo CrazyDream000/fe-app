@@ -1,6 +1,12 @@
 import { useQuery } from "react-query";
 import { QueryKeys } from "../../queries/keys";
-import { UserPoints, fetchTopUserPoints, fetchUserPointsQuery } from "./fetch";
+import {
+  BraavosBonus,
+  UserPoints,
+  fetchBraavosBonus,
+  fetchTopUserPoints,
+  fetchUserPointsQuery,
+} from "./fetch";
 import { LoadingAnimation } from "../Loading/Loading";
 import tableStyles from "../../style/table.module.css";
 import {
@@ -14,12 +20,15 @@ import {
 import { addressElision } from "../../utils/utils";
 import { useAccount } from "../../hooks/useAccount";
 import { ReactNode } from "react";
+import { BraavosBadge } from "./BraavosBadge";
+import styles from "./points.module.css";
 
 export const ClickableUser = ({ address }: { address: string }) => (
   <a
     target="_blank"
     rel="noopener nofollow noreferrer"
     href={`https://starkscan.co/contract/${address}`}
+    style={{ width: "115px" }}
   >
     {addressElision(address)}
   </a>
@@ -28,7 +37,15 @@ export const ClickableUser = ({ address }: { address: string }) => (
 const formatBigNumber = (n: number): string =>
   new Intl.NumberFormat("fr-FR").format(n); // French local uses space as separator
 
-const Item = ({ data, sx }: { data: UserPoints; sx?: any }) => {
+const Item = ({
+  data,
+  braavosBonus,
+  sx,
+}: {
+  data: UserPoints;
+  braavosBonus?: BraavosBonus;
+  sx?: any;
+}) => {
   const {
     address,
     trading_points: tradePoints,
@@ -52,7 +69,10 @@ const Item = ({ data, sx }: { data: UserPoints; sx?: any }) => {
     <TableRow sx={sx}>
       <TableCell>{displayPosition}</TableCell>
       <TableCell>
-        <ClickableUser address={address} />
+        <div className={styles.leaderuser}>
+          <ClickableUser address={address} />
+          {braavosBonus && <BraavosBadge data={braavosBonus} />}
+        </div>
       </TableCell>
       <TableCell>{formatBigNumber(liqPoints)}</TableCell>
       <TableCell>{formatBigNumber(tradePoints)}</TableCell>
@@ -63,7 +83,13 @@ const Item = ({ data, sx }: { data: UserPoints; sx?: any }) => {
   );
 };
 
-const UserItemWithAccount = ({ address }: { address: string }) => {
+const UserItemWithAccount = ({
+  address,
+  braavosBonus,
+}: {
+  address: string;
+  braavosBonus?: BraavosBonus;
+}) => {
   const { isLoading, isError, data } = useQuery(
     [QueryKeys.userPoints, address],
     fetchUserPointsQuery
@@ -73,17 +99,34 @@ const UserItemWithAccount = ({ address }: { address: string }) => {
     return null;
   }
 
-  return <Item data={data} sx={{ background: "#323232" }} />;
+  return (
+    <Item
+      data={data}
+      braavosBonus={braavosBonus}
+      sx={{ background: "#323232" }}
+    />
+  );
 };
 
-const UserItem = () => {
+const UserItem = ({
+  braavos,
+}: {
+  braavos?: { [key: string]: BraavosBonus };
+}) => {
   const account = useAccount();
 
   if (!account) {
     return null;
   }
 
-  return <UserItemWithAccount address={account.address} />;
+  const braavosBonus = braavos && braavos[account.address];
+
+  return (
+    <UserItemWithAccount
+      braavosBonus={braavosBonus}
+      address={account.address}
+    />
+  );
 };
 
 const Bold = ({ children }: { children: ReactNode }) => (
@@ -94,6 +137,10 @@ export const Leaderboard = () => {
   const { isLoading, isError, data } = useQuery(
     QueryKeys.topUserPoints,
     fetchTopUserPoints
+  );
+  const { data: braavosData } = useQuery(
+    QueryKeys.braavosBonus,
+    fetchBraavosBonus
   );
 
   if (isLoading) {
@@ -133,9 +180,13 @@ export const Leaderboard = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          <UserItem />
+          <UserItem braavos={braavosData} />
           {data!.map((userPoints, i) => (
-            <Item data={userPoints} key={i} />
+            <Item
+              data={userPoints}
+              braavosBonus={braavosData && braavosData[userPoints.address]}
+              key={i}
+            />
           ))}
         </TableBody>
       </Table>

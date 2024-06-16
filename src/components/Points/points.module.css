@@ -1,0 +1,22 @@
+.leaderuser {
+  display: flex;
+  gap: 20px;
+}
+
+.braavosbadge {
+  display: flex;
+  align-items: center;
+  padding: 2px 5px;
+  gap: 3px;
+  background: linear-gradient(to right, #183a72, #0f1545);
+}
+
+.braavosbadge>div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  background: #0b0c2d;
+  background: conic-gradient(from 0deg, #1b468a, #0f1438, #1b468a);
+}
