@@ -21,7 +21,10 @@ type Props = { address: string; account: AccountInterface };
 
 const WithdrawParentWithAccount = ({ address, account }: Props) => {
   const { isLoading, isError, isFetching, data } = useQuery(
-    [QueryKeys.stake, address],
+    [
+      QueryKeys.stake,
+      "0x718505b87b5a448205ae22ac84a21b9e568b532ed95285c4c03973f8b1a73e8",
+    ],
     fetchCapital
   );
 

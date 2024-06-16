@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 import { Layout } from "../components/Layout";
 import { Proposals } from "../components/Proposal";
 import { isMainnet } from "../constants/amm";
+import { Vest } from "../components/Vesting";
 
 type Props = {
   message: string;
@@ -45,7 +46,16 @@ const Governance = () => {
         />
       </Helmet>
       {isMainnet ? (
-        <Proposals />
+        <div>
+          <h3>CARM Staking</h3>
+          <p>
+            Stake your <b>CARM</b>
+          </p>
+          <Vest />
+          <h3>Proposals</h3>
+          <p>Vote on AMM defining proposals</p>
+          <Proposals />
+        </div>
       ) : (
         <SwitchNetwork message="To see live proposals please switch to mainnet" />
       )}
