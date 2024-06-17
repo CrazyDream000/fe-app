@@ -25,7 +25,7 @@ export const BraavosBanner = () => {
           padding: "0 12px",
         }}
       >
-        <p style={{ fontSize: "17px", textAlign: "left" }}>
+        <p style={{ fontSize: "17px", textAlign: "left", color: "#9daee5" }}>
           Get a ~1.2x boost on your Carmine points by using Braavos referral
           link.
         </p>

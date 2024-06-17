@@ -9,6 +9,7 @@
   padding: 2px 5px;
   gap: 3px;
   background: linear-gradient(94deg, #1A4079 -1.25%, #0F1242 101.88%);
+  cursor: default;
 }
 
 .braavosbadge>div {
