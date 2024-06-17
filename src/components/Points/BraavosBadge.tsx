@@ -1,5 +1,5 @@
 import { BraavosBonus } from "./fetch";
-import { ReactComponent as BraavosIcon } from "./braavos icon.svg";
+import { ReactComponent as BraavosIcon } from "./braavos_icon.svg";
 import styles from "./points.module.css";
 
 export const BraavosBadge = ({ data }: { data: BraavosBonus }) => {
