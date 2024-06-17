@@ -1,6 +1,5 @@
-import { BraavosIcon } from "../assets";
 import { BraavosBonus } from "./fetch";
-
+import { ReactComponent as BraavosIcon } from "./braavos icon.svg";
 import styles from "./points.module.css";
 
 export const BraavosBadge = ({ data }: { data: BraavosBonus }) => {
@@ -18,7 +17,7 @@ export const BraavosBadge = ({ data }: { data: BraavosBonus }) => {
   return (
     <div className={styles.braavosbadge}>
       <div>
-        <BraavosIcon sx={{ width: "20px" }} />
+        <BraavosIcon style={{ width: "20px", height: "20px" }} />
       </div>
       <span>+{bonus}%</span>
     </div>

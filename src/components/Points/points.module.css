@@ -8,7 +8,7 @@
   align-items: center;
   padding: 2px 5px;
   gap: 3px;
-  background: linear-gradient(to right, #183a72, #0f1545);
+  background: linear-gradient(94deg, #1A4079 -1.25%, #0F1242 101.88%);
 }
 
 .braavosbadge>div {
@@ -17,6 +17,4 @@
   justify-content: center;
   width: 25px;
   height: 25px;
-  background: #0b0c2d;
-  background: conic-gradient(from 0deg, #1b468a, #0f1438, #1b468a);
 }
