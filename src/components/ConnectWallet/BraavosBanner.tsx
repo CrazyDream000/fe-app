@@ -6,6 +6,10 @@ export const BraavosBanner = () => {
     width: "100%",
     height: "100%",
   };
+  const tweet = encodeURIComponent(
+    "I'm looking for a #BraavosBoost on @CarmineOptions👀\n\n@myBraavos can I get a referral link?"
+  );
+  const link = `https://x.com/intent/tweet?text=${tweet}`;
 
   return (
     <div style={containerStyle}>
@@ -47,7 +51,7 @@ export const BraavosBanner = () => {
             padding: "5px",
             borderRadius: "4px",
           }}
-          href="https://carmine.finance"
+          href={link}
         >
           Don't have a link? Get one &rarr;
         </a>
