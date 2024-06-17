@@ -52,6 +52,8 @@ export const BraavosBanner = () => {
             borderRadius: "4px",
           }}
           href={link}
+          target="_blank"
+          rel="noopener nofollow noreferrer"
         >
           Don't have a link? Get one &rarr;
         </a>
