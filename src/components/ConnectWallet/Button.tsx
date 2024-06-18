@@ -7,6 +7,8 @@ import styles from "../../style/button.module.css";
 import { isMainnet } from "../../constants/amm";
 import { SupportedWalletIds } from "../../types/wallet";
 import { onConnect } from "../../network/hooks";
+import ReactDOM from "react-dom";
+import { BraavosBanner } from "./BraavosBanner";
 
 type CustomWallet = {
   id: SupportedWalletIds;
@@ -37,6 +39,45 @@ const bitgetWallet: CustomWallet = {
   windowPropName: "starknet_bitkeep",
   storeLink:
     "https://chromewebstore.google.com/detail/bitget-wallet-formerly-bi/jiidiaalihmmhddjgbnbgdfflelocpak",
+};
+
+const addBanner = () => {
+  const shadowParent = document.getElementById("starknetkit-modal-container");
+  if (!shadowParent) {
+    return;
+  }
+
+  const list = shadowParent.shadowRoot!.querySelector("ul");
+  const overlay = shadowParent.shadowRoot!.querySelector("div");
+
+  if (!list || !overlay) {
+    return;
+  }
+
+  const walletElems = Array.from(list.childNodes) as HTMLElement[];
+
+  const braavosWalletElem = walletElems.find((c) => {
+    if (c && c.querySelector) {
+      const p = c.querySelector("p");
+      if (
+        p &&
+        (p.innerText === "Braavos" || p.innerText === "Install Braavos")
+      ) {
+        return true;
+      }
+    }
+    return false;
+  });
+
+  const banner = document.createElement("div");
+  banner.style.width = "100%";
+  banner.style.background =
+    "linear-gradient(94deg, #1A4079 -1.25%, #0F1242 101.88%)";
+  banner.style.borderRadius = "6px";
+
+  ReactDOM.render(<BraavosBanner />, banner);
+
+  braavosWalletElem?.insertAdjacentElement("afterend", banner);
 };
 
 // this is a hack that adds one extra wallet
@@ -110,6 +151,8 @@ export const openWalletConnectDialog = async () => {
     // call inside timeout to make sure modal is present in the DOM
     setTimeout(() => addCustomWallet(okxWallet), 1);
     setTimeout(() => addCustomWallet(bitgetWallet), 1);
+    // add braavos banner
+    setTimeout(addBanner, 1);
   }
 };
 

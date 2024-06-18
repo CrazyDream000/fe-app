@@ -74,6 +74,9 @@ export const openMetamaskMissingDialog = () =>
 export const openNotEnoughUnlockedCapitalDialog = () =>
   openDialogWithContent(DialogContentElem.NotEnoughUnlocked);
 
+export const openBraavosBonusDialog = () =>
+  openDialogWithContent(DialogContentElem.BraavosBonusModal);
+
 export const setSlippage = (n: number) => store.dispatch(setSlippageState(n));
 
 export const setCloseOption = (option: OptionWithPosition) =>

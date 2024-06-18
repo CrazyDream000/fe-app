@@ -14,6 +14,7 @@ export enum DialogContentElem {
   MetamaskMissing = "MetamaskMissing",
   NotEnoughUnlocked = "NotEnoughUnlocked",
   TransferCapital = "TransferCapital",
+  BraavosBonusModal = "BraavosBonusModal",
 }
 
 export enum ToastType {

@@ -8,5 +8,6 @@ export enum QueryKeys {
   userBalance = "USER_BALANCE",
   topUserPoints = "TOP_USER_POINTS",
   userPoints = "USER_POINTS",
-  defiSpringClaimed = "DEFI_SPRING_CLAIMED"
+  braavosBonus = "BRAAVOS_BONUS",
+  defiSpringClaimed = "DEFI_SPRING_CLAIMED",
 }

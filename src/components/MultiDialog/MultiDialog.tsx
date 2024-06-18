@@ -19,6 +19,7 @@ import { WalletInfo } from "../WalletInfo/WalletInfo";
 import { ReactNode } from "react";
 import { BuyInsuranceModal } from "../Insurance/BuyInsuranceModal";
 import { TransferDialog } from "../Transfer";
+import { BraavosDialog } from "./BraavosDialog";
 
 const NetworkMismatch = () => (
   <>
@@ -194,6 +195,9 @@ export const MultiDialog = () => {
         <Border>
           <TransferDialog />
         </Border>
+      )}
+      {dialogContent === DialogContentElem.BraavosBonusModal && (
+        <BraavosDialog />
       )}
     </Dialog>
   );
