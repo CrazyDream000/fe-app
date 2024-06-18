@@ -172,10 +172,8 @@ const BraavosBonusModal = () => {
 
   const userData = data[account.address];
 
-  // const proScore = userData && userData.pro_score_80;
-  // const braavosReferral = userData && userData.braavos_referral;
-  const proScore = false;
-  const braavosReferral = false;
+  const proScore = userData && userData.pro_score_80;
+  const braavosReferral = userData && userData.braavos_referral;
 
   const bonusApplied = proScore || braavosReferral; // at least one of the bonuses
 
