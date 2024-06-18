@@ -8,7 +8,7 @@ import {
   Routes,
 } from "react-router-dom";
 
-import { AlphaRibbon } from "./components/AlphaRibbon/AlphaRibbon";
+import { BraavosAnnounce } from "./components/Announce";
 import { MultiDialog } from "./components/MultiDialog/MultiDialog";
 import { Slip } from "./components/Slip";
 import { Toast } from "./components/Toast/Toast";
@@ -75,7 +75,7 @@ const App = () => {
             </Router>
             <MultiDialog />
             <Toast />
-            <AlphaRibbon />
+            <BraavosAnnounce />
           </>
         ) : (
           <TermsAndConditions check={check} rerender={rerender} />
