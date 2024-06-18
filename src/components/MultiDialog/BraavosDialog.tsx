@@ -74,6 +74,11 @@ export const BraavosDialog = () => {
   );
   const link = `https://x.com/intent/tweet?text=${tweet}`;
 
+  const tweetRef = encodeURIComponent(
+    "I'm looking for a #BraavosBoost on @CarmineOptions👀\n\n@myBraavos can I get a referral link?"
+  );
+  const linkRef = `https://x.com/intent/tweet?text=${tweetRef}`;
+
   const userData = data[account.address];
 
   const proScore = userData && userData.pro_score_80;
@@ -131,21 +136,52 @@ export const BraavosDialog = () => {
         </div>
       )}
 
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <a
-          className={styles.tweet}
-          href={link}
-          target="_blank"
-          rel="noopener nofollow noreferrer"
-        >
-          <TwitterX width="20px" />
-          Share
-        </a>
+      <div className={styles.ctas}>
+        {bonusApplied ? (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <a
+              className={styles.tweet}
+              href={link}
+              target="_blank"
+              rel="noopener nofollow noreferrer"
+            >
+              <TwitterX width="20px" />
+              Share
+            </a>
+          </div>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <a
+              className={styles.tweet}
+              href={linkRef}
+              target="_blank"
+              rel="noopener nofollow noreferrer"
+            >
+              <TwitterX width="20px" />
+              Don't have a link? Get one &rarr;
+            </a>
+          </div>
+        )}
+        {braavosReferral && !proScore && (
+          <a
+            className={styles.learnmore}
+            target="_blank"
+            rel="noopener nofollow noreferrer"
+            href="https://braavos.app/starknet-pro-score-guide/"
+          >
+            Learn more &rarr;
+          </a>
+        )}
       </div>
     </div>
   );

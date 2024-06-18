@@ -20,7 +20,7 @@ export const BraavosBadge = ({ data }: { data: BraavosBonus }) => {
       <div>
         <BraavosIcon style={{ width: "20px", height: "20px" }} />
       </div>
-      <span>+{bonus}%</span>
+      <span>+{bonus}% bonus</span>
     </div>
   );
 };

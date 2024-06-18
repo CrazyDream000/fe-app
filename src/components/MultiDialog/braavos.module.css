@@ -27,3 +27,20 @@
   border-radius: 4px;
   text-decoration: none;
 }
+
+.ctas {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 25px;
+}
+
+.learnmore {
+  font-size: 14px;
+  padding: 3px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  background: #243f75;
+  color: #9daee5;
+  padding: 5px;
+}
