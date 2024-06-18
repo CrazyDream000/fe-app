@@ -1,6 +1,7 @@
 import { BraavosBonus } from "./fetch";
 import { ReactComponent as BraavosIcon } from "./braavos_icon.svg";
 import styles from "./points.module.css";
+import { openBraavosBonusDialog } from "../../redux/actions";
 
 export const BraavosBadge = ({ data }: { data: BraavosBonus }) => {
   let bonus = 0;
@@ -15,7 +16,7 @@ export const BraavosBadge = ({ data }: { data: BraavosBonus }) => {
     return null;
   }
   return (
-    <div className={styles.braavosbadge}>
+    <div className={styles.braavosbadge} onClick={openBraavosBonusDialog}>
       <div>
         <BraavosIcon style={{ width: "20px", height: "20px" }} />
       </div>
