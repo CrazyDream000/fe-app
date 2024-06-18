@@ -6,7 +6,6 @@ import {
   DialogContentText,
   IconButton,
   Link,
-  Skeleton,
 } from "@mui/material";
 import { timestampToReadableDate } from "../../utils/utils";
 import { useDialog } from "../../hooks/useDialog";
@@ -20,13 +19,7 @@ import { WalletInfo } from "../WalletInfo/WalletInfo";
 import { ReactNode } from "react";
 import { BuyInsuranceModal } from "../Insurance/BuyInsuranceModal";
 import { TransferDialog } from "../Transfer";
-import { useAccount } from "../../hooks/useAccount";
-import { ReactComponent as BraavosIcon } from "../Points/braavos_icon.svg";
-import { ReactComponent as TwitterX } from "./twitterx.svg";
-import braavosStyles from "./braavos.module.css";
-import { useQuery } from "react-query";
-import { QueryKeys } from "../../queries/keys";
-import { fetchBraavosBonus } from "../Points/fetch";
+import { BraavosDialog } from "./BraavosDialog";
 
 const NetworkMismatch = () => (
   <>
@@ -104,148 +97,6 @@ const NotEnoughUnlocked = () => (
     </DialogActions>
   </>
 );
-
-const BraavosBonusModal = () => {
-  const account = useAccount();
-  const { data, isLoading, isError } = useQuery(
-    QueryKeys.braavosBonus,
-    fetchBraavosBonus
-  );
-
-  if (!account) {
-    return (
-      <div className={braavosStyles.modal}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "12px",
-          }}
-        >
-          <BraavosIcon style={{ width: "30px", height: "30px" }} />
-          <span style={{ fontSize: "25px" }}>Braavos Boost</span>
-        </div>
-        <div>
-          <p style={{ fontSize: "17px", textAlign: "left", color: "#9daee5" }}>
-            Connect your wallet to see which Braavos bonus you are eligible for!
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  if (isLoading || isError || !data) {
-    return (
-      <div className={braavosStyles.modal}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <Skeleton variant="text" width="300px" height="50px" />
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <Skeleton variant="text" width="100%" height="100px" />
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <Skeleton variant="text" width="100%" height="80px" />
-        </div>
-      </div>
-    );
-  }
-
-  const tweet = encodeURIComponent(
-    "I just got a #BraavosBoost on @CarmineOptions 👀\n\nHere's a referral link you can use to amplify your points by up to 1.3x https://app.carmine.finance/?ref_code=braavos-referral-bonus\n\nMake sure you connect with @myBraavos to be eligible 💪"
-  );
-  const link = `https://x.com/intent/tweet?text=${tweet}`;
-
-  const userData = data[account.address];
-
-  const proScore = userData && userData.pro_score_80;
-  const braavosReferral = userData && userData.braavos_referral;
-
-  const bonusApplied = proScore || braavosReferral; // at least one of the bonuses
-
-  return (
-    <div className={braavosStyles.modal}>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "12px",
-        }}
-      >
-        <BraavosIcon style={{ width: "30px", height: "30px" }} />
-        <span style={{ fontSize: "25px" }}>
-          Braavos Boost{bonusApplied && " applied!"}
-        </span>
-      </div>
-      {braavosReferral ? (
-        <div>
-          <h5>✅ Referral Boost</h5>
-          <p style={{ fontSize: "17px", textAlign: "left", color: "#9daee5" }}>
-            You are eligible for a 1.2x Braavos boost. Your Carmine points will
-            be multiplied by 1.2x.
-          </p>
-        </div>
-      ) : (
-        <div>
-          <h5>❌ Referral Boost</h5>
-          <p style={{ fontSize: "17px", textAlign: "left", color: "#9daee5" }}>
-            You are not eligible for Braavos referral boost of 1.2x. Use Braavos
-            referral code to activate the bonus.
-          </p>
-        </div>
-      )}
-
-      {proScore ? (
-        <div>
-          <h5>✅ Pro-score Boost</h5>
-          <p style={{ fontSize: "17px", textAlign: "left", color: "#9daee5" }}>
-            Your pro score is over 80, congratulations, you are eligible for
-            1.1x boost!
-          </p>
-        </div>
-      ) : (
-        <div>
-          <h5>❌ Pro-score Boost</h5>
-          <p style={{ fontSize: "17px", textAlign: "left", color: "#9daee5" }}>
-            Your wallet is not eligible for the Pro-score boost. Increase your
-            Pro-score to 80 to get an additional 10% boost.
-          </p>
-        </div>
-      )}
-
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <a
-          className={braavosStyles.tweet}
-          href={link}
-          target="_blank"
-          rel="noopener nofollow noreferrer"
-        >
-          <TwitterX width="20px" />
-          Share
-        </a>
-      </div>
-    </div>
-  );
-};
 
 type CustomDialogTitleProps = {
   title: string;
@@ -346,7 +197,7 @@ export const MultiDialog = () => {
         </Border>
       )}
       {dialogContent === DialogContentElem.BraavosBonusModal && (
-        <BraavosBonusModal />
+        <BraavosDialog />
       )}
     </Dialog>
   );
