@@ -28,10 +28,10 @@ export const BraavosAnnounce = () => {
   };
 
   useEffect(() => {
-    if (show && data) {
+    if (account && show && data) {
       setTimeout(handleClose, 5000);
     }
-  });
+  }, [account, data, show]);
 
   if (isLoading || isError || !data || !show || !account) {
     return null;
