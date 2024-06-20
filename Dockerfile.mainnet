@@ -1,9 +1,9 @@
 # Build project
-FROM node:19.3 AS build
+FROM node:20.11 AS build
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json ./
 
 RUN npm install --force
 
@@ -15,7 +15,7 @@ RUN ./google_analytics_setup.sh mainnet
 RUN npm run build
 
 # Setup Nginx
-FROM nginx:1.23
+FROM nginx:1.27
 
 COPY --from=build /app/build /usr/share/nginx/html
 
