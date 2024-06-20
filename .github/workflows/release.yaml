@@ -1,0 +1,49 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - continuous-deployment
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: YOUR_PROJECT_ID
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Configure Docker to use gcloud as a credential helper
+        run: |
+          gcloud auth configure-docker us-central1-docker.pkg.dev
+
+      - name: Build Docker image
+        id: build
+        run: |
+          VERSION=$(npx -c 'echo $npm_package_version')
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          docker build -t europe-west1-docker.pkg.dev/carmine-api-381920/docker-repository/app-mainnet:$VERSION .
+
+      - name: Push Docker image
+        run: |
+          docker push europe-west1-docker.pkg.dev/carmine-api-381920/docker-repository/app-mainnet:${{ env.VERSION }}
