@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/CarmineOptions/fe-app/compare/v1.0.1...v1.0.2) (2024-06-20)
+
+
+### Bug Fixes
+
+* specify dockerfile ([cf2e4c5](https://github.com/CarmineOptions/fe-app/commit/cf2e4c5ce4f38a9cacd878b49ed809290070a5c1))
+
 ## [1.0.1](https://github.com/CarmineOptions/fe-app/compare/v1.0.0...v1.0.1) (2024-06-20)
 
 
