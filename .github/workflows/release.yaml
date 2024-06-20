@@ -35,14 +35,14 @@ jobs:
 
       - name: Configure Docker to use gcloud as a credential helper
         run: |
-          gcloud auth configure-docker us-central1-docker.pkg.dev
+          gcloud auth configure-docker europe-west1-docker.pkg.dev
 
       - name: Build Docker image
         id: build
         run: |
           VERSION=$(npx -c 'echo $npm_package_version')
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          docker build -t europe-west1-docker.pkg.dev/carmine-api-381920/docker-repository/app-mainnet:$VERSION .
+          docker build -t europe-west1-docker.pkg.dev/carmine-api-381920/docker-repository/app-mainnet:$VERSION -f Dockerfile.mainnet .
 
       - name: Push Docker image
         run: |
