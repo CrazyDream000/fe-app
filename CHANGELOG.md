@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/CarmineOptions/fe-app/compare/v1.0.0...v1.0.1) (2024-06-20)
+
+
+### Bug Fixes
+
+* specify gcp project id ([5259dfa](https://github.com/CarmineOptions/fe-app/commit/5259dfa69232d0f9c23f0e804d3fd043182babe4))
+
 # 1.0.0 (2024-06-20)
 
 
