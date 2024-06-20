@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/CarmineOptions/fe-app/compare/v1.1.0...v1.1.1) (2024-06-20)
+
+
+### Bug Fixes
+
+* semantic-release npm ([1d84f7d](https://github.com/CarmineOptions/fe-app/commit/1d84f7d84c156a7549a75359d1cf90b869e9481f))
+
 # [1.1.0](https://github.com/CarmineOptions/fe-app/compare/v1.0.2...v1.1.0) (2024-06-20)
 
 
