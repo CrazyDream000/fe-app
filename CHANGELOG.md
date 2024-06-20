@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/CarmineOptions/fe-app/compare/v1.0.2...v1.1.0) (2024-06-20)
+
+
+### Features
+
+* add proposal 74 ([337c015](https://github.com/CarmineOptions/fe-app/commit/337c015fa692d1375b74bdacf6534bb574d502c6))
+
 ## [1.0.2](https://github.com/CarmineOptions/fe-app/compare/v1.0.1...v1.0.2) (2024-06-20)
 
 
