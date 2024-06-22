@@ -1,5 +1,5 @@
 import { RpcProvider } from "starknet";
-import { SupportedWalletIds } from "./wallet";
+import { SupportedWalletIds, UserBalance } from "./wallet";
 import { constants } from "starknet";
 
 export enum NetworkName {
@@ -18,4 +18,9 @@ export interface NetworkState {
   walletId?: SupportedWalletIds;
   provider: RpcProvider;
   network: Network;
+}
+
+export interface WalletState {
+  address?: string,
+  balance?: UserBalance
 }

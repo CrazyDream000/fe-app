@@ -8,6 +8,7 @@ import {
   USDC_ADDRESS,
 } from "../constants/amm";
 import { Token, TokenKey } from "../classes/Token";
+import { provider } from "../network/provider";
 
 const CARM_TOKEN_ADDRESS =
   "0x3c0286e9e428a130ae7fbbe911b794e8a829c367dd788e7cfe3efb0367548fa";
@@ -26,7 +27,7 @@ export const balanceFromKey = async (
   token: TokenKey
 ): Promise<bigint> => {
   const address = Token.byKey(token).address;
-  const contract = new Contract(ABI, address, account);
+  const contract = new Contract(ABI, address, provider);
   const balance = await contract.balanceOf(account.address);
   return balance;
 };
