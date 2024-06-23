@@ -3,8 +3,8 @@ name: Release
 on:
   push:
     branches:
-      - continuous-deployment
-      - temp-development
+      - master
+      - development
 
 env:
   DOCKER_REGISTRY_HOST: europe-west1-docker.pkg.dev
@@ -12,7 +12,7 @@ env:
 
 jobs:
   release:
-    if: github.ref == 'refs/heads/continuous-deployment'
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
 
     steps:
@@ -63,7 +63,7 @@ jobs:
           docker push $DOCKER_REGISTRY_HOST/$GCP_PROJECT/docker-repository/app-testnet:${{ env.VERSION }}
 
   devdeploy:
-    if: github.ref == 'refs/heads/temp-development'
+    if: github.ref == 'refs/heads/development'
     runs-on: ubuntu-latest
 
     steps:
