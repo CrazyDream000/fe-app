@@ -1,40 +1,45 @@
-import { Box, Typography } from "@mui/material";
 import { Helmet } from "react-helmet";
 
 import { Layout } from "../components/Layout";
 import { Proposals } from "../components/Proposal";
-import { isMainnet } from "../constants/amm";
 import { Vest } from "../components/Vesting";
+import { useGovernanceSubpage } from "../hooks/useGovernanceSubpage";
+import { GovernanceSubpage } from "../redux/reducers/ui";
+import { useNavigate } from "react-router-dom";
+import buttonStyles from "../style/button.module.css";
+import { setGovernanceSubpage } from "../redux/actions";
+import { Airdrop } from "../components/Airdrop/Airdrop";
 
-type Props = {
-  message: string;
-  data?: string[];
+const VotingSubpage = () => {
+  return (
+    <div>
+      <h3>Proposals</h3>
+      <p>Vote on AMM defining proposals</p>
+      <Proposals />
+    </div>
+  );
+};
+
+const StakingSubpage = () => {
+  return (
+    <div>
+      <h3>CARM Staking</h3>
+      <p>
+        Stake your <b>CARM</b>
+      </p>
+      <Vest />
+    </div>
+  );
 };
 
 const Governance = () => {
-  const SwitchNetwork = ({ message, data }: Props) => (
-    <Box
-      sx={{
-        marginTop: 4,
-        padding: 2,
-        width: "100%",
-      }}
-    >
-      <Box
-        sx={{
-          my: 4,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Typography sx={{ mb: 4 }}>{message}</Typography>
-        {/* <NetworkButton /> */}
-        {/* {account && <ClaimButton account={account} data={data} />} */}
-      </Box>
-    </Box>
-  );
+  const subpage = useGovernanceSubpage();
+  const navigate = useNavigate();
+
+  const handleNavigateClick = (subpage: GovernanceSubpage) => {
+    setGovernanceSubpage(subpage);
+    navigate(`/governance/${subpage}`);
+  };
 
   return (
     <Layout>
@@ -45,20 +50,40 @@ const Governance = () => {
           content="Vote on proposals and take part in governing Carmine Options AMM"
         />
       </Helmet>
-      {isMainnet ? (
-        <div>
-          <h3>CARM Staking</h3>
-          <p>
-            Stake your <b>CARM</b>
-          </p>
-          <Vest />
-          <h3>Proposals</h3>
-          <p>Vote on AMM defining proposals</p>
-          <Proposals />
-        </div>
-      ) : (
-        <SwitchNetwork message="To see live proposals please switch to mainnet" />
-      )}
+      <button
+        className={`${
+          subpage === GovernanceSubpage.AirDrop && buttonStyles.secondary
+        } ${buttonStyles.offset}`}
+        onClick={() => {
+          handleNavigateClick(GovernanceSubpage.AirDrop);
+        }}
+      >
+        Airdrop
+      </button>
+      <button
+        className={`${
+          subpage === GovernanceSubpage.Voting && buttonStyles.secondary
+        } ${buttonStyles.offset}`}
+        onClick={() => {
+          handleNavigateClick(GovernanceSubpage.Voting);
+        }}
+      >
+        Voting
+      </button>
+      <button
+        className={`${
+          subpage === GovernanceSubpage.Staking && buttonStyles.secondary
+        } ${buttonStyles.offset}`}
+        onClick={() => {
+          handleNavigateClick(GovernanceSubpage.Staking);
+        }}
+      >
+        Staking
+      </button>
+
+      {subpage === GovernanceSubpage.Voting && <VotingSubpage />}
+      {subpage === GovernanceSubpage.Staking && <StakingSubpage />}
+      {subpage === GovernanceSubpage.AirDrop && <Airdrop />}
     </Layout>
   );
 };

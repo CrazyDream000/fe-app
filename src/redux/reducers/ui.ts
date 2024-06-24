@@ -30,6 +30,12 @@ export enum PortfolioParamType {
   Referral = "referral",
 }
 
+export enum GovernanceSubpage {
+  AirDrop = "airdrop",
+  Voting = "voting",
+  Staking = "staking",
+}
+
 export type ToastState = {
   message: string;
   open: boolean;
@@ -50,6 +56,7 @@ export interface UiState {
   transferData?: TransferData;
   transferDialogShown: boolean;
   portfolioParam?: PortfolioParamType;
+  governanceSubpage: GovernanceSubpage;
   referralsSent: ReferralSent[];
 }
 
@@ -61,6 +68,7 @@ export const ui = createSlice({
     toastState: { message: "", type: ToastType.Info, open: false },
     transferDialogShown: false,
     portfolioParam: PortfolioParamType.Position,
+    governanceSubpage: GovernanceSubpage.Voting,
     referralsSent: [],
   } as UiState,
   reducers: {
@@ -101,6 +109,13 @@ export const ui = createSlice({
       state.portfolioParam = action.payload;
       return state;
     },
+    setGovernanceSubpageState: (
+      state,
+      action: { payload: GovernanceSubpage }
+    ) => {
+      state.governanceSubpage = action.payload;
+      return state;
+    },
     addReferredPairState: (state, action: { payload: ReferralSent }) => {
       state.referralsSent = [...state.referralsSent, action.payload];
       return state;
@@ -116,5 +131,6 @@ export const {
   setTransferDataModalState,
   setTransferDialogShown,
   setParamState,
+  setGovernanceSubpageState,
   addReferredPairState,
 } = ui.actions;
