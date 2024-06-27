@@ -7,9 +7,8 @@ import {
   CARMINE_STAKING_MONTH,
   CARMINE_STAKING_YEAR,
   GOVERNANCE_ADDRESS,
+  VE_CRM_ADDRESS,
 } from "../../constants/amm";
-
-import GovernanceABI from "../../abi/governance_abi.json";
 import {
   addTx,
   markTxAsDone,
@@ -25,6 +24,9 @@ import { LoadingAnimation } from "../Loading/Loading";
 
 import styles from "./airdrop.module.css";
 import buttonStyles from "../../style/button.module.css";
+
+import GovernanceABI from "../../abi/governance_abi.json";
+import TokenABI from "../../abi/lptoken_abi.json";
 
 export const claim = async (
   account: AccountInterface,
@@ -89,16 +91,21 @@ export const claimAndStake = async (
     entrypoint: "unstake_airdrop",
     calldata: [],
   };
+  const approveCall = {
+    contractAddress: VE_CRM_ADDRESS,
+    entrypoint: "approve",
+    calldata: [GOVERNANCE_ADDRESS, airdropAmount.toString(10)],
+  };
   const stakeCall = {
     contractAddress: GOVERNANCE_ADDRESS,
     entrypoint: "stake",
-    calldata: [length, airdropAmount],
+    calldata: [length.toString(10), airdropAmount.toString(10)],
   };
 
   const res = await account
     .execute(
-      [claimCall, unstakeAirdropCall, stakeCall],
-      [GovernanceABI, GovernanceABI, GovernanceABI]
+      [claimCall, unstakeAirdropCall, approveCall, stakeCall],
+      [GovernanceABI, GovernanceABI, TokenABI, GovernanceABI]
     )
     .catch(() => null);
 

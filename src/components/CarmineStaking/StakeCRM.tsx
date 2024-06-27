@@ -5,11 +5,11 @@ import {
   CARMINE_STAKING_MONTH,
   CARMINE_STAKING_YEAR,
   GOVERNANCE_ADDRESS,
+  VE_CRM_ADDRESS,
 } from "../../constants/amm";
 import { TransactionState, TxTracking } from "../../types/network";
 import { stateToClassName } from "./StakingModal";
 import { LoadingAnimation } from "../Loading/Loading";
-import GovernanceABI from "../../abi/governance_abi.json";
 import { TransactionAction } from "../../redux/reducers/transactions";
 import {
   addTx,
@@ -19,11 +19,14 @@ import {
 } from "../../redux/actions";
 import { afterTransaction } from "../../utils/blockchain";
 import { ToastType } from "../../redux/reducers/ui";
+import { invalidateKey } from "../../queries/client";
+import { QueryKeys } from "../../queries/keys";
 
 import styles from "./vest.module.css";
 import inputStyles from "../../style/input.module.css";
-import { invalidateKey } from "../../queries/client";
-import { QueryKeys } from "../../queries/keys";
+
+import GovernanceABI from "../../abi/governance_abi.json";
+import TokenABI from "../../abi/lptoken_abi.json";
 
 type Props = {
   account: AccountInterface;
@@ -38,6 +41,12 @@ const stake = async (
 ) => {
   setTxState(TransactionState.Processing);
 
+  const approveCall = {
+    contractAddress: VE_CRM_ADDRESS,
+    entrypoint: "approve",
+    calldata: [GOVERNANCE_ADDRESS, amount.toString(10)],
+  };
+
   const stakeCall = {
     contractAddress: GOVERNANCE_ADDRESS,
     entrypoint: "stake",
@@ -45,7 +54,7 @@ const stake = async (
   };
 
   const res = await account
-    .execute(stakeCall, [GovernanceABI])
+    .execute([approveCall, stakeCall], [TokenABI, GovernanceABI])
     .catch(() => null);
 
   if (res?.transaction_hash) {

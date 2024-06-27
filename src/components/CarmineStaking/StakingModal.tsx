@@ -6,8 +6,8 @@ import {
   CARMINE_STAKING_MONTH,
   CARMINE_STAKING_YEAR,
   GOVERNANCE_ADDRESS,
+  VE_CRM_ADDRESS,
 } from "../../constants/amm";
-import GovernanceABI from "../../abi/governance_abi.json";
 import {
   addTx,
   markTxAsDone,
@@ -26,6 +26,9 @@ import styles from "./modal.module.css";
 import buttonStyles from "../../style/button.module.css";
 import inputStyles from "../../style/input.module.css";
 
+import GovernanceABI from "../../abi/governance_abi.json";
+import TokenABI from "../../abi/lptoken_abi.json";
+
 export const unstakeAndStake = async (
   account: AccountInterface,
   amount: bigint,
@@ -39,6 +42,11 @@ export const unstakeAndStake = async (
     entrypoint: "unstake_airdrop",
     calldata: [],
   };
+  const approveCall = {
+    contractAddress: VE_CRM_ADDRESS,
+    entrypoint: "approve",
+    calldata: [GOVERNANCE_ADDRESS, amount.toString(10)],
+  };
   const stakeCall = {
     contractAddress: GOVERNANCE_ADDRESS,
     entrypoint: "stake",
@@ -46,7 +54,10 @@ export const unstakeAndStake = async (
   };
 
   const res = await account
-    .execute([unstakeCall, stakeCall], [GovernanceABI, GovernanceABI])
+    .execute(
+      [unstakeCall, approveCall, stakeCall],
+      [GovernanceABI, TokenABI, GovernanceABI]
+    )
     .catch(() => null);
 
   if (res?.transaction_hash) {
