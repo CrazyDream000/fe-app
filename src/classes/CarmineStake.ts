@@ -1,4 +1,4 @@
-import { CARMINE_STAKING_MONTH } from "../constants/amm";
+import { CARMINE_STAKING_MONTH, CARMINE_STAKING_YEAR } from "../constants/amm";
 import { CarmineStakeResult } from "../types/governance";
 import { shortInteger } from "../utils/computations";
 
@@ -62,10 +62,10 @@ export class CarmineStake {
   get period(): string {
     const months = this.length / CARMINE_STAKING_MONTH;
 
-    if (months === 1) {
+    if (this.length === CARMINE_STAKING_MONTH) {
       return "1 month";
     }
-    if (months === 12) {
+    if (this.length === CARMINE_STAKING_YEAR) {
       return "1 year";
     }
     if (months > 12) {

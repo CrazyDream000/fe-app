@@ -1,4 +1,4 @@
-import { Dialog } from "@mui/material";
+import { Dialog, Tooltip } from "@mui/material";
 import { AccountInterface } from "starknet";
 import { Eligible } from "./getProof";
 
@@ -232,38 +232,48 @@ export const AirdropModal = ({ account, data, open, setOpen }: Props) => {
         </p>
         <p>You can claim and stake for any of these periods:</p>
         <div className={styles.buttongroup}>
-          <button
-            disabled={monthState !== TransactionState.Initial}
-            onClick={handle1month}
-            className={stateToClassName(monthState)}
-          >
-            {monthState === TransactionState.Processing && <LoadingAnimation />}
-            {monthState === TransactionState.Initial && "1 month"}
-            {monthState === TransactionState.Success && "Done!"}
-            {monthState === TransactionState.Fail && "Failed"}
-          </button>
-          <button
-            disabled={sixMonthsState !== TransactionState.Initial}
-            onClick={handle6months}
-            className={stateToClassName(sixMonthsState)}
-          >
-            {sixMonthsState === TransactionState.Processing && (
-              <LoadingAnimation />
-            )}
-            {sixMonthsState === TransactionState.Initial && "6 months"}
-            {sixMonthsState === TransactionState.Success && "Done!"}
-            {sixMonthsState === TransactionState.Fail && "Failed"}
-          </button>
-          <button
-            disabled={yearState !== TransactionState.Initial}
-            onClick={handleYear}
-            className={stateToClassName(yearState)}
-          >
-            {yearState === TransactionState.Processing && <LoadingAnimation />}
-            {yearState === TransactionState.Initial && "1 year"}
-            {yearState === TransactionState.Success && "Done!"}
-            {yearState === TransactionState.Fail && "Failed"}
-          </button>
+          <Tooltip title="Staking for 1 month gives multiplier 1.0x">
+            <button
+              disabled={monthState !== TransactionState.Initial}
+              onClick={handle1month}
+              className={stateToClassName(monthState)}
+            >
+              {monthState === TransactionState.Processing && (
+                <LoadingAnimation />
+              )}
+              {monthState === TransactionState.Initial && "1 month"}
+              {monthState === TransactionState.Success && "Done!"}
+              {monthState === TransactionState.Fail && "Failed"}
+            </button>
+          </Tooltip>
+          <Tooltip title="Staking for 6 months gives multiplier 1.6x">
+            <button
+              disabled={sixMonthsState !== TransactionState.Initial}
+              onClick={handle6months}
+              className={stateToClassName(sixMonthsState)}
+            >
+              {sixMonthsState === TransactionState.Processing && (
+                <LoadingAnimation />
+              )}
+              {sixMonthsState === TransactionState.Initial && "6 months"}
+              {sixMonthsState === TransactionState.Success && "Done!"}
+              {sixMonthsState === TransactionState.Fail && "Failed"}
+            </button>
+          </Tooltip>
+          <Tooltip title="Staking for 1 year gives multiplier 2.5x">
+            <button
+              disabled={yearState !== TransactionState.Initial}
+              onClick={handleYear}
+              className={stateToClassName(yearState)}
+            >
+              {yearState === TransactionState.Processing && (
+                <LoadingAnimation />
+              )}
+              {yearState === TransactionState.Initial && "1 year"}
+              {yearState === TransactionState.Success && "Done!"}
+              {yearState === TransactionState.Fail && "Failed"}
+            </button>
+          </Tooltip>
         </div>
         <p>Alternatively you can claim without staking:</p>
         <div className={styles.singlebutton}>
