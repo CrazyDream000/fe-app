@@ -32,7 +32,7 @@ export const walletNetworkChangeHandlerFactory =
     }
 
     // network mismatch - open the dialog
-    openNetworkMismatchDialog();
+    // openNetworkMismatchDialog();
   };
 
 type EventList = {
