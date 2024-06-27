@@ -27,6 +27,8 @@ import buttonStyles from "../../style/button.module.css";
 
 import GovernanceABI from "../../abi/governance_abi.json";
 import TokenABI from "../../abi/lptoken_abi.json";
+import { invalidateKey } from "../../queries/client";
+import { QueryKeys } from "../../queries/keys";
 
 export const claim = async (
   account: AccountInterface,
@@ -56,6 +58,7 @@ export const claim = async (
         setTxState(TransactionState.Success);
         showToast("Successfully claimed airdrop", ToastType.Success);
         markTxAsDone(hash);
+        invalidateKey(QueryKeys.airdropData);
       },
       () => {
         setTxState(TransactionState.Fail);

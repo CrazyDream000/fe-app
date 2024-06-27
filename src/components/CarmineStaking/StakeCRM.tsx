@@ -155,7 +155,7 @@ export const StakeCrm = ({ account, carmBalance }: Props) => {
           <button onClick={handleAll}>All</button>
         </div>
 
-        <div className={styles.buttongroup}>
+        <div style={{ display: "flex" }}>
           <button
             disabled={monthState !== TransactionState.Initial}
             onClick={handle1month}
