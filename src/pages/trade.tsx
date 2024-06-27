@@ -8,6 +8,7 @@ import TradeTable from "../components/TradeTable";
 import buttonStyles from "../style/button.module.css";
 import style from "./trade.module.css";
 import { AvnuWidget } from "../components/AvnuWidget";
+import { CrmBanner } from "../components/Banner";
 
 enum Variant {
   Options,
@@ -25,6 +26,7 @@ const TradePage = () => {
           content="Buy and sell crypto options with Carmine Options AMM"
         />
       </Helmet>
+      <CrmBanner />
       <div>
         <button
           onClick={() => setVariant(Variant.Options)}
