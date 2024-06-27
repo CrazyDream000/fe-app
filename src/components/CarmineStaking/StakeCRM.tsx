@@ -1,7 +1,11 @@
 import { AccountInterface } from "starknet";
 import { useState } from "react";
 import { longInteger, shortInteger } from "../../utils/computations";
-import { CARMINE_STAKING_MONTH, GOVERNANCE_ADDRESS } from "../../constants/amm";
+import {
+  CARMINE_STAKING_MONTH,
+  CARMINE_STAKING_YEAR,
+  GOVERNANCE_ADDRESS,
+} from "../../constants/amm";
 import { TransactionState, TxTracking } from "../../types/network";
 import { stateToClassName } from "./StakingModal";
 import { LoadingAnimation } from "../Loading/Loading";
@@ -102,12 +106,10 @@ export const StakeCrm = ({ account, carmBalance }: Props) => {
   const handleYear = () => {
     setMonthState(TransactionState.Processing);
     setSixMonthsState(TransactionState.Processing);
-    stake(account, amount, 12 * CARMINE_STAKING_MONTH, setYearState).then(
-      () => {
-        setMonthState(TransactionState.Initial);
-        setSixMonthsState(TransactionState.Initial);
-      }
-    );
+    stake(account, amount, CARMINE_STAKING_YEAR, setYearState).then(() => {
+      setMonthState(TransactionState.Initial);
+      setSixMonthsState(TransactionState.Initial);
+    });
   };
 
   const handleInputChange = (value: string) => {

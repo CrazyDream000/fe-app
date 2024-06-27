@@ -3,7 +3,11 @@ import { AccountInterface } from "starknet";
 import { Eligible } from "./getProof";
 
 import { shortInteger } from "../../utils/computations";
-import { CARMINE_STAKING_MONTH, GOVERNANCE_ADDRESS } from "../../constants/amm";
+import {
+  CARMINE_STAKING_MONTH,
+  CARMINE_STAKING_YEAR,
+  GOVERNANCE_ADDRESS,
+} from "../../constants/amm";
 
 import GovernanceABI from "../../abi/governance_abi.json";
 import {
@@ -194,7 +198,7 @@ export const AirdropModal = ({ account, data, open, setOpen }: Props) => {
       account,
       data.proof,
       data.claimable,
-      CARMINE_STAKING_MONTH,
+      CARMINE_STAKING_YEAR,
       setYearState
     ).then(() => {
       setMonthState(TransactionState.Initial);
@@ -214,7 +218,7 @@ export const AirdropModal = ({ account, data, open, setOpen }: Props) => {
         <h3>Claim Airdrop</h3>
         <p>
           Congratulations! You are eligible to claim{" "}
-          {shortInteger(data.claimable, 18)} <b>CRM</b>!
+          {shortInteger(data.claimable, 18)} <b>veCRM</b>!
         </p>
         <p>You can claim and stake for any of these periods:</p>
         <div className={styles.buttongroup}>

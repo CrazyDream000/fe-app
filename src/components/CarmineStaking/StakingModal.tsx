@@ -2,7 +2,11 @@ import { Dialog } from "@mui/material";
 import { AccountInterface } from "starknet";
 
 import { longInteger, shortInteger } from "../../utils/computations";
-import { CARMINE_STAKING_MONTH, GOVERNANCE_ADDRESS } from "../../constants/amm";
+import {
+  CARMINE_STAKING_MONTH,
+  CARMINE_STAKING_YEAR,
+  GOVERNANCE_ADDRESS,
+} from "../../constants/amm";
 import GovernanceABI from "../../abi/governance_abi.json";
 import {
   addTx,
@@ -142,7 +146,7 @@ export const StakingModal = ({ account, amount, open, setOpen }: Props) => {
     unstakeAndStake(
       account,
       selectedAmount,
-      12 * CARMINE_STAKING_MONTH,
+      CARMINE_STAKING_YEAR,
       setYearState
     ).then(() => {
       setMonthState(TransactionState.Initial);

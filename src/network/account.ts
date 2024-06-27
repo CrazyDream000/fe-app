@@ -97,7 +97,8 @@ export const connect = (
         // do not open the dialog if the page is loading/just loaded
         return;
       }
-      openNetworkMismatchDialog();
+      // TODO: fix this
+      // openNetworkMismatchDialog();
     }
 
     addWalletEventHandlers(wallet);

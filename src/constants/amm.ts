@@ -76,3 +76,4 @@ export const BASE_MATH_64 = BigInt(2) ** BigInt(64);
 export const USDC_PRECISSION = 1000;
 
 export const CARMINE_STAKING_MONTH = 2629743;
+export const CARMINE_STAKING_YEAR = 31536000;
