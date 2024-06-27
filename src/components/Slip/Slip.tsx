@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import styles from "./Slip.module.css";
+import { useNavigate } from "react-router-dom";
 
 const MIN_WIDTH = 1200;
 
-const SlipElem = () => (
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const LegacyAppMessage = () => (
   <div className={styles.slip}>
     This App uses new Carmine Protocol with C2 contracts. Old App can be
     accessed at{" "}
@@ -11,8 +13,26 @@ const SlipElem = () => (
   </div>
 );
 
+const AirdropMessage = () => {
+  const navigate = useNavigate();
+
+  const handleClick = () => navigate("/governance/airdrop");
+
+  return (
+    <div className={styles.slip}>
+      Carmine Airdrop is now available! Claim it{" "}
+      <a style={{ cursor: "pointer" }} onClick={handleClick}>
+        here
+      </a>
+      .
+    </div>
+  );
+};
+
 export const Slip = () => {
-  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > MIN_WIDTH);
+  const [isWideScreen, setIsWideScreen] = useState(
+    window.innerWidth > MIN_WIDTH
+  );
 
   useEffect(() => {
     function handleResize() {
@@ -25,14 +45,14 @@ export const Slip = () => {
   }, []);
 
   if (isWideScreen) {
-    return <SlipElem />;
+    return <AirdropMessage />;
   }
 
   return (
     <div className={styles["scroll-container"]}>
       <div className={styles.scroller}>
-        <SlipElem />
-        <SlipElem />
+        <AirdropMessage />
+        <AirdropMessage />
       </div>
     </div>
   );

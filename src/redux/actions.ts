@@ -3,10 +3,12 @@ import { updateNetworkState } from "./reducers/network";
 import {
   addReferredPairState,
   DialogContentElem,
+  GovernanceSubpage,
   PortfolioParamType,
   ReferralSent,
   setBuyInsuranceModalState,
   setCloseOptionState,
+  setGovernanceSubpageState,
   setParamState,
   setToastState,
   setTransferDataModalState,
@@ -125,3 +127,6 @@ export const markTxAsFailed = (hash: string) =>
 
 export const addReferredPair = (pair: ReferralSent) =>
   store.dispatch(addReferredPairState(pair));
+
+export const setGovernanceSubpage = (subpage: GovernanceSubpage) =>
+  store.dispatch(setGovernanceSubpageState(subpage));

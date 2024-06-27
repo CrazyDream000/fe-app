@@ -19,3 +19,12 @@ export interface NetworkState {
   provider: RpcProvider;
   network: Network;
 }
+
+export enum TransactionState {
+  Initial,
+  Processing,
+  Success,
+  Fail,
+}
+
+export type TxTracking = (s: TransactionState) => void;

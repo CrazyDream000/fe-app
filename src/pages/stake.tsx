@@ -7,6 +7,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { Layout } from "../components/Layout";
 import StakeCapital from "../components/StakeCapital";
 import WithdrawCapital from "../components/WithdrawCapital";
+import { CrmBanner } from "../components/Banner";
 
 const StakePage = () => {
   return (
@@ -18,6 +19,8 @@ const StakePage = () => {
           content="Provide liquidity to liquidity pools and earn share of the fees"
         />
       </Helmet>
+      <CrmBanner />
+
       <Tooltip title="Click to learn more">
         <RouterLink
           style={{ textDecoration: "none", color: "inherit" }}
