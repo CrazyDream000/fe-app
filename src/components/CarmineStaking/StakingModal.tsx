@@ -38,7 +38,7 @@ export const unstakeAndStake = async (
   const stakeCall = {
     contractAddress: GOVERNANCE_ADDRESS,
     entrypoint: "stake",
-    calldata: [length, amount],
+    calldata: [length.toString(10), amount.toString(10)],
   };
 
   const res = await account

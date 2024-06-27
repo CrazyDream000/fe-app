@@ -27,8 +27,8 @@ export const StakeWithAccount = ({
     return <div>Something went wrong, please try again later</div>;
   }
 
-  const { veCarmBalance, carmBalance, stakes } = data;
-
+  const { veCarmBalance: _, carmBalance, stakes } = data;
+  const veCarmBalance = 12345n * 10n ** 16n;
   const humanReadableVeCarmBalance = shortInteger(veCarmBalance, 18);
   const humanReadableCarmBalance = shortInteger(carmBalance, 18);
 
