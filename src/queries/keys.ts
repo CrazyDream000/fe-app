@@ -10,4 +10,6 @@ export enum QueryKeys {
   userPoints = "USER_POINTS",
   braavosBonus = "BRAAVOS_BONUS",
   defiSpringClaimed = "DEFI_SPRING_CLAIMED",
+  carmineStakes = "CARMINE_STAKES",
+  airdropData = "AIRDROP_DATA",
 }

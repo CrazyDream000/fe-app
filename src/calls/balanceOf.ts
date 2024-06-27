@@ -6,11 +6,10 @@ import {
   ETH_ADDRESS,
   STRK_ADDRESS,
   USDC_ADDRESS,
+  VE_CRM_ADDRESS,
 } from "../constants/amm";
 import { Token, TokenKey } from "../classes/Token";
-
-const CARM_TOKEN_ADDRESS =
-  "0x3c0286e9e428a130ae7fbbe911b794e8a829c367dd788e7cfe3efb0367548fa";
+import { provider } from "../network/provider";
 
 export const balanceFromTokenAddress = async (
   account: AccountInterface,
@@ -57,7 +56,16 @@ export const balanceOfStrk = async (
 
 export const balanceOfCarmineToken = async (
   account: AccountInterface
-): Promise<bigint> => balanceFromTokenAddress(account, CARM_TOKEN_ADDRESS);
+): Promise<bigint> => balanceFromTokenAddress(account, VE_CRM_ADDRESS);
+
+export const balanceOf = async (
+  address: string,
+  token: string
+): Promise<bigint> => {
+  const contract = new Contract(ABI, token, provider);
+  const balance = await contract.balanceOf(address);
+  return balance;
+};
 
 export const getUserBalance = async (
   account: AccountInterface

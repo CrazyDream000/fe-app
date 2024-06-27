@@ -2,13 +2,14 @@ import { Helmet } from "react-helmet";
 
 import { Layout } from "../components/Layout";
 import { Proposals } from "../components/Proposal";
-import { Vest } from "../components/Vesting";
+import { CarmineStaking } from "../components/CarmineStaking";
 import { useGovernanceSubpage } from "../hooks/useGovernanceSubpage";
 import { GovernanceSubpage } from "../redux/reducers/ui";
 import { useNavigate } from "react-router-dom";
 import buttonStyles from "../style/button.module.css";
 import { setGovernanceSubpage } from "../redux/actions";
 import { Airdrop } from "../components/Airdrop/Airdrop";
+import { useEffect } from "react";
 
 const VotingSubpage = () => {
   return (
@@ -23,11 +24,8 @@ const VotingSubpage = () => {
 const StakingSubpage = () => {
   return (
     <div>
-      <h3>CARM Staking</h3>
-      <p>
-        Stake your <b>CARM</b>
-      </p>
-      <Vest />
+      <h3>CRM Staking</h3>
+      <CarmineStaking />
     </div>
   );
 };
@@ -35,6 +33,20 @@ const StakingSubpage = () => {
 const Governance = () => {
   const subpage = useGovernanceSubpage();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const parts = window.location.pathname.split("/").filter((s) => s !== "");
+
+    if (
+      parts.length === 2 &&
+      Object.values(GovernanceSubpage).includes(
+        parts[1] as GovernanceSubpage
+      ) &&
+      (parts[1] as GovernanceSubpage) !== subpage
+    ) {
+      setGovernanceSubpage(parts[1] as GovernanceSubpage);
+    }
+  });
 
   const handleNavigateClick = (subpage: GovernanceSubpage) => {
     setGovernanceSubpage(subpage);
