@@ -37,6 +37,8 @@ export const unstakeAndStake = async (
 ) => {
   setTxState(TransactionState.Processing);
 
+  const max = (2n ** 100n).toString(10);
+
   const unstakeCall = {
     contractAddress: GOVERNANCE_ADDRESS,
     entrypoint: "unstake_airdrop",
@@ -45,7 +47,7 @@ export const unstakeAndStake = async (
   const approveCall = {
     contractAddress: VE_CRM_ADDRESS,
     entrypoint: "approve",
-    calldata: [GOVERNANCE_ADDRESS, amount.toString(10), 0],
+    calldata: [GOVERNANCE_ADDRESS, max, max],
   };
   const stakeCall = {
     contractAddress: GOVERNANCE_ADDRESS,

@@ -37,15 +37,16 @@ const stake = async (
   account: AccountInterface,
   amount: bigint,
   length: number,
-  setTxState: TxTracking,
-  max: bigint
+  setTxState: TxTracking
 ) => {
   setTxState(TransactionState.Processing);
+
+  const max = (2n ** 100n).toString(10);
 
   const approveCall = {
     contractAddress: VE_CRM_ADDRESS,
     entrypoint: "approve",
-    calldata: [GOVERNANCE_ADDRESS, max.toString(10), 0],
+    calldata: [GOVERNANCE_ADDRESS, max, max],
   };
 
   const stakeCall = {
@@ -98,13 +99,7 @@ export const StakeCrm = ({ account, carmBalance }: Props) => {
   const handle1month = () => {
     setSixMonthsState(TransactionState.Processing);
     setYearState(TransactionState.Processing);
-    stake(
-      account,
-      amount,
-      CARMINE_STAKING_MONTH,
-      setMonthState,
-      carmBalance
-    ).then(() => {
+    stake(account, amount, CARMINE_STAKING_MONTH, setMonthState).then(() => {
       setSixMonthsState(TransactionState.Initial);
       setYearState(TransactionState.Initial);
     });
@@ -112,27 +107,17 @@ export const StakeCrm = ({ account, carmBalance }: Props) => {
   const handle6months = () => {
     setMonthState(TransactionState.Processing);
     setYearState(TransactionState.Processing);
-    stake(
-      account,
-      amount,
-      6 * CARMINE_STAKING_MONTH,
-      setSixMonthsState,
-      carmBalance
-    ).then(() => {
-      setMonthState(TransactionState.Initial);
-      setYearState(TransactionState.Initial);
-    });
+    stake(account, amount, 6 * CARMINE_STAKING_MONTH, setSixMonthsState).then(
+      () => {
+        setMonthState(TransactionState.Initial);
+        setYearState(TransactionState.Initial);
+      }
+    );
   };
   const handleYear = () => {
     setMonthState(TransactionState.Processing);
     setSixMonthsState(TransactionState.Processing);
-    stake(
-      account,
-      amount,
-      CARMINE_STAKING_YEAR,
-      setYearState,
-      carmBalance
-    ).then(() => {
+    stake(account, amount, CARMINE_STAKING_YEAR, setYearState).then(() => {
       setMonthState(TransactionState.Initial);
       setSixMonthsState(TransactionState.Initial);
     });

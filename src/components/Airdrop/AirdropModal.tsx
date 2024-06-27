@@ -79,6 +79,8 @@ export const claimAndStake = async (
   setTxState(TransactionState.Processing);
   const [address, amount, ...proof] = data;
 
+  const max = (2n ** 100n).toString(10);
+
   // calldata structure explained here: https://github.com/CarmineOptions/carmine-api/tree/master/carmine-api-airdrop
   // in Cairo, to send array you need to insert the length of array before the array items - "String(proof.length)"
   const claimCall = {
@@ -94,7 +96,7 @@ export const claimAndStake = async (
   const approveCall = {
     contractAddress: VE_CRM_ADDRESS,
     entrypoint: "approve",
-    calldata: [GOVERNANCE_ADDRESS, airdropAmount.toString(10), 0],
+    calldata: [GOVERNANCE_ADDRESS, max, max],
   };
   const stakeCall = {
     contractAddress: GOVERNANCE_ADDRESS,
