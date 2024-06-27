@@ -35,17 +35,22 @@ export const StakeWithAccount = ({
   return (
     <div>
       <p>
-        Find out more about <b>CRM</b> staking and <b>veCRM</b>{" "}
-        <a href="https://carmine.finance" target="_blank" rel="noreferrer">
-          insert some link here
+        Want to know more about <b>CRM</b> staking and <b>veCRM</b>?{" "}
+        <a
+          href="https://x.com/CarmineOptions/status/1806276899972202520"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Find out here!
         </a>
         .
       </p>
+
       <p>
         You have {humanReadableCarmBalance} <b>CRM</b> and{" "}
         {humanReadableVeCarmBalance} <b>veCRM</b>
       </p>
-      {carmBalance >= 0n && (
+      {carmBalance > 0n && (
         <StakeCrm account={account} carmBalance={carmBalance} />
       )}
 

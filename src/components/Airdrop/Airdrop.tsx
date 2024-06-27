@@ -9,7 +9,6 @@ import { isMainnet } from "../../constants/amm";
 import { QueryKeys } from "../../queries/keys";
 import { AirdropModal } from "./AirdropModal";
 
-import styles from "../../style/table.module.css";
 import buttonStyles from "../../style/button.module.css";
 import airdropStyles from "./airdrop.module.css";
 
@@ -50,7 +49,7 @@ const ClaimAndStake = ({
 const AirdropTemplate = ({ message }: { message: string }) => (
   <div>
     <h3>Airdrop</h3>
-    <div className={styles.textcontainer}>{message}</div>
+    <div className={airdropStyles.textcontainer}>{message}</div>
   </div>
 );
 

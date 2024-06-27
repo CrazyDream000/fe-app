@@ -5,6 +5,13 @@
   padding: 25px 50px;
 }
 
+.textcontainer {
+  flex-flow: row;
+  border: 1px solid white;
+  padding: 25px 50px;
+  display: inline-block;
+}
+
 .claim {
   border: 1px solid white;
   display: inline-flex;
