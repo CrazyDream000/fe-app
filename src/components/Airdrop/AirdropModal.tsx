@@ -94,12 +94,12 @@ export const claimAndStake = async (
   const approveCall = {
     contractAddress: VE_CRM_ADDRESS,
     entrypoint: "approve",
-    calldata: [GOVERNANCE_ADDRESS, airdropAmount, 0],
+    calldata: [GOVERNANCE_ADDRESS, airdropAmount.toString(10), 0],
   };
   const stakeCall = {
     contractAddress: GOVERNANCE_ADDRESS,
     entrypoint: "stake",
-    calldata: [length, airdropAmount],
+    calldata: [length, airdropAmount.toString(10)],
   };
 
   const res = await account

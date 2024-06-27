@@ -1,5 +1,4 @@
 import { AccountInterface } from "starknet";
-import { Skeleton } from "@mui/material";
 import { useQuery } from "react-query";
 
 import { useAccount } from "../../hooks/useAccount";
@@ -9,6 +8,7 @@ import { Stakes } from "./Stakes";
 import { QueryKeys } from "../../queries/keys";
 import { fetchStakingData } from "./calls";
 import { StakeCrm } from "./StakeCRM";
+import { LoadingAnimation } from "../Loading/Loading";
 
 export const StakeWithAccount = ({
   account,
@@ -20,7 +20,7 @@ export const StakeWithAccount = ({
     fetchStakingData
   );
   if (isLoading || !data) {
-    return <Skeleton width={400} height={150} />;
+    return <LoadingAnimation size={70} />;
   }
 
   if (isError) {
