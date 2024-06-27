@@ -44,13 +44,13 @@ const stake = async (
   const approveCall = {
     contractAddress: VE_CRM_ADDRESS,
     entrypoint: "approve",
-    calldata: [GOVERNANCE_ADDRESS, amount.toString(10)],
+    calldata: [GOVERNANCE_ADDRESS, amount, 0],
   };
 
   const stakeCall = {
     contractAddress: GOVERNANCE_ADDRESS,
     entrypoint: "stake",
-    calldata: [length.toString(10), amount.toString(10)],
+    calldata: [length, amount],
   };
 
   const res = await account

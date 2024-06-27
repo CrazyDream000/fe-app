@@ -27,7 +27,7 @@ const ClaimAndStake = ({
       <h3>Airdrop</h3>
       <div className={airdropStyles.claim}>
         <span>
-          You are eligible to claim {amountHumanReadable} <b>CRM</b>!
+          You are eligible to claim {amountHumanReadable} <b>veCRM</b>!
         </span>
         <button
           className={buttonStyles.secondary}
