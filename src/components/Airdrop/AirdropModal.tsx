@@ -6,8 +6,8 @@ import { shortInteger } from "../../utils/computations";
 import {
   CARMINE_STAKING_MONTH,
   CARMINE_STAKING_YEAR,
+  CRM_ADDRESS,
   GOVERNANCE_ADDRESS,
-  VE_CRM_ADDRESS,
 } from "../../constants/amm";
 import {
   addTx,
@@ -79,8 +79,6 @@ export const claimAndStake = async (
   setTxState(TransactionState.Processing);
   const [address, amount, ...proof] = data;
 
-  const max = (2n ** 100n).toString(10);
-
   // calldata structure explained here: https://github.com/CarmineOptions/carmine-api/tree/master/carmine-api-airdrop
   // in Cairo, to send array you need to insert the length of array before the array items - "String(proof.length)"
   const claimCall = {
@@ -94,9 +92,9 @@ export const claimAndStake = async (
     calldata: [],
   };
   const approveCall = {
-    contractAddress: VE_CRM_ADDRESS,
+    contractAddress: CRM_ADDRESS,
     entrypoint: "approve",
-    calldata: [GOVERNANCE_ADDRESS, max, max],
+    calldata: [GOVERNANCE_ADDRESS, airdropAmount.toString(10)],
   };
   const stakeCall = {
     contractAddress: GOVERNANCE_ADDRESS,

@@ -5,8 +5,8 @@ import { longInteger, shortInteger } from "../../utils/computations";
 import {
   CARMINE_STAKING_MONTH,
   CARMINE_STAKING_YEAR,
+  CRM_ADDRESS,
   GOVERNANCE_ADDRESS,
-  VE_CRM_ADDRESS,
 } from "../../constants/amm";
 import {
   addTx,
@@ -37,17 +37,15 @@ export const unstakeAndStake = async (
 ) => {
   setTxState(TransactionState.Processing);
 
-  const max = (2n ** 100n).toString(10);
-
   const unstakeCall = {
     contractAddress: GOVERNANCE_ADDRESS,
     entrypoint: "unstake_airdrop",
     calldata: [],
   };
   const approveCall = {
-    contractAddress: VE_CRM_ADDRESS,
+    contractAddress: CRM_ADDRESS,
     entrypoint: "approve",
-    calldata: [GOVERNANCE_ADDRESS, max, max],
+    calldata: [GOVERNANCE_ADDRESS, amount.toString(10), 0],
   };
   const stakeCall = {
     contractAddress: GOVERNANCE_ADDRESS,
