@@ -20,6 +20,21 @@
   align-items: center;
 }
 
+.inputall {
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
+}
+
+.inputall button {
+  border-left: 0;
+}
+
+.inputall input {
+  max-width: none;
+  width: 100%;
+}
+
 @media (max-width: 800px) {
   .buttongroup {
     flex-flow: column;

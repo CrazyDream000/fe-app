@@ -1,7 +1,7 @@
 import { Dialog } from "@mui/material";
 import { AccountInterface } from "starknet";
 
-import { shortInteger } from "../../utils/computations";
+import { longInteger, shortInteger } from "../../utils/computations";
 import { CARMINE_STAKING_MONTH, GOVERNANCE_ADDRESS } from "../../constants/amm";
 import GovernanceABI from "../../abi/governance_abi.json";
 import {
@@ -20,6 +20,7 @@ import { unstakeAirdrop } from "../../calls/carmineStake";
 
 import styles from "./modal.module.css";
 import buttonStyles from "../../style/button.module.css";
+import inputStyles from "../../style/input.module.css";
 
 export const unstakeAndStake = async (
   account: AccountInterface,
@@ -88,12 +89,16 @@ export const stateToClassName = (state: TransactionState) => {
 };
 
 export const StakingModal = ({ account, amount, open, setOpen }: Props) => {
+  const numCarmBalance = shortInteger(amount, 18);
+  const [inputValue, setInputValue] = useState(numCarmBalance.toString(10));
   const [unstakeState, setUnstakeState] = useState(TransactionState.Initial);
   const [monthState, setMonthState] = useState(TransactionState.Initial);
   const [sixMonthsState, setSixMonthsState] = useState(
     TransactionState.Initial
   );
   const [yearState, setYearState] = useState(TransactionState.Initial);
+
+  const selectedAmount = longInteger(parseFloat(inputValue), 18);
 
   const handleClose = () => {
     setOpen(false);
@@ -108,19 +113,22 @@ export const StakingModal = ({ account, amount, open, setOpen }: Props) => {
   const handle1month = () => {
     setSixMonthsState(TransactionState.Processing);
     setYearState(TransactionState.Processing);
-    unstakeAndStake(account, amount, CARMINE_STAKING_MONTH, setMonthState).then(
-      () => {
-        setSixMonthsState(TransactionState.Initial);
-        setYearState(TransactionState.Initial);
-      }
-    );
+    unstakeAndStake(
+      account,
+      selectedAmount,
+      CARMINE_STAKING_MONTH,
+      setMonthState
+    ).then(() => {
+      setSixMonthsState(TransactionState.Initial);
+      setYearState(TransactionState.Initial);
+    });
   };
   const handle6months = () => {
     setMonthState(TransactionState.Processing);
     setYearState(TransactionState.Processing);
     unstakeAndStake(
       account,
-      amount,
+      selectedAmount,
       6 * CARMINE_STAKING_MONTH,
       setSixMonthsState
     ).then(() => {
@@ -133,7 +141,7 @@ export const StakingModal = ({ account, amount, open, setOpen }: Props) => {
     setSixMonthsState(TransactionState.Processing);
     unstakeAndStake(
       account,
-      amount,
+      selectedAmount,
       12 * CARMINE_STAKING_MONTH,
       setYearState
     ).then(() => {
@@ -141,6 +149,23 @@ export const StakingModal = ({ account, amount, open, setOpen }: Props) => {
       setSixMonthsState(TransactionState.Initial);
     });
   };
+
+  const handleInputChange = (value: string) => {
+    // Allow empty string, valid number, or a single decimal point followed by numbers
+    const numericValue =
+      value === "" || /^\d*\.?\d{0,6}$/.test(value) ? value : inputValue;
+
+    const num = parseFloat(numericValue);
+
+    if (num && num > numCarmBalance) {
+      // cannot set more than holds
+      return;
+    }
+
+    setInputValue(numericValue);
+  };
+
+  const handleAll = () => setInputValue(numCarmBalance.toString(10));
 
   return (
     <Dialog
@@ -156,39 +181,55 @@ export const StakingModal = ({ account, amount, open, setOpen }: Props) => {
           Your stake of {shortInteger(amount, 18)} <b>CRM</b> has expired.
         </p>
         <p>You can stake again for a period:</p>
-        <div className={styles.buttongroup}>
-          <button
-            disabled={monthState !== TransactionState.Initial}
-            onClick={handle1month}
-            className={stateToClassName(monthState)}
-          >
-            {monthState === TransactionState.Processing && <LoadingAnimation />}
-            {monthState === TransactionState.Initial && "1 month"}
-            {monthState === TransactionState.Success && "Done!"}
-            {monthState === TransactionState.Fail && "Failed"}
-          </button>
-          <button
-            disabled={sixMonthsState !== TransactionState.Initial}
-            onClick={handle6months}
-            className={stateToClassName(sixMonthsState)}
-          >
-            {sixMonthsState === TransactionState.Processing && (
-              <LoadingAnimation />
-            )}
-            {sixMonthsState === TransactionState.Initial && "6 months"}
-            {sixMonthsState === TransactionState.Success && "Done!"}
-            {sixMonthsState === TransactionState.Fail && "Failed"}
-          </button>
-          <button
-            disabled={yearState !== TransactionState.Initial}
-            onClick={handleYear}
-            className={stateToClassName(yearState)}
-          >
-            {yearState === TransactionState.Processing && <LoadingAnimation />}
-            {yearState === TransactionState.Initial && "1 year"}
-            {yearState === TransactionState.Success && "Done!"}
-            {yearState === TransactionState.Fail && "Failed"}
-          </button>
+        <div>
+          <div className={styles.inputall}>
+            <input
+              className={inputStyles.input}
+              placeholder="0"
+              type="text"
+              value={inputValue}
+              onChange={(e) => handleInputChange(e.target.value)}
+            />
+            <button onClick={handleAll}>All</button>
+          </div>
+          <div className={styles.buttongroup}>
+            <button
+              disabled={monthState !== TransactionState.Initial}
+              onClick={handle1month}
+              className={stateToClassName(monthState)}
+            >
+              {monthState === TransactionState.Processing && (
+                <LoadingAnimation />
+              )}
+              {monthState === TransactionState.Initial && "1 month"}
+              {monthState === TransactionState.Success && "Done!"}
+              {monthState === TransactionState.Fail && "Failed"}
+            </button>
+            <button
+              disabled={sixMonthsState !== TransactionState.Initial}
+              onClick={handle6months}
+              className={stateToClassName(sixMonthsState)}
+            >
+              {sixMonthsState === TransactionState.Processing && (
+                <LoadingAnimation />
+              )}
+              {sixMonthsState === TransactionState.Initial && "6 months"}
+              {sixMonthsState === TransactionState.Success && "Done!"}
+              {sixMonthsState === TransactionState.Fail && "Failed"}
+            </button>
+            <button
+              disabled={yearState !== TransactionState.Initial}
+              onClick={handleYear}
+              className={stateToClassName(yearState)}
+            >
+              {yearState === TransactionState.Processing && (
+                <LoadingAnimation />
+              )}
+              {yearState === TransactionState.Initial && "1 year"}
+              {yearState === TransactionState.Success && "Done!"}
+              {yearState === TransactionState.Fail && "Failed"}
+            </button>
+          </div>
         </div>
         <p>
           Alternatively, you can unstake your <b>veCRM</b> to <b>CRM</b>:
