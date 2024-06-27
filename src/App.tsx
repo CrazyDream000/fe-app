@@ -45,8 +45,8 @@ const App = () => {
         <CssBaseline />
         {acceptedTermsAndConditions ? (
           <>
-            <Slip />
             <Router>
+              <Slip />
               <Routes>
                 {oldPathRedirects.map(([oldPath, newPath], i) => (
                   <Route
