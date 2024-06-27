@@ -97,7 +97,7 @@ export const claimAndStake = async (
   const approveCall = {
     contractAddress: CRM_ADDRESS,
     entrypoint: "approve",
-    calldata: [GOVERNANCE_ADDRESS, airdropAmount.toString(10)],
+    calldata: [GOVERNANCE_ADDRESS, airdropAmount.toString(10), 0],
   };
   const stakeCall = {
     contractAddress: GOVERNANCE_ADDRESS,
