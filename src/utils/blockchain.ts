@@ -1,6 +1,6 @@
 import { Contract } from "starknet";
 import AmmAbi from "../abi/amm_abi.json";
-import GovernanceAbi from "../abi/amm_abi.json";
+import GovernanceAbi from "../abi/governance_abi.json";
 import { AMM_ADDRESS, GOVERNANCE_ADDRESS } from "../constants/amm";
 import { provider } from "../network/provider";
 
