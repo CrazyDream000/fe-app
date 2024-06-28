@@ -13,4 +13,5 @@ export enum QueryKeys {
   carmineStakes = "CARMINE_STAKES",
   airdropData = "AIRDROP_DATA",
   liveProposals = "LIVE_PROPOSALS",
+  defispring = "DEFISPRING",
 }

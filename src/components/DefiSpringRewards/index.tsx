@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAccount } from "../../hooks/useAccount";
 import { defiSpringClaim } from "../../calls/getDefiSpringClaim";
 import { AccountInterface } from "starknet";
-import { DefiSpringData, DefiSpringStatus, getDefiSpringData } from "./fetch";
+import { getDefiSpringData } from "./fetch";
 import { shortInteger } from "../../utils/computations";
 import { openWalletConnectDialog } from "../ConnectWallet/Button";
 import { Skeleton } from "@mui/material";
@@ -20,6 +20,9 @@ import { LoadingAnimation } from "../Loading/Loading";
 
 import buttonStyles from "../../style/button.module.css";
 import styles from "./defi.module.css";
+import { QueryKeys } from "../../queries/keys";
+import { useQuery } from "react-query";
+import { invalidateKey } from "../../queries/client";
 
 export const RewardsWithAccount = ({
   account,
@@ -28,20 +31,14 @@ export const RewardsWithAccount = ({
 }) => {
   const address = account.address;
 
-  const [status, setStatus] = useState<DefiSpringStatus>(
-    DefiSpringStatus.Initial
+  const { isLoading, isError, data } = useQuery(
+    [QueryKeys.defispring, address],
+    getDefiSpringData
   );
-  const [data, setData] = useState<DefiSpringData | undefined>();
+
   const [claiming, setClaiming] = useState<boolean>(false);
 
-  useEffect(() => {
-    getDefiSpringData(address, setStatus, setData);
-  }, [address]);
-
-  if (
-    status === DefiSpringStatus.Initial ||
-    status === DefiSpringStatus.Fetching
-  ) {
+  if (isLoading) {
     return (
       <div className={styles.outer}>
         <p>
@@ -91,7 +88,7 @@ export const RewardsWithAccount = ({
     );
   }
 
-  if (status === DefiSpringStatus.Error || data === undefined) {
+  if (isError || !data) {
     return <p>Something went wrong, please try again later</p>;
   }
 
@@ -108,6 +105,7 @@ export const RewardsWithAccount = ({
         () => {
           markTxAsDone(hash);
           showToast("Claim successfull", ToastType.Success);
+          invalidateKey(QueryKeys.defispring);
         },
         () => {
           markTxAsFailed(hash);
