@@ -57,6 +57,8 @@ type PropMessageProps = {
   link?: string;
 };
 
+// TODO: find a way to link prop to discord message
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const PropMessage = ({ link }: PropMessageProps) => {
   if (link) {
     return (

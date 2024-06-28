@@ -1,3 +1,4 @@
+import { QueryFunctionContext } from "react-query";
 import { getDefiSpringClaimed } from "../../calls/getDefiSpringClaim";
 
 type ClaimCalldata = {
@@ -46,41 +47,44 @@ export const fetchCalldata = async (
   throw Error(message);
 };
 
-export const getDefiSpringData = async (
-  address: string,
-  setStatus: (s: DefiSpringStatus) => void,
-  setData: (d: DefiSpringData) => void
-) => {
-  setStatus(DefiSpringStatus.Fetching);
+export const getDefiSpringData = async ({
+  queryKey,
+}: QueryFunctionContext<[string, string]>): Promise<DefiSpringData> => {
+  const address = queryKey[1];
+
   const allocationPromise = fetchUserAllocation(address);
   const calldataPromise = fetchCalldata(address);
   const claimedPromise = getDefiSpringClaimed(address);
 
-  Promise.all([allocationPromise, calldataPromise, claimedPromise])
+  const res: DefiSpringData | undefined = await Promise.all([
+    allocationPromise,
+    calldataPromise,
+    claimedPromise,
+  ])
     .then(([allocation, calldata, claimed]) => {
-      setData({
+      return {
         allocation,
         claimed,
         amount: calldata.amount,
         proof: calldata.proof,
-      });
-      setStatus(DefiSpringStatus.Ready);
+      };
     })
     .catch((err: Error) => {
       const { message } = err;
+
       if (message.includes("Address not found in tree")) {
-        // no allocation - return 0s
-        setData({
+        return {
           allocation: 0n,
           claimed: 0n,
           amount: "0",
           proof: [],
-        });
-        setStatus(DefiSpringStatus.Ready);
-        return;
+        };
       }
-      console.error(message);
-      // unknow error - display error
-      setStatus(DefiSpringStatus.Error);
     });
+
+  if (res) {
+    return res;
+  }
+
+  throw Error("Failed getting defispring data");
 };
