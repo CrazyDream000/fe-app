@@ -1,3 +1,38 @@
+# [1.3.0](https://github.com/CarmineOptions/fe-app/compare/v1.2.0...v1.3.0) (2024-06-28)
+
+
+### Bug Fixes
+
+* add 0 to approve ([24a8f0a](https://github.com/CarmineOptions/fe-app/commit/24a8f0a0ce14bb2ad748728b201da35f71a56814))
+* add approve ([c56ee27](https://github.com/CarmineOptions/fe-app/commit/c56ee274d4fbf1665d76ccd71a1e24b2e788e7f5))
+* airdrop texts ([778f4f1](https://github.com/CarmineOptions/fe-app/commit/778f4f11688bc4beed33ce884c705cc7fe06f659))
+* approve correct token ([84ac7ab](https://github.com/CarmineOptions/fe-app/commit/84ac7ab1db8850fde2ef79919c9b95b244ff5e95))
+* approve maximum ([1ef186e](https://github.com/CarmineOptions/fe-app/commit/1ef186ed5de06eef88b5501e839d34c5b0926fb2))
+* approve not a number ([f878163](https://github.com/CarmineOptions/fe-app/commit/f8781634766fc11ddf9585ecf865409eeb7a66a4))
+* approve overkill value ([82f8ad0](https://github.com/CarmineOptions/fe-app/commit/82f8ad051cc2896fe10cc807e806c0b8296eb367))
+* calldata string instead of bigint ([3b18601](https://github.com/CarmineOptions/fe-app/commit/3b18601db46ef766b54836812a8f536241e25d36))
+* claim buttons ([384bc65](https://github.com/CarmineOptions/fe-app/commit/384bc654da070c3d13712882ddb7ff65b8ea3546))
+* delete mock value ([3242a24](https://github.com/CarmineOptions/fe-app/commit/3242a2434f71045705d88c6023cd802ff2f9c1d8))
+* do not show network mismatch ([933489a](https://github.com/CarmineOptions/fe-app/commit/933489a07596150629074006175b30eb089ee5f1))
+* select size stake modal ([d94fa3d](https://github.com/CarmineOptions/fe-app/commit/d94fa3d4b2c522248362af23ed48e10424d4a26c))
+* semantic release master branch ([6be82da](https://github.com/CarmineOptions/fe-app/commit/6be82da99bc6cbe5c3cf22880de3d2a2acf2d6f8))
+* slip with routing ([3454e2f](https://github.com/CarmineOptions/fe-app/commit/3454e2f0e1bfc8c7e8e2a48c7054738b1f9152f6))
+* staking length ([32f00c1](https://github.com/CarmineOptions/fe-app/commit/32f00c133b30ebc4ed89f5c5f5a76843847c21e1))
+* staking multipliers ([051ef59](https://github.com/CarmineOptions/fe-app/commit/051ef59df87a3a5073791f7f7d68fcf9687091cb))
+* use react query for defispring ([78986dc](https://github.com/CarmineOptions/fe-app/commit/78986dc22014f1b48161aceeb02004ef36fbed25))
+* use string in calldata ([c0aa94b](https://github.com/CarmineOptions/fe-app/commit/c0aa94b3c915eda93b4d251018a5138fcf5369f2))
+* use user address instead of hardcoded value ([412dd48](https://github.com/CarmineOptions/fe-app/commit/412dd48ba3faa4a56c6c5cacaeb055a7b24c8b8a))
+
+
+### Features
+
+* add crm banner ([7458176](https://github.com/CarmineOptions/fe-app/commit/7458176cf170be177941f77d7dd2019d31d82410))
+* add proposals 74 - 76 ([b6b88d6](https://github.com/CarmineOptions/fe-app/commit/b6b88d602b7bbb50ed21bbb9939c2be67885893e))
+* basic layout ([e962534](https://github.com/CarmineOptions/fe-app/commit/e962534593998cd5a93471ead3dfc897ef1f1fc4))
+* live proposals ([b61434d](https://github.com/CarmineOptions/fe-app/commit/b61434d9603322174316ae6054aa4989a27e9b76))
+* new airdrop and staking ([582a590](https://github.com/CarmineOptions/fe-app/commit/582a590694df27a169ec21f9d7545c0899e2b7d8))
+* split governance page into subpages ([11ef672](https://github.com/CarmineOptions/fe-app/commit/11ef6725e9b2a283fe05cbf13ecaaea0aaa2d128))
+
 # [1.2.0](https://github.com/CarmineOptions/fe-app/compare/v1.1.1...v1.2.0) (2024-06-21)
 
 
