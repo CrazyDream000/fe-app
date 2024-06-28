@@ -15,7 +15,18 @@ const VotingSubpage = () => {
   return (
     <div>
       <h3>Proposals</h3>
-      <p>Vote on AMM defining proposals</p>
+      <p>Vote on AMM defining proposals.</p>
+      <p>
+        To find out more about the proposals and discuss, go to{" "}
+        <a
+          href="https://discord.com/channels/969228248552706078/1124013480123584622"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Proposals channel on Carmine Options AMM Discord
+        </a>
+        .
+      </p>
       <Proposals />
     </div>
   );

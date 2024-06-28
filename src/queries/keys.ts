@@ -12,4 +12,5 @@ export enum QueryKeys {
   defiSpringClaimed = "DEFI_SPRING_CLAIMED",
   carmineStakes = "CARMINE_STAKES",
   airdropData = "AIRDROP_DATA",
+  liveProposals = "LIVE_PROPOSALS",
 }

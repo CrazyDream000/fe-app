@@ -1,10 +1,27 @@
+import { useQuery } from "react-query";
 import { NoContent } from "../TableNoContent";
-import { activeProposal } from "./fetchProposal";
 import ProposalTable from "./ProposalTable";
+import { QueryKeys } from "../../queries/keys";
+import { fetchLiveProposals } from "../../calls/liveProposals";
+import { LoadingAnimation } from "../Loading/Loading";
 
 export const Proposals = () => {
-  if (activeProposal.length === 0) {
+  const { isLoading, isError, data } = useQuery(
+    [QueryKeys.liveProposals],
+    fetchLiveProposals
+  );
+
+  if (isError) {
+    return <p>Something went wrong, please try again later.</p>;
+  }
+
+  if (isLoading || !data) {
+    return <LoadingAnimation />;
+  }
+
+  if (data.length === 0) {
     return <NoContent text="No proposals are currently live" />;
   }
-  return <ProposalTable activeData={activeProposal} />;
+
+  return <ProposalTable activeData={data} />;
 };
