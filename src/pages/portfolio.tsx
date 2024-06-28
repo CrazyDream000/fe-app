@@ -13,6 +13,7 @@ import { PortfolioParamType } from "../redux/reducers/ui";
 import buttonStyles from "../style/button.module.css";
 import { Referral } from "../components/Referral";
 import { isMainnet } from "../constants/amm";
+import { CrmBanner } from "../components/Banner";
 
 const Portfolio = () => {
   const portfolioParam = usePortfolioParam();
@@ -65,6 +66,8 @@ const Portfolio = () => {
           content="Your current positions and history of your activity"
         />
       </Helmet>
+      <CrmBanner />
+
       <button
         className={`${
           portfolioParam === PortfolioParamType.AirDrop &&

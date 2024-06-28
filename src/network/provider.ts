@@ -14,6 +14,7 @@ export const testnetOptions: RpcProviderOptions = {
 
 export const mainnetOptions: RpcProviderOptions = {
   nodeUrl: apiUrl("call", { network: "mainnet" }),
+  // nodeUrl: "http://34.22.208.73:5051", dev mainnet
   chainId: constants.StarknetChainId.SN_MAIN,
 };
 

@@ -1,97 +1,112 @@
-import { ClaimButton } from "./ClaimButton";
-import { useAccount } from "../../hooks/useAccount";
-import { useEffect, useState } from "react";
-import { useNetwork } from "../../hooks/useNetwork";
-import { ProofResult, getProof } from "./getProof";
+import { useState } from "react";
+import { useQuery } from "react-query";
 import { AccountInterface } from "starknet";
-import { shortInteger } from "../../utils/computations";
-import { NETWORK } from "../../constants/amm";
-import styles from "../../style/table.module.css";
 
-type Props = {
-  account: AccountInterface | undefined;
-  message: string;
-  data?: string[];
+import { useAccount } from "../../hooks/useAccount";
+import { Eligible, getAirdropDataQuery } from "./getProof";
+import { shortInteger } from "../../utils/computations";
+import { isMainnet } from "../../constants/amm";
+import { QueryKeys } from "../../queries/keys";
+import { AirdropModal } from "./AirdropModal";
+
+import buttonStyles from "../../style/button.module.css";
+import airdropStyles from "./airdrop.module.css";
+
+const ClaimAndStake = ({
+  account,
+  data,
+}: {
+  account: AccountInterface;
+  data: Eligible;
+}) => {
+  const [open, setOpen] = useState(false);
+  const amountHumanReadable = shortInteger(data.claimable, 18);
+
+  return (
+    <div>
+      <h3>Airdrop</h3>
+      <div className={airdropStyles.claim}>
+        <span>
+          You are eligible to claim {amountHumanReadable} <b>veCRM</b>!
+        </span>
+        <button
+          className={buttonStyles.secondary}
+          onClick={() => setOpen(true)}
+        >
+          Claim
+        </button>
+      </div>
+      <AirdropModal
+        account={account}
+        data={data}
+        open={open}
+        setOpen={setOpen}
+      />
+    </div>
+  );
 };
 
-const AirdropTemplate = ({ account, message, data }: Props) => (
+const AirdropTemplate = ({ message }: { message: string }) => (
   <div>
     <h3>Airdrop</h3>
-    <div className={styles.textcontainer}>
-      {message} {account && <ClaimButton account={account} data={data} />}
-    </div>
+    <div className={airdropStyles.textcontainer}>{message}</div>
   </div>
 );
 
-export const Airdrop = () => {
-  const account = useAccount();
-  const network = useNetwork();
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<ProofResult | undefined>();
+export const AirdropWithAccount = ({
+  account,
+}: {
+  account: AccountInterface;
+}) => {
+  const { isLoading, isError, data } = useQuery(
+    [QueryKeys.airdropData, account.address],
+    getAirdropDataQuery
+  );
 
-  const isMainnet = NETWORK === "mainnet";
-
-  useEffect(() => {
-    if (account && isMainnet) {
-      setLoading(true);
-      getProof(account).then((res) => {
-        setData(res);
-        setLoading(false);
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, network]);
-
-  if (!isMainnet) {
+  if (isError) {
     return (
-      <AirdropTemplate
-        account={undefined}
-        message="Please switch to Mainnet to access airdrop"
-      />
+      <AirdropTemplate message="Something went wrong, please try again later." />
     );
   }
 
-  if (!account) {
+  if (isLoading || !data) {
     return (
-      <AirdropTemplate
-        account={account}
-        message="Connect your wallet to see if you are eligible for an airdrop"
-      />
-    );
-  }
-
-  if (loading || !data) {
-    return (
-      <AirdropTemplate
-        account={account}
-        message="Checking if you are eligible for an airdrop..."
-      />
+      <AirdropTemplate message="Checking if you are eligible for an airdrop..." />
     );
   }
 
   if (data.eligible) {
-    if (data.claimable === "0") {
+    if (data.claimable === 0n) {
       const amount = shortInteger(data.claimed, 18);
       return (
         <AirdropTemplate
-          account={undefined}
           message={`You cannot claim any tokens, you have already claimed ${amount}`}
         />
       );
     }
 
-    const amount = shortInteger(data.claimable, 18);
-    const message = `${amount} Tokens available.`;
-
-    return (
-      <AirdropTemplate account={account} data={data.proof} message={message} />
-    );
+    return <ClaimAndStake account={account} data={data} />;
   }
 
   return (
-    <AirdropTemplate
-      account={account}
-      message="Connected wallet is not eligible for an airdrop"
-    />
+    <AirdropTemplate message="Connected wallet is not eligible for an airdrop" />
   );
+};
+
+export const Airdrop = () => {
+  const account = useAccount();
+
+  if (!account) {
+    return (
+      <AirdropTemplate message="Connect your wallet to see if you are eligible for an airdrop" />
+    );
+  }
+
+  if (!isMainnet) {
+    return (
+      <AirdropTemplate message="Please switch to Mainnet to access airdrop" />
+    );
+  }
+
+  return <AirdropWithAccount account={account} />;
 };

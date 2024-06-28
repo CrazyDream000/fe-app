@@ -24,3 +24,5 @@ export interface WalletState {
   address?: string,
   balance?: UserBalance
 }
+
+export type TxTracking = (s: TransactionState) => void;

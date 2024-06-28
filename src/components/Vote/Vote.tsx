@@ -2,7 +2,6 @@ import { AccountInterface } from "starknet";
 
 import GovernanceAbi from "../../abi/amm_abi.json";
 import { GOVERNANCE_ADDRESS } from "../../constants/amm";
-import { Proposal } from "../../types/proposal";
 import { debug } from "../../utils/debugger";
 
 import styles from "./Vote.module.css";
@@ -58,6 +57,8 @@ type PropMessageProps = {
   link?: string;
 };
 
+// TODO: find a way to link prop to discord message
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const PropMessage = ({ link }: PropMessageProps) => {
   if (link) {
     return (
@@ -86,7 +87,7 @@ const PropMessage = ({ link }: PropMessageProps) => {
 };
 
 type VoteProps = {
-  proposal: Proposal;
+  proposal: number;
   balance: bigint;
   account?: AccountInterface;
 };
@@ -94,8 +95,7 @@ type VoteProps = {
 export const Vote = ({ proposal, balance, account }: VoteProps) => {
   return (
     <div>
-      <PropMessage link={proposal.discordLink} />
-      <VoteButtons account={account} propId={proposal.id} balance={balance} />
+      <VoteButtons account={account} propId={proposal} balance={balance} />
     </div>
   );
 };

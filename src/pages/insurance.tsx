@@ -4,6 +4,7 @@ import { BuyInsuranceBox } from "../components/Insurance/BuyInsuranceBox";
 import { ActiveInsurance } from "../components/Insurance/ActiveInsurance";
 import { ClaimInsurance } from "../components/Insurance/ClaimInsurance";
 import styles from "./insurance.module.css";
+import { CrmBanner } from "../components/Banner";
 
 const Insurance = () => {
   return (
@@ -15,6 +16,7 @@ const Insurance = () => {
           content="Insure the value of your crypto assets"
         />
       </Helmet>
+      <CrmBanner />
       <h3>Insurance</h3>
       <BuyInsuranceBox />
       <div className={styles.container}>

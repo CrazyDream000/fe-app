@@ -2,6 +2,7 @@ import { useEffect } from "react";
 
 import { Layout } from "../components/Layout";
 import { Leaderboard } from "../components/Points";
+import { CrmBanner } from "../components/Banner";
 
 const LeaderboardPage = () => {
   useEffect(() => {
@@ -10,6 +11,8 @@ const LeaderboardPage = () => {
 
   return (
     <Layout>
+      <CrmBanner />
+
       <h3>Carmine Points Program</h3>
       <p>Elevate Your Status, Enhance Your Rewards</p>
       <h3>Leaderboard</h3>

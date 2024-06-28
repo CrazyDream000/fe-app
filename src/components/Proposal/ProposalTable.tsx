@@ -1,4 +1,3 @@
-import { Proposal } from "../../types/proposal";
 import { ProposalItem } from "./ProposalItem";
 import { useAccount } from "../../hooks/useAccount";
 import { useState, useEffect } from "react";
@@ -6,7 +5,7 @@ import { balanceOfCarmineToken } from "../../calls/balanceOf";
 import styles from "./Proposal.module.css";
 
 type Props = {
-  activeData: Proposal[];
+  activeData: number[];
 };
 
 const ProposalTable = ({ activeData }: Props) => {

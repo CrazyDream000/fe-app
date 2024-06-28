@@ -11,6 +11,8 @@ export enum TransactionAction {
   Vote = "Vote",
   Swap = "Swap",
   ClaimReward = "ClaimReward",
+  CarmineStake = "CarmineStake",
+  CarmineUnstake = "CarmineUnstake",
 }
 
 export enum TransactionStatus {

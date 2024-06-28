@@ -8,6 +8,8 @@ export const ETH_ADDRESS = config.ETH_ADDRESS;
 export const USDC_ADDRESS = config.USDC_ADDRESS;
 export const BTC_ADDRESS = config.BTC_ADDRESS;
 export const STRK_ADDRESS = config.STRK_ADDRESS;
+export const VE_CRM_ADDRESS = config.VE_CRM_ADDRESS;
+export const CRM_ADDRESS = config.CRM_ADDRESS;
 export const ETH_USDC_CALL_ADDRESS = config.ETH_USDC_CALL_ADDRESS;
 export const ETH_USDC_PUT_ADDRESS = config.ETH_USDC_PUT_ADDRESS;
 export const BTC_USDC_CALL_ADDRESS = config.BTC_USDC_CALL_ADDRESS;
@@ -72,3 +74,6 @@ export const USDC_BASE_VALUE = BigInt(10) ** BigInt(USDC_DIGITS);
 export const BASE_MATH_64_61 = BigInt(2) ** BigInt(61);
 export const BASE_MATH_64 = BigInt(2) ** BigInt(64);
 export const USDC_PRECISSION = 1000;
+
+export const CARMINE_STAKING_MONTH = 2629743;
+export const CARMINE_STAKING_YEAR = 31536000;
