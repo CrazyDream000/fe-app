@@ -65,12 +65,7 @@ const App = () => {
                   element={<StakingExplainedPage />}
                 />
                 <Route path="/apy-info" element={<APYInfoPage />} />
-                <Route path="/settings" element={<Settings />} />
-                <Route path="/dashboard" element={<TradeDashboardPage />} />
-                <Route path="/governance/:target?" element={<Governance />} />
-                <Route path="/leaderboard" element={<LeaderboardPage />} />
-                <Route path="/rewards" element={<StarknetRewards />} />
-                <Route path="*" element={<NotFound />} />
+                <Route path="/settings" element={<Sett
               </Routes>
             </Router>
             <MultiDialog />
